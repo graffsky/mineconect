@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cluster Platform - Institución Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="/static/Css/Institucion-inicio.css" rel="stylesheet" />
+    <link href="/static/Css/Institucion-dashboard.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2D572C",
+                        "accent": "#F39C12",
+                        "success": "#76B947",
+                        "danger": "#E74C3C",
+                        "background": "#F4F6F8",
+                        "card-bg": "#FFFFFF",
+                        "text-primary": "#212529",
+                        "text-secondary": "#6C757D",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-display bg-background text-text-primary">
+    <div class="flex h-screen w-full">
+
+        <!-- Sidebar (Copied from Empresario-inicio but could be customized for Institution) -->
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex h-full w-64 -translate-x-full flex-col bg-primary text-white transition-transform duration-300 md:static md:translate-x-0 shrink-0">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="sidebar-brand"
+                        style="display: flex; flex-direction: column; align-items: center; padding: 20px 1rem;">
+                        <img src="/static/Img/Min.png" alt="Logo Mineconect" style="height: 40px; margin-bottom: 10px;">
+                        <span
+                            style="color: white; font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;">MINECONECT</span>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a href="/Institucion-inicio"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 text-accent transition-colors">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-bold leading-normal">Inicio</p>
+                        </a>
+                        <!-- Linked Institution pages -->
+                        <a href="/Institucion-programas"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">school</span>
+                            <p class="text-sm font-medium leading-normal">Programas</p>
+                        </a>
+                        <a href="/Institucion-convocatorias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">campaign</span>
+                            <p class="text-sm font-medium leading-normal">Convocatorias</p>
+                        </a>
+                        <a href="/Institucion-noticias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">newspaper</span>
+                            <p class="text-sm font-medium leading-normal">Noticias</p>
+                        </a>
+                        <a href="/Institucion-mensajes"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">chat</span>
+                            <p class="text-sm font-medium leading-normal">Mensajes</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-white/20 pt-4">
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="#" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium leading-normal">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="flex shrink-0 items-center justify-between bg-card-bg px-6 py-3 shadow-sm">
+                <div class="flex items-center gap-4 md:gap-8">
+                    <button class="block md:hidden text-text-primary hover:text-accent" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary">Panel
+                        Institucional</h2>
+                </div>
+                <div class="flex flex-1 items-center justify-end gap-6">
+                    <!-- Inbox Shortcut -->
+
+
+                    <div class="relative">
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-background text-text-secondary hover:bg-gray-200">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger"></span>
+                        </button>
+                        <!-- Dropdown Notificaciones -->
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                            <div class="p-3 border-b border-gray-50 bg-gray-50/50">
+                                <h4 class="text-sm font-bold text-text-primary">Notificaciones</h4>
+                            </div>
+                            <div class="p-8 text-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-gray-300 mb-2">notifications_off</span>
+                                <p class="text-sm text-text-secondary">No tienes notificaciones nuevas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="header-avatar"
+                            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-institucion.png") }}");'>
+                        </div>
+                        <div class="hidden text-right lg:block">
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_usuario',
+                                'Institución') }}</p>
+                            <p class="text-xs text-text-secondary">Institución Educativa</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="mx-auto max-w-none">
+                    <!-- Main Layout: 70% Left, 30% Right -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                        <!-- Left Column (70% approx -> col-span-8) -->
+                        <!-- Full Width Column -->
+                        <div class="lg:col-span-12 flex flex-col gap-6">
+
+                            <!-- 1. Módulo de Creación de Contenido (CMS) -->
+                            <section>
+                                <h3
+                                    class="mb-4 text-base font-bold text-text-primary uppercase tracking-wider text-xs text-secondary">
+                                    Crear Publicación</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <!-- Card 1: Convocatoria -->
+                                    <a href="/Institucion-convocatorias"
+                                        class="group flex flex-col items-center justify-center gap-3 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                                        <div
+                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-2xl">campaign</span>
+                                        </div>
+                                        <span class="font-semibold text-text-primary">Gestión de Convocatorias</span>
+                                    </a>
+
+                                    <!-- Card 2: Programa -->
+                                    <a href="/Institucion-programas"
+                                        class="group flex flex-col items-center justify-center gap-3 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                                        <div
+                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-2xl">school</span>
+                                        </div>
+                                        <span class="font-semibold text-text-primary">Gestión de Programas</span>
+                                    </a>
+
+                                    <!-- Card 3: Noticia -->
+                                    <a href="/Institucion-noticias"
+                                        class="group flex flex-col items-center justify-center gap-3 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                                        <div
+                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-2xl">article</span>
+                                        </div>
+                                        <span class="font-semibold text-text-primary">Gestión de Noticias</span>
+                                    </a>
+                                </div>
+                            </section>
+
+                            <!-- 2. Módulo de Gestión y Administración (CRUD) -->
+                            <section class="flex-1 rounded-lg bg-card-bg p-6 shadow-sm">
+                                <div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                                    <h3
+                                        class="text-base font-bold text-text-primary uppercase tracking-wider text-xs text-secondary">
+                                        Gestión de Contenido Publicado</h3>
+                                    <div class="flex gap-3">
+                                        <div class="relative">
+                                            <span
+                                                class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-text-secondary text-sm">search</span>
+                                            <input type="text" placeholder="Buscar..."
+                                                class="h-9 w-full rounded-lg border-gray-200 bg-background pl-9 text-sm focus:border-accent focus:ring-accent">
+                                        </div>
+                                        <select
+                                            class="h-9 rounded-lg border-gray-200 bg-background text-sm focus:border-accent focus:ring-accent">
+                                            <option>Todos los tipos</option>
+                                            <option>Convocatoria</option>
+                                            <option>Programa</option>
+                                            <option>Noticia</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-sm text-text-secondary">
+                                        <thead
+                                            class="border-b border-gray-100 bg-gray-50/50 text-xs uppercase text-text-secondary">
+                                            <tr>
+                                                <th class="px-4 py-3 font-semibold">Título</th>
+                                                <th class="px-4 py-3 font-semibold">Tipo</th>
+                                                <th class="px-4 py-3 font-semibold">Fecha</th>
+                                                <th class="px-4 py-3 font-semibold">Estado</th>
+                                                <th class="px-4 py-3 font-semibold text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-100">
+                                            {% if publicaciones %}
+                                            {% for p in publicaciones %}
+                                            <tr class="hover:bg-gray-50/50">
+                                                <td class="px-4 py-3 font-medium text-text-primary">{{ p.titulo }}</td>
+                                                <td class="px-4 py-3">
+                                                    <span
+                                                        class="inline-flex items-center gap-1.5 rounded-full bg-{{ p.tipo_class }}/10 px-2.5 py-0.5 text-xs font-medium text-{{ p.tipo_class }}">
+                                                        <span class="material-symbols-outlined text-[14px]">{{ p.icon
+                                                            }}</span>
+                                                        {{ p.tipo }}
+                                                    </span>
+                                                </td>
+                                                <td class="px-4 py-3">{{ p.fecha }}</td>
+                                                <td class="px-4 py-3">
+                                                    <span
+                                                        class="inline-flex items-center rounded-full bg-{{ p.estado_class }}/10 px-2.5 py-0.5 text-xs font-medium text-{{ p.estado_class }}">{{
+                                                        p.estado }}</span>
+                                                </td>
+                                                <td class="px-4 py-3 text-right">
+                                                    <div class="flex justify-end gap-2">
+                                                        <a href="{{ p.edit_url }}"
+                                                            class="text-text-secondary hover:text-accent"><span
+                                                                class="material-symbols-outlined text-lg">edit</span></a>
+                                                        <!-- Delete Form -->
+                                                        <form action="{{ p.delete_url }}" method="POST"
+                                                            onsubmit="return confirm('¿Eliminar esta publicación?');">
+                                                            <button type="submit"
+                                                                class="text-text-secondary hover:text-danger"><span
+                                                                    class="material-symbols-outlined text-lg">delete</span></button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="5" class="px-4 py-8 text-center text-text-secondary">
+                                                    No hay contenido publicado aún.
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Pagination -->
+                                <div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
+                                    <span class="text-xs text-text-secondary">Mostrando 1-3 de 12</span>
+                                    <div class="flex gap-2">
+                                        <button class="rounded p-1 text-text-secondary hover:bg-gray-100"><span
+                                                class="material-symbols-outlined text-lg">chevron_left</span></button>
+                                        <button class="rounded p-1 text-text-secondary hover:bg-gray-100"><span
+                                                class="material-symbols-outlined text-lg">chevron_right</span></button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Right Column (30% approx -> col-span-4) -->
+                    </div>
+                    <!-- Right Column Removed -->
+                </div>
+        </div>
+        </main>
+    </div>
+    </div>
+
+    <!-- Modal Configuración -->
+    <div id="modal-configuracion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Configuración del Perfil</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Institución</label>
+                        <input type="text"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('nombre_usuario', 'Institución') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
+                        <input type="email"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            value="{{ session.get('user_email', '') }}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
+                        <div class="flex gap-4 justify-start">
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-accent transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/icono-institucion.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-institucion-2.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-institucion-3.png");'></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-configuracion')"
+                        class="px-4 py-2 bg-transparent rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium">Cancelar</button>
+                    <button onclick="saveChanges()"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+
+    <script>
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            if (modal) {
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+                document.body.classList.toggle('modal-active');
+            }
+        }
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const button = event.target.closest('button');
+            const isNotificationBtn = button && button.querySelector('.material-symbols-outlined')?.textContent === 'notifications';
+
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && !isNotificationBtn) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                const modal = event.target.closest('.modal');
+                if (modal) {
+                    toggleModal(modal.id);
+                }
+            }
+        });
+
+        function selectProfileImage(btn) {
+            // Remover borde de selección de todas las opciones
+            const container = btn.closest('.flex');
+            container.querySelectorAll('.profile-option').forEach(b => {
+                b.classList.remove('border-accent');
+                b.classList.add('border-transparent');
+            });
+            // Agregar borde al seleccionado
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-accent');
+        }
+
+        function saveChanges() {
+            // Encontrar la imagen seleccionada
+            const selectedBtn = document.querySelector('.profile-option.border-accent');
+            let newPhotoUrl = "/static/Img/icono-institucion.png"; // Default
+
+            if (selectedBtn) {
+                // Extraer URL del style
+                const style = selectedBtn.querySelector('div').style.backgroundImage;
+                // Limpiar url("...")
+                newPhotoUrl = style.slice(5, -2);
+            }
+
+            // Enviar al backend
+            fetch('/Institucion/config/update_photo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ photo_url: newPhotoUrl })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Actualizar DOM
+                        document.getElementById('header-avatar').style.backgroundImage = `url("${newPhotoUrl}")`;
+
+                        toggleModal('modal-configuracion');
+                        alert('Cambios guardados correctamente.');
+                    } else {
+                        alert('Error al guardar cambios.');
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
+
+    <!-- Modal Template (Hidden by default) -->
+    <div id="publishModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+            <div class="mb-4 flex items-center justify-between">
+                <h3 id="modalTitle" class="text-lg font-bold text-text-primary">Nueva Publicación</h3>
+                <button onclick="closeModal()" class="text-text-secondary hover:text-danger">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form id="publishForm" class="space-y-4">
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Título</label>
+                    <input type="text" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent"
+                        placeholder="Ej: Nueva Convocatoria 2024">
+                </div>
+
+                <!-- Dynamic Fields Container -->
+                <div id="dynamicFields" class="space-y-4">
+                    <!-- Fields injected via JS -->
+                </div>
+
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Descripción</label>
+                    <textarea rows="3" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent"
+                        placeholder="Detalles de la publicación..."></textarea>
+                </div>
+
+                <!-- Auto-Tagging Simulation -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Etiquetas Sugeridas (IA)</label>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="rounded-full bg-gray-100 px-2 py-1 text-xs text-text-secondary">#Minería</span>
+                        <span
+                            class="rounded-full bg-gray-100 px-2 py-1 text-xs text-text-secondary">#Sostenibilidad</span>
+                        <span class="rounded-full bg-gray-100 px-2 py-1 text-xs text-text-secondary">#Educación</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal()"
+                        class="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary hover:bg-gray-100">Cancelar</button>
+                    <button type="submit"
+                        class="rounded-lg bg-accent px-4 py-2 text-sm font-bold text-white hover:bg-opacity-90">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal Logic
+        const modal = document.getElementById('publishModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const dynamicFields = document.getElementById('dynamicFields');
+
+        function openModal(type) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            let title = '';
+            let fields = '';
+
+            if (type === 'convocatoria') {
+                title = 'Publicar Convocatoria';
+                fields = `
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-text-primary">Fecha Inicio</label>
+                        <input type="date" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent">
+                    </div>
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-text-primary">Fecha Cierre</label>
+                        <input type="date" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent">
+                    </div>
+                </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Presupuesto / Beneficio</label>
+                    <input type="text" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent" placeholder="Ej: $50.000.000">
+                </div>
+            `;
+            } else if (type === 'programa') {
+                title = 'Publicar Programa de Formación';
+                fields = `
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Duración</label>
+                    <input type="text" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent" placeholder="Ej: 40 Horas">
+                </div>
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Modalidad</label>
+                    <select class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent">
+                        <option>Virtual</option>
+                        <option>Presencial</option>
+                        <option>Híbrido</option>
+                    </select>
+                </div>
+            `;
+            } else if (type === 'noticia') {
+                title = 'Publicar Noticia';
+                fields = `
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Fuente / Autor</label>
+                    <input type="text" class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent" value="SENA - Oficial">
+                </div>
+            `;
+            }
+
+            modalTitle.textContent = title;
+            dynamicFields.innerHTML = fields;
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Middleware Validation Logic (Simulation)
+        function validateMessage(message) {
+            const forbiddenPatterns = [
+                /https?:\/\//i, // http:// or https://
+                /\.pdf$/i, /\.docx?$/i, /\.xlsx?$/i // file extensions
+            ];
+
+            for (const pattern of forbiddenPatterns) {
+                if (pattern.test(message)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function sendReply() {
+            const input = document.getElementById('replyInput');
+            const message = input.value;
+
+            if (!message.trim()) return;
+
+            if (!validateMessage(message)) {
+                alert('Error: Por políticas de seguridad, no se permite enviar enlaces externos ni archivos (PDF, DOCX, etc).');
+                return;
+            }
+
+            // Success simulation
+            alert('Mensaje enviado correctamente: ' + message);
+            input.value = '';
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Form Submit simulation
+        document.getElementById('publishForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Publicación creada exitosamente (Simulación)');
+            closeModal();
+        });
+
+    </script>
+    <script src="/static/Js/sidebar.js"></script>
+</body>
+
+</html>

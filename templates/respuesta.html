@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Responder</title>
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+</head>
+<body>
+  <h2>Enviar respuesta</h2>
+  <form onsubmit="event.preventDefault(); enviarMensaje();">
+    <input type="text" id="mensaje" placeholder="Escribe tu respuesta..." required>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const socket = io("/");
+
+    function enviarMensaje() {
+      const input = document.getElementById("mensaje");
+      const texto = input.value.trim();
+      if (!texto) return;
+      socket.emit("nuevo_mensaje", { autor: "Respuesta", texto });
+      input.value = "";
+    }
+  </script>
+</body>
+</html>

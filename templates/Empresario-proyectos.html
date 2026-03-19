@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Banco de Proyectos - Mining Invest</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2D572C", "accent": "#F39C12", "success": "#76B947", "danger": "#E74C3C", "background": "#F4F6F8", "card-bg": "#FFFFFF", "text-primary": "#212529", "text-secondary": "#6C757D", },
+                    fontFamily: { "display": ["Montserrat", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background text-text-primary h-screen overflow-hidden">
+    <div class="flex h-screen w-full">
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex h-full w-64 -translate-x-full flex-col bg-primary text-white transition-transform duration-300 md:static md:translate-x-0 shrink-0">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="sidebar-brand"
+                        style="display: flex; flex-direction: column; align-items: center; padding: 20px 1rem;">
+                        <img src="/static/Img/Min.png" alt="Logo Mineconect" style="height: 40px; margin-bottom: 10px;">
+                        <span
+                            style="color: white; font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;">MINECONECT</span>
+                    </div>
+
+                    <nav class="flex flex-col gap-2">
+                        <a href="/Empresario-inicio"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-medium leading-normal">Inicio</p>
+                        </a>
+
+                        <a href="/Empresario-mercado"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">storefront</span>
+                            <p class="text-sm font-medium leading-normal">Mercado Minero</p>
+                        </a>
+
+                        <a href="/Empresario-proyectos"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 text-accent transition-colors">
+                            <span class="material-symbols-outlined">business_center</span>
+                            <p class="text-sm font-bold leading-normal">Banco de Proyectos</p>
+                        </a>
+
+                        <a href="/Empresario-diagnostico"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-medium leading-normal">Mi Diagnóstico</p>
+                        </a>
+
+                        <a href="/Empresario-alianzas"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium leading-normal">Alianzas</p>
+                        </a>
+
+                        <a href="/Empresario-convocatorias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">campaign</span>
+                            <p class="text-sm font-medium leading-normal">Convocatorias</p>
+                        </a>
+
+                        <a href="/Empresario-discusiones"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">forum</span>
+                            <p class="text-sm font-medium leading-normal">Discusiones</p>
+                        </a>
+
+                        <a href="/Empresario-mensajes"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">chat</span>
+                            <p class="text-sm font-medium leading-normal">Mensajes</p>
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="flex flex-col gap-1 border-t border-white/20 pt-4">
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="#" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium leading-normal">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <header class="flex shrink-0 items-center justify-between bg-card-bg px-6 py-3 shadow-sm">
+                <div class="flex items-center gap-4 md:gap-8">
+                    <button class="block md:hidden text-text-primary hover:text-accent" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary">Banco de Proyectos
+                    </h2>
+                </div>
+                <div class="flex flex-1 items-center justify-end gap-6">
+                    <label class="relative hidden w-full max-w-sm md:block">
+                        <span
+                            class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
+                        <input
+                            class="form-input h-10 w-full rounded-lg border-gray-300 bg-background pl-10 text-text-primary placeholder:text-text-secondary focus:border-accent focus:ring-accent"
+                            placeholder="Buscar..." type="search" />
+                    </label>
+                    <div class="relative hidden md:block">
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-background text-text-secondary hover:bg-gray-200">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger"></span>
+                        </button>
+                        <!-- Dropdown Notificaciones -->
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                            <div class="p-3 border-b border-gray-50 bg-gray-50/50">
+                                <h4 class="text-sm font-bold text-text-primary">Notificaciones</h4>
+                            </div>
+                            <div class="p-8 text-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-gray-300 mb-2">notifications_off</span>
+                                <p class="text-sm text-text-secondary">No tienes notificaciones nuevas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-empresario.png") }}");'>
+                        </div>
+                        <div class="hidden text-right lg:block">
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_empresa', 'Minera
+                                S.A.S') }}</p>
+                            <p class="text-xs text-text-secondary">Empresario</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-8">
+                <div class="layout-content-container flex flex-col w-full">
+                    <div class="flex flex-wrap justify-between gap-3 pb-4">
+                        <h1 class="text-text-primary text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+                            Banco de Proyectos - Emprendedores SENA
+                        </h1>
+                    </div>
+
+
+
+                    <div class="py-4">
+                        <form method="POST" action="/Empresario-proyectos" class="flex flex-col min-w-40 h-12 w-full">
+                            <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                                <div
+                                    class="text-text-secondary flex items-center justify-center pl-4 rounded-l-lg border border-r-0 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                                    <span class="material-symbols-outlined">search</span>
+                                </div>
+                                <input name="search_query"
+                                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-primary focus:outline-0 focus:ring-2 focus:ring-primary focus:ring-inset border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 h-full placeholder:text-gray-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                                    placeholder="Buscar por programa, regional o nombre del emprendimiento" value="" />
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="py-6">
+                        {% if projects %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {% for p in projects %}
+                            <div
+                                class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all overflow-hidden flex flex-col h-full group">
+                                <div class="p-6 flex flex-col h-full">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="bg-primary/10 text-primary p-2 rounded-lg">
+                                            <span class="material-symbols-outlined text-2xl">lightbulb</span>
+                                        </div>
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                                            {{ p.estado }}
+                                        </span>
+                                    </div>
+
+                                    <h3 class="text-lg font-bold text-text-primary mb-2 group-hover:text-primary transition-colors line-clamp-2"
+                                        title="{{ p.titulo }}">
+                                        {{ p.titulo }}
+                                    </h3>
+
+                                    <div class="mb-4">
+                                        <p class="text-sm text-text-primary font-semibold">{{
+                                            p.emprendedor.nombre_completo }}</p>
+                                        <p class="text-xs text-text-secondary">{{ p.emprendedor.programa_formacion }}
+                                        </p>
+                                    </div>
+
+                                    <p class="text-sm text-text-secondary line-clamp-3 mb-4 flex-grow">
+                                        {{ p.descripcion }}
+                                    </p>
+
+                                    <div class="space-y-2 mt-auto">
+                                        <div
+                                            class="flex items-center gap-2 text-xs text-text-secondary bg-gray-50 p-2 rounded">
+                                            <span class="material-symbols-outlined text-sm">paid</span>
+                                            <span class="font-semibold">Capital:</span> {{ p.capital_requerido }}
+                                        </div>
+                                        <div
+                                            class="flex items-center gap-2 text-xs text-text-secondary bg-gray-50 p-2 rounded">
+                                            <span class="material-symbols-outlined text-sm">handshake</span>
+                                            <span class="font-semibold">Busca:</span> {{ p.tipo_apoyo_buscado }}
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-6 mt-4 border-t border-gray-50">
+                                        <a href="/Empresario-mensajes?chat_with={{ p.emprendedor.usuario_id }}"
+                                            class="btn-primary w-full flex items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-sm font-bold text-white hover:bg-opacity-90 transition-all">
+                                            <span>Contactar</span>
+                                            <span class="material-symbols-outlined text-sm">send</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
+                            <div
+                                class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-50 mb-4">
+                                <span class="material-symbols-outlined text-3xl text-gray-400">folder_off</span>
+                            </div>
+                            <h3 class="text-lg font-medium text-text-primary">No se encontraron proyectos</h3>
+                            <p class="text-sm text-text-secondary mt-1">No hay proyectos disponibles con los criterios
+                                de búsqueda.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Modal Configuración -->
+    <div id="modal-configuracion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Configuración del Perfil</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Empresa</label>
+                        <input type="text"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('nombre_empresa', 'Minera S.A.S') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
+                        <input type="email"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            value="{{ session.get('user_email', '') }}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
+                        <div class="flex gap-4 justify-start">
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-accent transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/icono-empresario.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-2.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-3.png");'></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-configuracion')"
+                        class="px-4 py-2 bg-transparent rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium">Cancelar</button>
+                    <button
+                        onclick="toggleModal('modal-configuracion'); alert('Cambios guardados correctamente (Simulación)')"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+
+    <script>
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            document.body.classList.toggle('modal-active');
+        }
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (!dropdown) return;
+            const button = event.target.closest('button');
+            const isNotificationBtn = button && button.onclick && button.onclick.toString().includes('toggleNotifications');
+
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && !isNotificationBtn) {
+                dropdown.classList.add('hidden');
+            }
+        });
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function (event) {
+                const modal = event.target.closest('.modal');
+                toggleModal(modal.id);
+            });
+        });
+
+        function selectProfileImage(btn) {
+            // Remover borde de selección de todas las opciones
+            const container = btn.closest('.flex');
+            container.querySelectorAll('.profile-option').forEach(b => {
+                b.classList.remove('border-accent');
+                b.classList.add('border-transparent');
+            });
+            // Agregar borde al seleccionado
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-accent');
+        }
+    </script>
+    <script src="/static/Js/sidebar.js"></script>
+</body>
+
+</html>

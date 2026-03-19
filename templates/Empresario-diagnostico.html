@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cluster Platform - Mi Diagnóstico</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="/static/Css/Empresario-diagnostico.css" rel="stylesheet" />
+    <link href="/static/Css/Empresario-dashboard.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2D572C",
+                        "accent": "#F39C12",
+                        "success": "#76B947",
+                        "danger": "#E74C3C",
+                        "background": "#F4F6F8",
+                        "card-bg": "#FFFFFF",
+                        "text-primary": "#212529",
+                        "text-secondary": "#6C757D",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-display bg-background text-text-primary h-screen overflow-hidden">
+    <div class="flex h-screen w-full">
+
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex h-full w-64 -translate-x-full flex-col bg-primary text-white transition-transform duration-300 md:static md:translate-x-0">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="sidebar-brand"
+                        style="display: flex; flex-direction: column; align-items: center; padding: 20px 1rem;">
+                        <img src="/static/Img/Min.png" alt="Logo Mineconect" style="height: 40px; margin-bottom: 10px;">
+                        <span
+                            style="color: white; font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;">MINECONECT</span>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a href="/Empresario-inicio"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-medium leading-normal">Inicio</p>
+                        </a>
+
+                        <a href="/Empresario-mercado"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">storefront</span>
+                            <p class="text-sm font-medium leading-normal">Mercado Minero</p>
+                        </a>
+
+                        <a href="/Empresario-proyectos"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">business_center</span>
+                            <p class="text-sm font-medium leading-normal">Banco de Proyectos</p>
+                        </a>
+
+                        <a href="/Empresario-diagnostico"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 text-accent transition-colors">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-bold leading-normal">Mi Diagnóstico</p>
+                        </a>
+
+                        <a href="/Empresario-alianzas"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium leading-normal">Alianzas</p>
+                        </a>
+
+                        <a href="/Empresario-convocatorias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">campaign</span>
+                            <p class="text-sm font-medium leading-normal">Convocatorias</p>
+                        </a>
+
+                        <a href="/Empresario-discusiones"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">forum</span>
+                            <p class="text-sm font-medium leading-normal">Discusiones</p>
+                        </a>
+
+                        <a href="/Empresario-mensajes"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">chat</span>
+                            <p class="text-sm font-medium leading-normal">Mensajes</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-white/20 pt-4">
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="#" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium leading-normal">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <header class="flex shrink-0 items-center justify-between bg-card-bg px-6 py-3 shadow-sm">
+                <div class="flex items-center gap-4 md:gap-8">
+                    <button class="block md:hidden text-text-primary hover:text-accent" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary">Mi Diagnóstico
+                    </h2>
+                </div>
+                <div class="flex flex-1 items-center justify-end gap-6">
+                    <label class="relative hidden w-full max-w-sm md:block">
+                        <span
+                            class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
+                        <input
+                            class="form-input h-10 w-full rounded-lg border-gray-300 bg-background pl-10 text-text-primary placeholder:text-text-secondary focus:border-accent focus:ring-accent"
+                            placeholder="Buscar..." type="search" />
+                    </label>
+                    <div class="relative hidden md:block">
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-background text-text-secondary hover:bg-gray-200">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger"></span>
+                        </button>
+                        <!-- Dropdown Notificaciones -->
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                            <div class="p-3 border-b border-gray-50 bg-gray-50/50">
+                                <h4 class="text-sm font-bold text-text-primary">Notificaciones</h4>
+                            </div>
+                            <div class="p-8 text-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-gray-300 mb-2">notifications_off</span>
+                                <p class="text-sm text-text-secondary">No tienes notificaciones nuevas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            data-alt="User avatar image"
+                            style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-empresario.png") }}");'>
+                        </div>
+                        <div class="hidden text-right lg:block">
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_empresa', 'Minera
+                                S.A.S') }}</p>
+                            <p class="text-xs text-text-secondary">Empresario</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="flex-1 overflow-y-auto p-6 bg-background">
+                <div class="mx-auto max-w-5xl">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-primary">Sistema de Evaluación de Diagnóstico</h2>
+                        <p class="text-text-secondary">Complete las siguientes evaluaciones para obtener un análisis
+                            detallado de su empresa.</p>
+                    </div>
+
+                    <div class="mb-6 border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button id="tab-btn-actividades"
+                                class="tab-button active-tab border-primary text-primary whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                                onclick="openTab(event, 'tab-actividades')">
+                                Diagnóstico de Actividades
+                            </button>
+                            <button id="tab-btn-competitividad"
+                                class="tab-button border-transparent text-text-secondary hover:border-gray-300 hover:text-text-primary whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                                onclick="openTab(event, 'tab-competitividad')">
+                                Diagnóstico de Competitividad
+                            </button>
+                        </nav>
+                    </div>
+
+                    <div id="tab-actividades" class="tab-content">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="hidden lg:block w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-sm h-fit">
+                                <h3 class="text-lg font-bold text-text-primary mb-4">Mapa de Progreso</h3>
+
+                                <div class="mb-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        PRODUCCIÓN
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+                                    <ul class="space-y-1 pl-0">
+                                        <li id="step-licencias"
+                                            class="flex items-center justify-between bg-orange-100 p-2 rounded-md -ml-2 my-2 transition-all duration-300">
+                                            <div class="flex items-center gap-2">
+                                                <span id="icon-licencias"
+                                                    class="material-symbols-outlined text-accent text-lg leading-none">radio_button_checked</span>
+                                                <span id="text-licencias"
+                                                    class="text-sm font-medium text-accent leading-tight">Licencias de
+                                                    Exploración</span>
+                                            </div>
+                                            <span id="dot-licencias"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0"></span>
+                                        </li>
+
+                                        <li id="step-exploracion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-exploracion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-exploracion"
+                                                    class="text-sm text-text-secondary leading-tight">Exploración de
+                                                    Terrenos</span>
+                                            </div>
+                                            <span id="dot-exploracion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-perforacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-perforacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-perforacion"
+                                                    class="text-sm text-text-secondary leading-tight">Perforación</span>
+                                            </div>
+                                            <span id="dot-perforacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-voladura"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-voladura"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-voladura"
+                                                    class="text-sm text-text-secondary leading-tight">Voladura</span>
+                                            </div>
+                                            <span id="dot-voladura"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-remocion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-remocion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-remocion"
+                                                    class="text-sm text-text-secondary leading-tight">Remoción de
+                                                    Materiales</span>
+                                            </div>
+                                            <span id="dot-remocion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-proveedores"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-proveedores"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-proveedores"
+                                                    class="text-sm text-text-secondary leading-tight">Proveedores de
+                                                    insumos</span>
+                                            </div>
+                                            <span id="dot-proveedores"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-extractivas"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-extractivas"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-extractivas"
+                                                    class="text-sm text-text-secondary leading-tight">Actividades
+                                                    Extractivas</span>
+                                            </div>
+                                            <span id="dot-extractivas"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-maquinaria"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-maquinaria"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-maquinaria"
+                                                    class="text-sm text-text-secondary leading-tight">Maquinaria y
+                                                    Equipos de Operación</span>
+                                            </div>
+                                            <span id="dot-maquinaria"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-servicios"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-servicios"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-servicios"
+                                                    class="text-sm text-text-secondary leading-tight">Servicios
+                                                    Especializados de Ingeniería y Beneficio</span>
+                                            </div>
+                                            <span id="dot-servicios"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-instrumentos"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-instrumentos"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-instrumentos"
+                                                    class="text-sm text-text-secondary leading-tight">Instrumentos de
+                                                    Control y Automatización de Procesos</span>
+                                            </div>
+                                            <span id="dot-instrumentos"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-seguridad"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-seguridad"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-seguridad"
+                                                    class="text-sm text-text-secondary leading-tight">Prestación de
+                                                    Servicios de Seguridad</span>
+                                            </div>
+                                            <span id="dot-seguridad"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mb-4 border-t border-gray-100 pt-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        TRANSFORMACIÓN
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+
+                                    <ul class="space-y-1 pl-0">
+
+                                        <li id="step-extraccion_trans"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-extraccion_trans"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-extraccion_trans"
+                                                    class="text-sm text-text-secondary leading-tight">Extracción</span>
+                                            </div>
+                                            <span id="dot-extraccion_trans"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-triturado"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-triturado"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-triturado"
+                                                    class="text-sm text-text-secondary leading-tight">Triturado</span>
+                                            </div>
+                                            <span id="dot-triturado"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-lavado"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-lavado"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-lavado"
+                                                    class="text-sm text-text-secondary leading-tight">Lavado</span>
+                                            </div>
+                                            <span id="dot-lavado"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-secado"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-secado"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-secado"
+                                                    class="text-sm text-text-secondary leading-tight">Secado</span>
+                                            </div>
+                                            <span id="dot-secado"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-clasificacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-clasificacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-clasificacion"
+                                                    class="text-sm text-text-secondary leading-tight">Clasificación</span>
+                                            </div>
+                                            <span id="dot-clasificacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-acopio"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-acopio"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-acopio"
+                                                    class="text-sm text-text-secondary leading-tight">Centros de
+                                                    Acopio</span>
+                                            </div>
+                                            <span id="dot-acopio"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-cargue"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-cargue"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-cargue"
+                                                    class="text-sm text-text-secondary leading-tight">Cargue y
+                                                    Descargue</span>
+                                            </div>
+                                            <span id="dot-cargue"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-puertos"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-puertos"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-puertos"
+                                                    class="text-sm text-text-secondary leading-tight">Puertos y Vías
+                                                    Férreas</span>
+                                            </div>
+                                            <span id="dot-puertos"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-industrializacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-industrializacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-industrializacion"
+                                                    class="text-sm text-text-secondary leading-tight">Industrialización</span>
+                                            </div>
+                                            <span id="dot-industrializacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-recuperacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-recuperacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-recuperacion"
+                                                    class="text-sm text-text-secondary leading-tight">Recuperación de
+                                                    Valores y Coquizado</span>
+                                            </div>
+                                            <span id="dot-recuperacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-desechos"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-desechos"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-desechos"
+                                                    class="text-sm text-text-secondary leading-tight">Manejo de Desechos
+                                                    Sólidos y Líquidos</span>
+                                            </div>
+                                            <span id="dot-desechos"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="mb-4 border-t border-gray-100 pt-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        COMERCIALIZACIÓN
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+
+                                    <ul class="space-y-1 pl-0">
+
+                                        <li id="step-mercadeo"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-mercadeo"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-mercadeo"
+                                                    class="text-sm text-text-secondary leading-tight">Mercadeo de
+                                                    Productos y Subproductos</span>
+                                            </div>
+                                            <span id="dot-mercadeo"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-laboratorio"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-laboratorio"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-laboratorio"
+                                                    class="text-sm text-text-secondary leading-tight">Servicio de
+                                                    Laboratorio y Certificaciones</span>
+                                            </div>
+                                            <span id="dot-laboratorio"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-minoristas"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-minoristas"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-minoristas"
+                                                    class="text-sm text-text-secondary leading-tight">Minoristas</span>
+                                            </div>
+                                            <span id="dot-minoristas"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-mayoristas"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-mayoristas"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-mayoristas"
+                                                    class="text-sm text-text-secondary leading-tight">Mayoristas</span>
+                                            </div>
+                                            <span id="dot-mayoristas"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-exportadores"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-exportadores"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-exportadores"
+                                                    class="text-sm text-text-secondary leading-tight">Exportadores</span>
+                                            </div>
+                                            <span id="dot-exportadores"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="step-usos"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="icon-usos"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="text-usos"
+                                                    class="text-sm text-text-secondary leading-tight">Usos Finales:
+                                                    Metalúrgica, Automotriz, Aérea, Química, Medicina, Farmacéutica,
+                                                    Equipos Electrónicos, entre otras.</span>
+                                            </div>
+                                            <span id="dot-usos"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="w-full lg:w-3/4 bg-white p-8 rounded-lg shadow-sm">
+                                <div id="qa-container-actividades">
+                                    <div class="mb-8">
+                                        <div class="mb-4">
+                                            <label for="select-actividad"
+                                                class="block text-sm font-medium text-text-secondary mb-1">Ir a
+                                                Actividad:</label>
+                                            <select id="select-actividad"
+                                                class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                                                onchange="cambiarActividadDesdeSelect(this.value)">
+                                                <!-- Options will be populated by JS -->
+                                            </select>
+                                        </div>
+                                        <span id="question-title"
+                                            class="text-xs font-bold tracking-widest text-accent uppercase mb-2 block">
+                                            Diagnóstico: Perforación</span>
+                                        <h2 id="question-desc"
+                                            class="text-xl font-bold text-text-primary mb-4 leading-relaxed">¿Cuenta con
+                                            un
+                                            plan de
+                                            perforación detallado que incluya patrones de barrenos, profundidad y
+                                            secuencia
+                                            de detonación?</h2>
+                                    </div>
+
+                                    <div class="space-y-4 mb-8">
+                                        <label
+                                            class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-accent hover:bg-orange-50 transition-colors">
+                                            <span class="text-base text-text-primary">Sí</span>
+                                            <input type="radio" name="respuesta" value="si"
+                                                class="form-radio h-5 w-5 text-accent border-gray-300 focus:ring-accent">
+                                        </label>
+                                        <label
+                                            class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-accent hover:bg-orange-50 transition-colors">
+                                            <span class="text-base text-text-primary">No</span>
+                                            <input type="radio" name="respuesta" value="no"
+                                                class="form-radio h-5 w-5 text-accent border-gray-300 focus:ring-accent">
+                                        </label>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <button id="btn-prev" onclick="cambiarPregunta('anterior')"
+                                            class="px-6 py-2 border border-gray-300 text-gray-400 font-bold rounded-lg cursor-not-allowed"
+                                            disabled>
+                                            Anterior
+                                        </button>
+                                        <button id="btn-next" onclick="cambiarPregunta('siguiente')"
+                                            class="px-6 py-2 bg-accent text-white font-bold rounded-lg hover:bg-opacity-90 transition-colors shadow-md">
+                                            Siguiente
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="resultado-final-actividades"
+                                    class="hidden text-center py-16 flex flex-col items-center justify-center">
+                                    <span class="material-symbols-outlined text-success mb-4"
+                                        style="font-size: 80px;">task_alt</span>
+                                    <h2 class="text-3xl font-bold text-text-primary mb-3">¡Prueba Finalizada!</h2>
+                                    <p class="text-text-secondary mb-8 text-lg">Has completado el Diagnóstico de
+                                        Actividades exitosamente.</p>
+                                    <button
+                                        onclick="mostrarResultadosActividades(true); toggleModal('modal-resultados')"
+                                        class="px-8 py-3 bg-accent text-white font-bold rounded-lg hover:bg-accent/90 transition-colors shadow-lg text-lg flex items-center gap-2 mx-auto">
+                                        <span class="material-symbols-outlined">analytics</span>
+                                        Ver el resultado
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-competitividad" class="tab-content hidden">
+                        <div class="flex flex-col lg:flex-row gap-6">
+
+                            <div class="hidden lg:block w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-sm h-fit">
+                                <div class="mb-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        TECNOLOGÍA
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+
+                                    <ul class="space-y-1 pl-0">
+                                        <li id="comp-step-maquinaria"
+                                            class="flex items-center justify-between bg-orange-100 p-2 rounded-md -ml-2 my-2 transition-all duration-300">
+                                            <div class="flex items-center gap-2">
+                                                <span id="comp-icon-maquinaria"
+                                                    class="material-symbols-outlined text-accent text-lg leading-none">radio_button_checked</span>
+                                                <span id="comp-text-maquinaria"
+                                                    class="text-sm font-medium text-accent leading-tight">Maquinaria y
+                                                    Equipos</span>
+                                            </div>
+                                            <span id="comp-dot-maquinaria"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0"></span>
+                                        </li>
+
+                                        <li id="comp-step-propiedad"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-propiedad"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-propiedad"
+                                                    class="text-sm text-text-secondary leading-tight">Propiedad
+                                                    Intelectual</span>
+                                            </div>
+                                            <span id="comp-dot-propiedad"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-investigacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-investigacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-investigacion"
+                                                    class="text-sm text-text-secondary leading-tight">Investigación</span>
+                                            </div>
+                                            <span id="comp-dot-investigacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-innovacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-innovacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-innovacion"
+                                                    class="text-sm text-text-secondary leading-tight">Innovación</span>
+                                            </div>
+                                            <span id="comp-dot-innovacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-asistencia"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-asistencia"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-asistencia"
+                                                    class="text-sm text-text-secondary leading-tight">Asistencia
+                                                    Técnica</span>
+                                            </div>
+                                            <span id="comp-dot-asistencia"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mt-6 mb-4 border-t border-gray-100 pt-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        ANÁLISIS COMERCIAL
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+
+                                    <ul class="space-y-1 pl-0">
+                                        <li id="comp-step-oferta"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-oferta"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-oferta"
+                                                    class="text-sm text-text-secondary leading-tight">Análisis
+                                                    Oferta/Demanda</span>
+                                            </div>
+                                            <span id="comp-dot-oferta"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-canales"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-canales"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-canales"
+                                                    class="text-sm text-text-secondary leading-tight">Canales de
+                                                    Comercialización</span>
+                                            </div>
+                                            <span id="comp-dot-canales"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-valoracion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-valoracion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-valoracion"
+                                                    class="text-sm text-text-secondary leading-tight">Valoración y
+                                                    Precios/Costos</span>
+                                            </div>
+                                            <span id="comp-dot-valoracion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-verdes"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-verdes"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-verdes"
+                                                    class="text-sm text-text-secondary leading-tight">Mercados Verdes /
+                                                    Nichos</span>
+                                            </div>
+                                            <span id="comp-dot-verdes"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-inteligencia"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-inteligencia"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-inteligencia"
+                                                    class="text-sm text-text-secondary leading-tight">Inteligencia de
+                                                    Mercados</span>
+                                            </div>
+                                            <span id="comp-dot-inteligencia"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mt-6 mb-4 border-t border-gray-100 pt-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        FORTALECIMIENTO EMPRESARIAL
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+
+                                    <ul class="space-y-1 pl-0">
+                                        <li id="comp-step-formacion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-formacion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-formacion"
+                                                    class="text-sm text-text-secondary leading-tight">Formación por
+                                                    Competencias Laborales</span>
+                                            </div>
+                                            <span id="comp-dot-formacion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-alianzas"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-alianzas"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-alianzas"
+                                                    class="text-sm text-text-secondary leading-tight">Alianzas
+                                                    Minero-Empresariales</span>
+                                            </div>
+                                            <span id="comp-dot-alianzas"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-gremios"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-gremios"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-gremios"
+                                                    class="text-sm text-text-secondary leading-tight">Gremios e
+                                                    Institucionalidad</span>
+                                            </div>
+                                            <span id="comp-dot-gremios"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-estimulo"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-estimulo"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-estimulo"
+                                                    class="text-sm text-text-secondary leading-tight">Estímulo y
+                                                    Consolidación de Empresas</span>
+                                            </div>
+                                            <span id="comp-dot-estimulo"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mt-6 mb-4 border-t border-gray-100 pt-4">
+                                    <button
+                                        class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
+                                        INFRAESTRUCTURA Y LOGÍSTICA
+                                        <span class="material-symbols-outlined text-sm">expand_less</span>
+                                    </button>
+
+                                    <ul class="space-y-1 pl-0">
+                                        <li id="comp-step-infra_maq"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-infra_maq"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-infra_maq"
+                                                    class="text-sm text-text-secondary leading-tight">Maquinaria y
+                                                    Equipos</span>
+                                            </div>
+                                            <span id="comp-dot-infra_maq"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-vial"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-vial"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-vial"
+                                                    class="text-sm text-text-secondary leading-tight">Infraestructura
+                                                    Vial</span>
+                                            </div>
+                                            <span id="comp-dot-vial"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-plataforma"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-plataforma"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-plataforma"
+                                                    class="text-sm text-text-secondary leading-tight">Plataforma de
+                                                    Distribución</span>
+                                            </div>
+                                            <span id="comp-dot-plataforma"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-servicios_pub"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-servicios_pub"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-servicios_pub"
+                                                    class="text-sm text-text-secondary leading-tight">Servicios
+                                                    Públicos</span>
+                                            </div>
+                                            <span id="comp-dot-servicios_pub"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-transporte"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-transporte"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-transporte"
+                                                    class="text-sm text-text-secondary leading-tight">Transporte</span>
+                                            </div>
+                                            <span id="comp-dot-transporte"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+
+                                        <li id="comp-step-calefaccion"
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
+                                                <span id="comp-icon-calefaccion"
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
+                                                <span id="comp-text-calefaccion"
+                                                    class="text-sm text-text-secondary leading-tight">Sistemas de
+                                                    Calefacción</span>
+                                            </div>
+                                            <span id="comp-dot-calefaccion"
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="w-full lg:w-3/4 bg-white p-8 rounded-lg shadow-sm">
+                                <div id="qa-container-competitividad">
+                                    <div class="mb-8">
+                                        <div class="mb-4">
+                                            <label for="select-categoria"
+                                                class="block text-sm font-medium text-text-secondary mb-1">Ir a
+                                                Categoría:</label>
+                                            <select id="select-categoria"
+                                                class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                                                onchange="cambiarCategoriaDesdeSelect(this.value)">
+                                                <!-- Options will be populated by JS -->
+                                            </select>
+                                        </div>
+                                        <span class="text-xs font-bold tracking-widest text-accent uppercase mb-2 block"
+                                            id="comp-category-label">Maquinaria y Equipos (1/5)</span>
+                                        <h2 id="comp-question-desc"
+                                            class="text-xl font-bold text-text-primary mb-4 leading-relaxed">¿Su empresa
+                                            cuenta con maquinaria propia para sus procesos de minería?</h2>
+                                    </div>
+
+                                    <div class="space-y-4 mb-8">
+                                        <label
+                                            class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-accent hover:bg-orange-50 transition-colors">
+                                            <span class="text-base text-text-primary">Sí</span>
+                                            <input type="radio" name="respuesta_comp" value="si"
+                                                class="form-radio h-5 w-5 text-accent border-gray-300 focus:ring-accent">
+                                        </label>
+                                        <label
+                                            class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-accent hover:bg-orange-50 transition-colors">
+                                            <span class="text-base text-text-primary">No</span>
+                                            <input type="radio" name="respuesta_comp" value="no"
+                                                class="form-radio h-5 w-5 text-accent border-gray-300 focus:ring-accent">
+                                        </label>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <button id="comp-btn-prev" onclick="cambiarPreguntaCompetitividad('anterior')"
+                                            class="px-6 py-2 border border-gray-300 text-gray-400 font-bold rounded-lg cursor-not-allowed"
+                                            disabled>
+                                            Anterior
+                                        </button>
+                                        <button id="comp-btn-next" onclick="cambiarPreguntaCompetitividad('siguiente')"
+                                            class="px-6 py-2 bg-accent text-white font-bold rounded-lg hover:bg-opacity-90 transition-colors shadow-md">
+                                            Siguiente
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="resultado-final-competitividad"
+                                    class="hidden text-center py-16 flex flex-col items-center justify-center">
+                                    <span class="material-symbols-outlined text-success mb-4"
+                                        style="font-size: 80px;">task_alt</span>
+                                    <h2 class="text-3xl font-bold text-text-primary mb-3">¡Prueba Finalizada!</h2>
+                                    <p class="text-text-secondary mb-8 text-lg">Has completado el Diagnóstico de
+                                        Competitividad exitosamente.</p>
+                                    <button
+                                        onclick="mostrarResultadosCompetitividad(true); toggleModal('modal-resultados')"
+                                        class="px-8 py-3 bg-accent text-white font-bold rounded-lg hover:bg-accent/90 transition-colors shadow-lg text-lg flex items-center gap-2 mx-auto">
+                                        <span class="material-symbols-outlined">analytics</span>
+                                        Ver el resultado
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+            <script>
+                function openTab(evt, tabName) {
+                    // 1. Ocultar todos los contenidos de las pestañas
+                    var i, tabcontent, tabbuttons;
+                    tabcontent = document.getElementsByClassName("tab-content");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].classList.add("hidden");
+                    }
+
+                    // 2. Quitar la clase 'active-tab' y estilos de todos los botones
+                    tabbuttons = document.getElementsByClassName("tab-button");
+                    for (i = 0; i < tabbuttons.length; i++) {
+                        tabbuttons[i].classList.remove("active-tab", "border-primary", "text-primary");
+                        tabbuttons[i].classList.add("border-transparent", "text-text-secondary");
+                    }
+
+                    // 3. Mostrar el contenido de la pestaña actual y activar el botón clickeado
+                    document.getElementById(tabName).classList.remove("hidden");
+                    evt.currentTarget.classList.add("active-tab", "border-primary", "text-primary");
+                    evt.currentTarget.classList.remove("border-transparent", "text-text-secondary");
+                }
+            </script>
+        </div>
+    </div>
+    <script>
+        // =================================================================================
+        // SCRIPT PARA EL PRIMER DIAGNÓSTICO: ACTIVIDADES (CADENA DE VALOR)
+        // =================================================================================
+
+        // 1. Configuración de datos (Producción + Transformación + Comercialización)
+        const preguntasDB = {
+            // --- SECCIÓN PRODUCCIÓN ---
+            'licencias': {
+                titulo: "Diagnóstico: Licencias",
+                pregunta: "¿Cuenta su empresa con el título minero vigente y la licencia ambiental otorgada por la autoridad competente para la zona de operación?"
+            },
+            'exploracion': {
+                titulo: "Diagnóstico: Exploración",
+                pregunta: "¿Se han realizado los estudios geológicos y topográficos necesarios para delimitar correctamente el área de interés y estimar las reservas?"
+            },
+            'perforacion': {
+                titulo: "Diagnóstico: Perforación",
+                pregunta: "¿Cuenta con un plan de perforación detallado que incluya patrones de barrenos, profundidad y secuencia de detonación?"
+            },
+            'voladura': {
+                titulo: "Diagnóstico: Voladura",
+                pregunta: "¿Realiza monitoreo de vibraciones y ruido durante las voladuras para cumplir con la normativa ambiental y evitar daños a comunidades vecinas?"
+            },
+            'remocion': {
+                titulo: "Diagnóstico: Remoción de Materiales",
+                pregunta: "¿Dispone de protocolos de seguridad y mantenimiento preventivo para la maquinaria encargada de la carga y transporte de material?"
+            },
+            'proveedores': {
+                titulo: "Diagnóstico: Proveedores",
+                pregunta: "¿Tiene identificados y evaluados a sus proveedores críticos para asegurar la calidad, tiempos de entrega y disponibilidad de insumos?"
+            },
+            'extractivas': {
+                titulo: "Diagnóstico: Actividades Extractivas",
+                pregunta: "¿Se controlan los índices de dilución y recuperación durante la extracción para maximizar el aprovechamiento del recurso mineral?"
+            },
+            'maquinaria': {
+                titulo: "Diagnóstico: Maquinaria y Equipos",
+                pregunta: "¿Cuenta con un plan de mantenimiento preventivo y correctivo documentado para toda la maquinaria operativa, garantizando su disponibilidad?"
+            },
+            'servicios': {
+                titulo: "Diagnóstico: Servicios de Ingeniería",
+                pregunta: "¿Contrata servicios de ingeniería especializada para optimizar los procesos de beneficio del mineral y mejorar la recuperación metalúrgica?"
+            },
+            'instrumentos': {
+                titulo: "Diagnóstico: Control y Automatización",
+                pregunta: "¿Implementa instrumentos de medición y sistemas de automatización para controlar variables críticas del proceso en tiempo real?"
+            },
+            'seguridad': {
+                titulo: "Diagnóstico: Servicios de Seguridad",
+                pregunta: "¿Dispone de un servicio de seguridad física que garantice la protección de las instalaciones, activos y personal las 24 horas?"
+            },
+
+            // --- SECCIÓN TRANSFORMACIÓN ---
+            'extraccion_trans': {
+                titulo: "Transformación: Extracción",
+                pregunta: "¿Utiliza métodos de extracción selectiva en la fase de transformación para separar el mineral de interés del material estéril desde el origen?"
+            },
+            'triturado': {
+                titulo: "Transformación: Triturado",
+                pregunta: "¿Cuenta con equipos de trituración calibrados y mantenidos para obtener la granulometría exacta requerida por sus clientes o procesos posteriores?"
+            },
+            'lavado': {
+                titulo: "Transformación: Lavado",
+                pregunta: "¿Dispone de un sistema de lavado eficiente que optimice el uso de agua mediante recirculación y reduzca las impurezas del mineral?"
+            },
+            'secado': {
+                titulo: "Transformación: Secado",
+                pregunta: "¿El proceso de secado (natural o mecánico) logra reducir la humedad a los niveles contractuales sin incurrir en costos energéticos excesivos?"
+            },
+            'clasificacion': {
+                titulo: "Transformación: Clasificación",
+                pregunta: "¿El sistema de clasificación permite segregar el material por calidades y tamaños de manera consistente para maximizar el valor de venta?"
+            },
+            'acopio': {
+                titulo: "Transformación: Centros de Acopio",
+                pregunta: "¿Sus centros de acopio cumplen con la normativa ambiental y garantizan que el material no se contamine ni degrade?"
+            },
+            'cargue': {
+                titulo: "Transformación: Cargue y Descargue",
+                pregunta: "¿Están optimizados los tiempos y procedimientos de cargue y descargue para minimizar costos logísticos y tiempos de espera?"
+            },
+            'puertos': {
+                titulo: "Transformación: Puertos y Vías",
+                pregunta: "¿Cuenta con acceso confiable a infraestructura ferroviaria o portuaria y acuerdos logísticos para la evacuación eficiente del producto?"
+            },
+            'industrializacion': {
+                titulo: "Transformación: Industrialización",
+                pregunta: "¿Realiza procesos de transformación industrial avanzada que agreguen valor significativo al mineral bruto antes de su comercialización?"
+            },
+            'recuperacion': {
+                titulo: "Transformación: Recuperación y Coquizado",
+                pregunta: "¿Cuenta con tecnología para la recuperación de subproductos valiosos o procesos de coquizado que cumplan con los estándares ambientales?"
+            },
+            'desechos': {
+                titulo: "Transformación: Desechos",
+                pregunta: "¿Tiene implementado un plan de manejo integral para la disposición final adecuada de residuos sólidos y el tratamiento de vertimientos líquidos?"
+            },
+
+            // --- SECCIÓN COMERCIALIZACIÓN ---
+            'mercadeo': {
+                titulo: "Comercialización: Mercadeo",
+                pregunta: "¿Cuenta con una estrategia de mercadeo definida para posicionar tanto sus productos principales como los subproductos en los mercados objetivo?"
+            },
+            'laboratorio': {
+                titulo: "Comercialización: Laboratorio",
+                pregunta: "¿Sus productos cuentan con certificados de calidad emitidos por laboratorios acreditados (ISO/ASTM) que validen sus características ante los clientes?"
+            },
+            'minoristas': {
+                titulo: "Comercialización: Minoristas",
+                pregunta: "¿Dispone de canales de distribución o acuerdos comerciales estructurados para atender eficientemente la demanda del mercado minorista?"
+            },
+            'mayoristas': {
+                titulo: "Comercialización: Mayoristas",
+                pregunta: "¿Mantiene contratos de suministro a largo plazo con clientes mayoristas que garanticen un flujo de caja constante y planificado?"
+            },
+            'exportadores': {
+                titulo: "Comercialización: Exportación",
+                pregunta: "¿Cumple con todos los requisitos legales, aduaneros y logísticos necesarios para la exportación de sus productos a mercados internacionales?"
+            },
+            'usos': {
+                titulo: "Comercialización: Usos Finales",
+                pregunta: "¿Adapta las especificaciones técnicas de su producto para satisfacer los requerimientos estrictos de industrias de alto valor (farmacéutica, electrónica, automotriz, etc.)?"
+            }
+        };
+
+        // 2. Orden lógico de la cadena de valor
+        const ordenPasos = [
+            'licencias', 'exploracion', 'perforacion', 'voladura', 'remocion',
+            'proveedores', 'extractivas', 'maquinaria', 'servicios', 'instrumentos', 'seguridad',
+            'extraccion_trans', 'triturado', 'lavado', 'secado', 'clasificacion',
+            'acopio', 'cargue', 'puertos', 'industrializacion', 'recuperacion', 'desechos',
+            'mercadeo', 'laboratorio', 'minoristas', 'mayoristas', 'exportadores', 'usos'
+        ];
+
+        let indiceActual = 0;
+        let respuestasActividades = {};
+        const respuestas = {}; // Guardar aquí las respuestas del primer diagnóstico
+
+        function cambiarPregunta(direccion) {
+            // Lógica de guardar respuesta si se necesita
+            if (direccion === 'siguiente') {
+                const idActual = ordenPasos[indiceActual];
+                if (!respuestasActividades[idActual]) {
+                    alert('Debe seleccionar una opción para continuar.');
+                    return;
+                }
+                if (indiceActual < ordenPasos.length - 1) {
+                    indiceActual++;
+                }
+            } else if (direccion === 'anterior' && indiceActual > 0) {
+                indiceActual--;
+            }
+            actualizarInterfaz();
+        }
+
+        function populateActivitySelect() {
+            const select = document.getElementById('select-actividad');
+            if (!select) return;
+            select.innerHTML = '';
+
+            const groups = {
+                'PRODUCCIÓN': ['licencias', 'exploracion', 'perforacion', 'voladura', 'remocion', 'proveedores', 'extractivas', 'maquinaria', 'servicios', 'instrumentos', 'seguridad'],
+                'TRANSFORMACIÓN': ['extraccion_trans', 'triturado', 'lavado', 'secado', 'clasificacion', 'acopio', 'cargue', 'puertos', 'industrializacion', 'recuperacion', 'desechos'],
+                'COMERCIALIZACIÓN': ['mercadeo', 'laboratorio', 'minoristas', 'mayoristas', 'exportadores', 'usos']
+            };
+
+            for (const [groupName, ids] of Object.entries(groups)) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = groupName;
+
+                ids.forEach(id => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    // Limpiar el título para el dropdown
+                    let label = preguntasDB[id].titulo;
+                    label = label.replace("Diagnóstico: ", "").replace("Transformación: ", "").replace("Comercialización: ", "");
+                    option.text = label;
+                    optgroup.appendChild(option);
+                });
+                select.appendChild(optgroup);
+            }
+        }
+
+        function cambiarActividadDesdeSelect(id) {
+            const index = ordenPasos.indexOf(id);
+            if (index !== -1) {
+                indiceActual = index;
+                actualizarInterfaz();
+            }
+        }
+
+        function actualizarInterfaz() {
+            const idActual = ordenPasos[indiceActual];
+
+            // Sincronizar select si existe
+            const select = document.getElementById('select-actividad');
+            if (select) select.value = idActual;
+
+            document.getElementById('question-title').innerText = preguntasDB[idActual].titulo;
+            document.getElementById('question-desc').innerText = preguntasDB[idActual].pregunta;
+
+            // Sincronizar Radios (Visual vs Lógica)
+            const radios = document.getElementsByName('respuesta');
+            const respuestaGuardada = respuestasActividades[idActual];
+
+            radios.forEach(r => {
+                if (r.value === respuestaGuardada) {
+                    r.checked = true;
+                    r.parentElement.classList.add('border-accent', 'bg-orange-50');
+                } else {
+                    r.checked = false;
+                    r.parentElement.classList.remove('border-accent', 'bg-orange-50');
+                }
+            });
+
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+
+            if (indiceActual === 0) {
+                btnPrev.disabled = true;
+                btnPrev.className = "px-6 py-2 border border-gray-300 text-gray-400 font-bold rounded-lg cursor-not-allowed";
+            } else {
+                btnPrev.disabled = false;
+                btnPrev.className = "px-6 py-2 border border-accent text-accent font-bold rounded-lg hover:bg-orange-50 transition-colors";
+            }
+
+            if (indiceActual === ordenPasos.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.onclick = mostrarResultadosActividades;
+                btnNext.classList.remove('bg-accent');
+                btnNext.classList.add('bg-success');
+            } else {
+                btnNext.innerText = "Siguiente";
+                btnNext.onclick = function () { cambiarPregunta('siguiente'); };
+                btnNext.classList.add('bg-accent');
+                btnNext.classList.remove('bg-success');
+            }
+
+            ordenPasos.forEach((paso, index) => {
+                if (index < indiceActual) {
+                    setEstiloCompletado(paso);
+                } else if (index === indiceActual) {
+                    setEstiloActivo(paso);
+                } else {
+                    setEstiloPendiente(paso);
+                }
+            });
+        }
+
+        function setEstiloActivo(id) {
+            document.getElementById('step-' + id).className = "flex items-center justify-between bg-orange-100 p-2 rounded-md -ml-2 my-2 transition-all duration-300";
+            const icon = document.getElementById('icon-' + id);
+            icon.className = "material-symbols-outlined text-accent text-lg leading-none";
+            icon.innerText = "radio_button_checked";
+            document.getElementById('text-' + id).className = "text-sm font-medium text-accent leading-tight";
+            document.getElementById('dot-' + id).className = "h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0";
+        }
+
+        function setEstiloCompletado(id) {
+            document.getElementById('step-' + id).className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300";
+            const icon = document.getElementById('icon-' + id);
+            icon.className = "material-symbols-outlined text-success text-lg leading-none mt-0.5";
+            icon.innerText = "check_circle";
+            document.getElementById('text-' + id).className = "text-sm text-text-primary leading-tight";
+            document.getElementById('dot-' + id).className = "h-2.5 w-2.5 rounded-full bg-success shrink-0 mt-1.5";
+        }
+
+        function setEstiloPendiente(id) {
+            document.getElementById('step-' + id).className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300";
+            const icon = document.getElementById('icon-' + id);
+            icon.className = "material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5";
+            icon.innerText = "radio_button_unchecked";
+        }
+
+        // =================================================================================
+        // SCRIPT PARA EL SEGUNDO DIAGNÓSTICO: COMPETITIVIDAD (TECNOLOGÍA + ANÁLISIS COMERCIAL)
+        // =================================================================================
+
+        // ==========================================
+        // BASE DE DATOS COMPETITIVIDAD (COMPLETA FINAL)
+        // ==========================================
+
+        const preguntasCompDB = {
+            // --- SECCIÓN 1: TECNOLOGÍA ---
+            'maq1': { cat: 'maquinaria', indice: '1/5', preg: "¿Su empresa cuenta con maquinaria propia para sus procesos de minería?" },
+            'maq2': { cat: 'maquinaria', indice: '2/5', preg: "¿La empresa cuenta con sistemas de comunicación interna que aseguren la comunicación efectiva y constante entre el personal y los equipos?" },
+            'maq3': { cat: 'maquinaria', indice: '3/5', preg: "¿La empresa utiliza algún sistema tecnológico (sensores, cámaras, telemetría) para la supervisión remota de condiciones operativas o de seguridad?" },
+            'maq4': { cat: 'maquinaria', indice: '4/5', preg: "¿Dispone de conexión a internet estable en áreas clave para realizar trámites en línea y enviar reportes?" },
+            'maq5': { cat: 'maquinaria', indice: '5/5', preg: "¿Realiza mantenimiento preventivo de sus equipos cada año?" },
+
+            'prop1': { cat: 'propiedad', indice: '1/5', preg: "¿Ha registrado su empresa alguna marca, patente o nombres comerciales ante las autoridades competentes?" },
+            'prop2': { cat: 'propiedad', indice: '2/5', preg: "¿La empresa toma medidas activas para proteger secretos empresariales mediante acuerdos de confidencialidad?" },
+            'prop3': { cat: 'propiedad', indice: '3/5', preg: "¿Verifica que el software y tecnología de terceros cuentan con las licencias correspondientes?" },
+            'prop4': { cat: 'propiedad', indice: '4/5', preg: "¿Tiene un proceso para documentar y gestionar sus propias invenciones o desarrollos tecnológicos internos?" },
+            'prop5': { cat: 'propiedad', indice: '5/5', preg: "¿Capacita a su personal clave sobre la importancia de la propiedad intelectual y manejo de información confidencial?" },
+
+            'inv1': { cat: 'investigacion', indice: '1/5', preg: "¿Utiliza software o herramientas especializadas para apoyar procesos de investigación y análisis de datos?" },
+            'inv2': { cat: 'investigacion', indice: '2/5', preg: "¿Ha desarrollado prototipos o innovaciones tecnológicas útiles para su operación o el sector?" },
+            'inv3': { cat: 'investigacion', indice: '3/5', preg: "¿Ha contratado servicios de I+D externos para abordar desafíos específicos?" },
+            'inv4': { cat: 'investigacion', indice: '4/5', preg: "¿Realiza sistemáticamente investigación interna para generar conocimiento y mejorar procesos?" },
+            'inv5': { cat: 'investigacion', indice: '5/5', preg: "¿Desearía recibir financiación o apoyo externo para actividades de investigación?" },
+
+            'inn1': { cat: 'innovacion', indice: '1/5', preg: "¿Ha introducido nuevos productos o servicios innovadores que generen valor para su operación?" },
+            'inn2': { cat: 'innovacion', indice: '2/5', preg: "¿Ha implementado nuevos procesos productivos que mejoren significativamente la eficiencia o seguridad?" },
+            'inn3': { cat: 'innovacion', indice: '3/5', preg: "¿Ha implementado alguna innovación significativa (tecnológica, de proceso u organizacional) en los últimos años?" },
+            'inn4': { cat: 'innovacion', indice: '4/5', preg: "¿Ha participado en programas de apoyo a la innovación orientados al sector minero?" },
+            'inn5': { cat: 'innovacion', indice: '5/5', preg: "¿Ha implementado nuevos métodos o estrategias de comercialización (canales digitales, alianzas)?" },
+
+            'asis1': { cat: 'asistencia', indice: '1/5', preg: "¿Ha contratado asistencia técnica o consultorías externas para resolver problemas específicos en los últimos años?" },
+            'asis2': { cat: 'asistencia', indice: '2/5', preg: "¿Evalúa periódicamente la necesidad de nuevas tecnologías para mantenerse competitiva?" },
+            'asis3': { cat: 'asistencia', indice: '3/5', preg: "¿Asegura la capacitación y soporte técnico adecuado para su personal al adquirir maquinaria nueva?" },
+            'asis4': { cat: 'asistencia', indice: '4/5', preg: "¿Participa en programas de apoyo o transferencia tecnológica (SENA, universidades, gremios)?" },
+            'asis5': { cat: 'asistencia', indice: '5/5', preg: "¿Considera que la transferencia de tecnología de otras empresas ha mejorado su productividad?" },
+
+            // --- SECCIÓN 2: ANÁLISIS COMERCIAL ---
+            'oferta1': { cat: 'oferta', indice: '1/5', preg: "¿Realiza análisis periódicos de oferta y demanda para fundamentar sus decisiones estratégicas?" },
+            'oferta2': { cat: 'oferta', indice: '2/5', preg: "¿Utiliza fuentes de datos específicas para estimar el tamaño y comportamiento del mercado?" },
+            'oferta3': { cat: 'oferta', indice: '3/5', preg: "¿Diferencia sus análisis de mercado por zonas geográficas o tipos de cliente?" },
+            'oferta4': { cat: 'oferta', indice: '4/5', preg: "¿El análisis incluye seguimiento de la capacidad y estrategias de sus competidores directos?" },
+            'oferta5': { cat: 'oferta', indice: '5/5', preg: "¿Utiliza las conclusiones de sus análisis para ajustar proactivamente producción e inventarios?" },
+
+            'canales1': { cat: 'canales', indice: '1/5', preg: "¿Tiene documentada una estrategia que defina sus canales de venta prioritarios y el rol de cada uno?" },
+            'canales2': { cat: 'canales', indice: '2/5', preg: "¿Realiza acciones de promoción y marketing específicas para fortalecer su marca?" },
+            'canales3': { cat: 'canales', indice: '3/5', preg: "¿Evalúa periódicamente la eficiencia y rentabilidad de cada canal de comercialización?" },
+            'canales4': { cat: 'canales', indice: '4/5', preg: "¿Busca diversificar canales de venta para reducir la dependencia de pocos clientes?" },
+            'canales5': { cat: 'canales', indice: '5/5', preg: "¿Gestiona activamente la relación con intermediarios para asegurar el alineamiento con sus objetivos?" },
+
+            'valoracion1': { cat: 'valoracion', indice: '1/5', preg: "¿Cuenta con un sistema de costeo detallado para conocer el costo total del producto puesto en mercado?" },
+            'valoracion2': { cat: 'valoracion', indice: '2/5', preg: "¿La estrategia de precios considera variables de mercado además de sus propios costos?" },
+            'valoracion3': { cat: 'valoracion', indice: '3/5', preg: "¿Tiene capacidad de justificar un precio diferencial basado en atributos de valor del producto?" },
+            'valoracion4': { cat: 'valoracion', indice: '4/5', preg: "¿Realiza análisis de rentabilidad por cliente o producto para enfocar esfuerzos?" },
+            'valoracion5': { cat: 'valoracion', indice: '5/5', preg: "¿Cuenta con un proceso ágil para ajustar precios ante cambios en costos o mercado?" },
+
+            'verdes1': { cat: 'verdes', indice: '1/5', preg: "¿Investiga activamente nichos de mercado (minería sostenible) que valoren atributos más allá del precio?" },
+            'verdes2': { cat: 'verdes', indice: '2/5', preg: "¿Posee o está en proceso de obtener alguna certificación ambiental o de calidad?" },
+            'verdes3': { cat: 'verdes', indice: '3/5', preg: "¿Estaría dispuesta a adaptar procesos para cumplir requisitos de un nicho de mercado?" },
+            'verdes4': { cat: 'verdes', indice: '4/5', preg: "¿Ha cuantificado el potencial beneficio de entrar en un mercado verde o de nicho?" },
+            'verdes5': { cat: 'verdes', indice: '5/5', preg: "¿La estrategia de comunicación resalta las características aptas para mercados especializados?" },
+
+            'inteligencia1': { cat: 'inteligencia', indice: '1/5', preg: "¿Existe un responsable o proceso para la recolección y análisis sistemático de información del mercado?" },
+            'inteligencia2': { cat: 'inteligencia', indice: '2/5', preg: "¿Utiliza herramientas especializadas (plataformas, bases de datos) para inteligencia de mercados?" },
+            'inteligencia3': { cat: 'inteligencia', indice: '3/5', preg: "¿Realiza monitoreo estructurado de competidores clave (precios, clientes, estrategias)?" },
+            'inteligencia4': { cat: 'inteligencia', indice: '4/5', preg: "¿La información recolectada se utiliza efectivamente para la toma de decisiones gerenciales?" },
+            'inteligencia5': { cat: 'inteligencia', indice: '5/5', preg: "¿Utiliza la inteligencia de mercados para anticipar tendencias y mitigar riesgos futuros?" },
+
+            // --- SECCIÓN 3: FORTALECIMIENTO EMPRESARIAL (NUEVAS) ---
+            'formacion1': { cat: 'formacion', indice: '1/5', preg: "¿La empresa ha implementado en el último año un programa formal y certificado de formación continua para sus empleados?" },
+            'formacion2': { cat: 'formacion', indice: '2/5', preg: "¿Se invierte en capacitación continua y certificaciones para el personal operativo y técnico alineadas con estándares de la industria?" },
+            'formacion3': { cat: 'formacion', indice: '3/5', preg: "¿Cuenta con un sistema de evaluación de desempeño que vincule el progreso en competencias con oportunidades de ascenso o mejoras?" },
+            'formacion4': { cat: 'formacion', indice: '4/5', preg: "¿Se promueve la transferencia de conocimientos internos a través de programas de mentoría o rotación de roles?" },
+            'formacion5': { cat: 'formacion', indice: '5/5', preg: "¿Tiene un plan de sucesión para roles clave y utiliza la formación por competencias para seleccionar líderes?" },
+
+            'alianzas1': { cat: 'alianzas', indice: '1/5', preg: "¿Busca activamente alianzas estratégicas con otras compañías o proveedores para optimizar cadenas de suministro?" },
+            'alianzas2': { cat: 'alianzas', indice: '2/5', preg: "¿Está interesada en proyectos colaborativos de infraestructura con proveedores locales para desarrollar soluciones sostenibles?" },
+            'alianzas3': { cat: 'alianzas', indice: '3/5', preg: "¿Evalúa la rentabilidad y riesgo de las alianzas, y tiene acuerdos formales para asegurar el cumplimiento de objetivos?" },
+            'alianzas4': { cat: 'alianzas', indice: '4/5', preg: "¿Participa en redes de suministro local y mantiene colaboración con la comunidad a través de alianzas productivas?" },
+            'alianzas5': { cat: 'alianzas', indice: '5/5', preg: "¿Se han desarrollado alianzas con entidades de investigación o universidades para innovar en procesos?" },
+
+            'gremios1': { cat: 'gremios', indice: '1/5', preg: "¿La empresa participa de forma activa en gremios mineros y utiliza esta plataforma para influir en políticas del sector?" },
+            'gremios2': { cat: 'gremios', indice: '2/5', preg: "¿Es miembro activo de asociaciones, participando en comités para defender sus intereses?" },
+            'gremios3': { cat: 'gremios', indice: '3/5', preg: "¿Mantiene canales de comunicación formales con autoridades gubernamentales para abordar temas regulatorios?" },
+            'gremios4': { cat: 'gremios', indice: '4/5', preg: "¿Utiliza su participación en gremios para mejorar su reputación y comunicar logros en sostenibilidad?" },
+            'gremios5': { cat: 'gremios', indice: '5/5', preg: "¿Realiza seguimiento de cambios en legislación y cuenta con un plan para adaptar sus operaciones a nuevas normativas?" },
+
+            'estimulo1': { cat: 'estimulo', indice: '1/5', preg: "¿Ha recibido apoyo financiero gubernamental o de entidades para proyectos de modernización tecnológica?" },
+            'estimulo2': { cat: 'estimulo', indice: '2/5', preg: "¿Tiene un programa para fomentar la especialización de las empresas en sus diferentes etapas de producción?" },
+            'estimulo3': { cat: 'estimulo', indice: '3/5', preg: "¿Ha logrado consolidar su posición en el mercado a través de contratos a largo plazo o diversificación?" },
+            'estimulo4': { cat: 'estimulo', indice: '4/5', preg: "¿Ha invertido significativamente en I+D para mejorar procesos o encontrar nuevos usos para el carbón?" },
+            'estimulo5': { cat: 'estimulo', indice: '5/5', preg: "¿Ha fortalecido su competitividad mediante planes de sucesión, fusiones, adquisiciones o alianzas estratégicas?" },
+
+            // --- SECCIÓN 4: INFRAESTRUCTURA Y LOGÍSTICA (NUEVAS) ---
+            'infra_maq1': { cat: 'infra_maq', indice: '1/5', preg: "¿La empresa cuenta con maquinaria y equipos de transporte propios para la logística interna y externa?" },
+            'infra_maq2': { cat: 'infra_maq', indice: '2/5', preg: "¿Se realiza un mantenimiento preventivo periódico a la flota de transporte y maquinaria logística?" },
+            'infra_maq3': { cat: 'infra_maq', indice: '3/5', preg: "¿La maquinaria actual cumple con los estándares de eficiencia energética y emisiones requeridos?" },
+            'infra_maq4': { cat: 'infra_maq', indice: '4/5', preg: "¿Cuenta con equipos de respaldo para asegurar la continuidad de la operación logística en caso de fallas?" },
+            'infra_maq5': { cat: 'infra_maq', indice: '5/5', preg: "¿Utiliza tecnología de rastreo y monitoreo para optimizar el uso de su maquinaria y equipos?" },
+
+            'vial1': { cat: 'vial', indice: '1/5', preg: "¿Las vías de acceso a la mina y plantas de beneficio se encuentran en buen estado para el tránsito de carga?" },
+            'vial2': { cat: 'vial', indice: '2/5', preg: "¿Participa en el mantenimiento de las vías comunitarias o públicas que utiliza para su operación?" },
+            'vial3': { cat: 'vial', indice: '3/5', preg: "¿La infraestructura vial interna permite un flujo seguro y eficiente de vehículos y maquinaria?" },
+            'vial4': { cat: 'vial', indice: '4/5', preg: "¿Cuenta con señalización vial adecuada y controles de velocidad en todas sus rutas internas?" },
+            'vial5': { cat: 'vial', indice: '5/5', preg: "¿Ha identificado rutas alternas para mitigar riesgos de interrupción en el transporte de insumos o productos?" },
+
+            'plataforma1': { cat: 'plataforma', indice: '1/5', preg: "¿Dispone de una plataforma o patio de acopio con capacidad suficiente para manejar sus volúmenes de producción?" },
+            'plataforma2': { cat: 'plataforma', indice: '2/5', preg: "¿La plataforma de distribución cuenta con las condiciones técnicas para evitar la contaminación del material?" },
+            'plataforma3': { cat: 'plataforma', indice: '3/5', preg: "¿Utiliza sistemas mecanizados para la carga y descarga en su plataforma de distribución?" },
+            'plataforma4': { cat: 'plataforma', indice: '4/5', preg: "¿La ubicación de su plataforma facilita la conexión con otros medios de transporte (férreo, fluvial, etc.)?" },
+            'plataforma5': { cat: 'plataforma', indice: '5/5', preg: "¿Tiene implementado un sistema de control de inventarios en tiempo real en su plataforma de distribución?" },
+
+            'servicios_pub1': { cat: 'servicios_pub', indice: '1/5', preg: "¿Cuenta con suministro confiable y estable de energía eléctrica para todas sus operaciones?" },
+            'servicios_pub2': { cat: 'servicios_pub', indice: '2/5', preg: "¿Dispone de acceso a agua industrial en cantidad y calidad suficiente para sus procesos?" },
+            'servicios_pub3': { cat: 'servicios_pub', indice: '3/5', preg: "¿Tiene sistemas de respaldo (plantas eléctricas, reservorios) ante cortes de servicios públicos?" },
+            'servicios_pub4': { cat: 'servicios_pub', indice: '4/5', preg: "¿Gestiona eficientemente el consumo de servicios públicos para reducir costos y el impacto ambiental?" },
+            'servicios_pub5': { cat: 'servicios_pub', indice: '5/5', preg: "¿Cuenta con infraestructura adecuada para el manejo y tratamiento de aguas residuales?" },
+
+            'transporte1': { cat: 'transporte', indice: '1/5', preg: "¿Tiene contratos formales con empresas de transporte que garanticen la disponibilidad de vehículos?" },
+            'transporte2': { cat: 'transporte', indice: '2/5', preg: "¿Evalúa periódicamente el desempeño y cumplimiento de sus proveedores de servicios de transporte?" },
+            'transporte3': { cat: 'transporte', indice: '3/5', preg: "¿Optimiza las rutas y cargas para minimizar los costos unitarios de transporte?" },
+            'transporte4': { cat: 'transporte', indice: '4/5', preg: "¿Asegura que los vehículos de transporte cumplan con toda la normativa legal y de seguridad vigente?" },
+            'transporte5': { cat: 'transporte', indice: '5/5', preg: "¿Utiliza sistemas de gestión de transporte para planificar y monitorear los despachos?" },
+
+            'calefaccion1': { cat: 'calefaccion', indice: '1/5', preg: "¿(Si aplica) Cuenta con sistemas de calefacción o control de temperatura para procesos o bienestar del personal?" },
+            'calefaccion2': { cat: 'calefaccion', indice: '2/5', preg: "¿Los sistemas de calefacción son eficientes y reciben mantenimiento periódico?" },
+            'calefaccion3': { cat: 'calefaccion', indice: '3/5', preg: "¿Monitorea la calidad del aire en áreas con sistemas de calefacción o ventilación?" },
+            'calefaccion4': { cat: 'calefaccion', indice: '4/5', preg: "¿Ha evaluado el uso de fuentes de energía alternativas o residuales para sus necesidades de calefacción?" },
+            'calefaccion5': { cat: 'calefaccion', indice: '5/5', preg: "¿Cumple con la normativa de seguridad industrial relacionada con sistemas de calefacción y calderas?" }
+        };
+
+        // LISTA COMPLETA DE ORDEN
+        const ordenComp = [
+            // Tecnología
+            'maq1', 'maq2', 'maq3', 'maq4', 'maq5',
+            'prop1', 'prop2', 'prop3', 'prop4', 'prop5',
+            'inv1', 'inv2', 'inv3', 'inv4', 'inv5',
+            'inn1', 'inn2', 'inn3', 'inn4', 'inn5',
+            'asis1', 'asis2', 'asis3', 'asis4', 'asis5',
+            // Comercial
+            'oferta1', 'oferta2', 'oferta3', 'oferta4', 'oferta5',
+            'canales1', 'canales2', 'canales3', 'canales4', 'canales5',
+            'valoracion1', 'valoracion2', 'valoracion3', 'valoracion4', 'valoracion5',
+            'verdes1', 'verdes2', 'verdes3', 'verdes4', 'verdes5',
+            'inteligencia1', 'inteligencia2', 'inteligencia3', 'inteligencia4', 'inteligencia5',
+            // Fortalecimiento
+            'formacion1', 'formacion2', 'formacion3', 'formacion4', 'formacion5',
+            'alianzas1', 'alianzas2', 'alianzas3', 'alianzas4', 'alianzas5',
+            'gremios1', 'gremios2', 'gremios3', 'gremios4', 'gremios5',
+            'estimulo1', 'estimulo2', 'estimulo3', 'estimulo4', 'estimulo5',
+            // Infraestructura y Logística (NUEVOS)
+            'infra_maq1', 'infra_maq2', 'infra_maq3', 'infra_maq4', 'infra_maq5',
+            'vial1', 'vial2', 'vial3', 'vial4', 'vial5',
+            'plataforma1', 'plataforma2', 'plataforma3', 'plataforma4', 'plataforma5',
+            'servicios_pub1', 'servicios_pub2', 'servicios_pub3', 'servicios_pub4', 'servicios_pub5',
+            'transporte1', 'transporte2', 'transporte3', 'transporte4', 'transporte5',
+            'calefaccion1', 'calefaccion2', 'calefaccion3', 'calefaccion4', 'calefaccion5'
+        ];
+
+        let indiceComp = 0;
+        let respuestasComp = {};
+
+        function cambiarPreguntaCompetitividad(direccion) {
+            if (direccion === 'siguiente') {
+                const idActual = ordenComp[indiceComp];
+                if (!respuestasComp[idActual]) {
+                    alert('Debe seleccionar una opción para continuar.');
+                    return;
+                }
+                if (indiceComp < ordenComp.length - 1) {
+                    indiceComp++;
+                }
+            } else if (direccion === 'anterior' && indiceComp > 0) {
+                indiceComp--;
+            }
+            actualizarInterfazComp();
+        }
+
+        const categoriasNombresMap = {
+            'maquinaria': "Maquinaria y Equipos",
+            'propiedad': "Propiedad Intelectual",
+            'investigacion': "Investigación",
+            'innovacion': "Innovación",
+            'asistencia': "Asistencia Técnica",
+            'oferta': "Análisis Oferta/Demanda",
+            'canales': "Canales de Comercialización",
+            'valoracion': "Valoración Económica",
+            'verdes': "Mercados Verdes",
+            'inteligencia': "Inteligencia de Mercados",
+            'formacion': "Formación y Talento",
+            'alianzas': "Alianzas Estratégicas",
+            'gremios': "Relacionamiento Gremial",
+            'estimulo': "Estímulo y Consolidación",
+            'infra_maq': "Maquinaria y Equipos Logísticos",
+            'vial': "Infraestructura Vial",
+            'plataforma': "Plataforma de Distribución",
+            'servicios_pub': "Servicios Públicos",
+            'transporte': "Transporte",
+            'calefaccion': "Sistemas de Calefacción"
+        };
+
+        function populateCategorySelect() {
+            const select = document.getElementById('select-categoria');
+            if (!select) return;
+            select.innerHTML = '';
+
+            const groups = {
+                'TECNOLOGÍA': ['maquinaria', 'propiedad', 'investigacion', 'innovacion', 'asistencia'],
+                'ANÁLISIS COMERCIAL': ['oferta', 'canales', 'valoracion', 'verdes', 'inteligencia'],
+                'FORTALECIMIENTO EMPRESARIAL': ['formacion', 'alianzas', 'gremios', 'estimulo'],
+                'INFRAESTRUCTURA Y LOGÍSTICA': ['infra_maq', 'vial', 'plataforma', 'servicios_pub', 'transporte', 'calefaccion']
+            };
+
+            for (const [groupName, cats] of Object.entries(groups)) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = groupName;
+
+                cats.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.text = categoriasNombresMap[cat] || cat;
+                    optgroup.appendChild(option);
+                });
+                select.appendChild(optgroup);
+            }
+        }
+
+        function cambiarCategoriaDesdeSelect(cat) {
+            // Find first question with this category
+            const index = ordenComp.findIndex(id => preguntasCompDB[id].cat === cat);
+            if (index !== -1) {
+                indiceComp = index;
+                actualizarInterfazComp();
+            }
+        }
+
+        // FUNCIÓN DE INTERFAZ ACTUALIZADA
+        function actualizarInterfazComp() {
+            const idActual = ordenComp[indiceComp];
+            const datos = preguntasCompDB[idActual];
+
+            // Sincronizar select si existe
+            const select = document.getElementById('select-categoria');
+            if (select) select.value = datos.cat;
+
+            // 1. Actualizar Textos
+            document.getElementById('comp-question-desc').innerText = datos.preg;
+
+            // Mapeo de nombres para el título pequeño
+            let nombreCategoria = "";
+
+            // --- TECNOLOGÍA ---
+            if (datos.cat === 'maquinaria') nombreCategoria = "Maquinaria y Equipos";
+            if (datos.cat === 'propiedad') nombreCategoria = "Propiedad Intelectual";
+            if (datos.cat === 'investigacion') nombreCategoria = "Investigación";
+            if (datos.cat === 'innovacion') nombreCategoria = "Innovación";
+            if (datos.cat === 'asistencia') nombreCategoria = "Asistencia Técnica";
+
+            // --- COMERCIAL ---
+            if (datos.cat === 'oferta') nombreCategoria = "Análisis Oferta/Demanda";
+            if (datos.cat === 'canales') nombreCategoria = "Canales de Comercialización";
+            if (datos.cat === 'valoracion') nombreCategoria = "Valoración Económica";
+            if (datos.cat === 'verdes') nombreCategoria = "Mercados Verdes";
+            if (datos.cat === 'inteligencia') nombreCategoria = "Inteligencia de Mercados";
+
+            // --- FORTALECIMIENTO ---
+            if (datos.cat === 'formacion') nombreCategoria = "Formación y Talento";
+            if (datos.cat === 'alianzas') nombreCategoria = "Alianzas Estratégicas";
+            if (datos.cat === 'gremios') nombreCategoria = "Relacionamiento Gremial";
+            if (datos.cat === 'estimulo') nombreCategoria = "Estímulo y Consolidación";
+
+            // --- INFRAESTRUCTURA Y LOGÍSTICA ---
+            if (datos.cat === 'infra_maq') nombreCategoria = "Maquinaria y Equipos Logísticos";
+            if (datos.cat === 'vial') nombreCategoria = "Infraestructura Vial";
+            if (datos.cat === 'plataforma') nombreCategoria = "Plataforma de Distribución";
+            if (datos.cat === 'servicios_pub') nombreCategoria = "Servicios Públicos";
+            if (datos.cat === 'transporte') nombreCategoria = "Transporte";
+            if (datos.cat === 'calefaccion') nombreCategoria = "Sistemas de Calefacción";
+
+            document.getElementById('comp-category-label').innerText = `${nombreCategoria} (${datos.indice})`;
+
+            // 2. Sincronizar Radios
+            const radios = document.getElementsByName('respuesta_comp');
+            const respuestaGuardada = respuestasComp[datos.cat]; // OJO: La respuesta se guarda por ID de pregunta, no categoria. Validar indice.
+            // Corrección: respuestasComp usa el ID de la pregunta ('maq1', 'prop2', etc.)
+            const idPregunta = ordenComp[indiceComp];
+            const resp = respuestasComp[idPregunta];
+
+            radios.forEach(r => {
+                if (r.value === resp) {
+                    r.checked = true;
+                    r.parentElement.classList.add('border-accent', 'bg-orange-50');
+                } else {
+                    r.checked = false;
+                    r.parentElement.classList.remove('border-accent', 'bg-orange-50');
+                }
+            });
+
+            // 3. Actualizar Botones
+            const btnPrev = document.getElementById('comp-btn-prev');
+            const btnNext = document.getElementById('comp-btn-next');
+
+            if (indiceComp === 0) {
+                btnPrev.disabled = true;
+                btnPrev.className = "px-6 py-2 border border-gray-300 text-gray-400 font-bold rounded-lg cursor-not-allowed";
+            } else {
+                btnPrev.disabled = false;
+                btnPrev.className = "px-6 py-2 border border-accent text-accent font-bold rounded-lg hover:bg-orange-50 transition-colors";
+            }
+
+            if (indiceComp === ordenComp.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.onclick = mostrarResultadosCompetitividad;
+                btnNext.classList.remove('bg-accent');
+                btnNext.classList.add('bg-success');
+            } else {
+                btnNext.innerText = "Siguiente";
+                btnNext.onclick = function () { cambiarPreguntaCompetitividad('siguiente'); };
+                btnNext.classList.add('bg-accent');
+                btnNext.classList.remove('bg-success');
+            }
+
+            // 3. Actualizar Sidebar (Highlighting)
+            const categoriasOrden = [
+                'maquinaria', 'propiedad', 'investigacion', 'innovacion', 'asistencia',
+                'oferta', 'canales', 'valoracion', 'verdes', 'inteligencia',
+                'formacion', 'alianzas', 'gremios', 'estimulo',
+                'infra_maq', 'vial', 'plataforma', 'servicios_pub', 'transporte', 'calefaccion'
+            ];
+
+            const catActual = datos.cat;
+            const catActualIndex = categoriasOrden.indexOf(catActual);
+
+            categoriasOrden.forEach((cat, index) => {
+                if (index < catActualIndex) {
+                    setEstiloCompletadoComp(cat);
+                } else if (index === catActualIndex) {
+                    setEstiloActivoComp(cat);
+                } else {
+                    setEstiloPendienteComp(cat);
+                }
+            });
+        }
+
+        function setEstiloActivoComp(id) {
+            document.getElementById('comp-step-' + id).className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300 bg-orange-100 -ml-2 my-2";
+            const icon = document.getElementById('comp-icon-' + id);
+            icon.className = "material-symbols-outlined text-accent text-lg leading-none mt-0.5";
+            icon.innerText = "radio_button_checked";
+            document.getElementById('comp-text-' + id).className = "text-sm font-medium text-accent leading-tight";
+        }
+
+        function setEstiloCompletadoComp(id) {
+            const row = document.getElementById('comp-step-' + id);
+            row.className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300";
+            const icon = document.getElementById('comp-icon-' + id);
+            icon.className = "material-symbols-outlined text-success text-lg leading-none mt-0.5";
+            icon.innerText = "check_circle";
+            document.getElementById('comp-text-' + id).className = "text-sm text-text-primary leading-tight";
+            document.getElementById('comp-dot-' + id).className = "h-2.5 w-2.5 rounded-full shrink-0 mt-1.5 bg-success";
+        }
+
+        function setEstiloPendienteComp(id) {
+            const row = document.getElementById('comp-step-' + id);
+            row.className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300";
+            const icon = document.getElementById('comp-icon-' + id);
+            icon.className = "material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5";
+            icon.innerText = "radio_button_unchecked";
+            document.getElementById('comp-text-' + id).className = "text-sm text-text-secondary leading-tight";
+            document.getElementById('comp-dot-' + id).className = "h-2.5 w-2.5 rounded-full shrink-0 mt-1.5 bg-text-secondary";
+        }
+
+        // =================================================================================
+        // INICIALIZACIÓN Y LISTENERS
+        // =================================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            populateActivitySelect();
+            populateCategorySelect();
+            actualizarInterfaz();
+            actualizarInterfazComp();
+
+            const diagnosticosPreviosRaw = `{{ diagnosticos_previos | tojson | safe }}`;
+            let diagnosticosPrevios = null;
+            if (diagnosticosPreviosRaw && diagnosticosPreviosRaw !== "null" && diagnosticosPreviosRaw !== "{}") {
+                try {
+                    diagnosticosPrevios = JSON.parse(diagnosticosPreviosRaw);
+                } catch (e) { }
+            }
+            let draftActRaw = localStorage.getItem('draft_actividades');
+            let draftAct = draftActRaw ? JSON.parse(draftActRaw) : null;
+            let hasDraftAct = draftAct && Object.keys(draftAct).length > 0;
+
+            if (hasDraftAct) {
+                // Hay un borrador en curso, cargarlo
+                respuestasActividades = draftAct;
+                let numRespuestas = Object.keys(respuestasActividades).length;
+                let maxIndex = 0;
+                
+                ordenPasos.forEach((paso, idx) => {
+                    if (respuestasActividades[paso]) {
+                        maxIndex = idx;
+                    }
+                });
+                
+                if (numRespuestas === ordenPasos.length) {
+                    // Completó todo en el borrador pero no dio Finalizar
+                    indiceActual = ordenPasos.length - 1;
+                    actualizarInterfaz();
+                    mostrarResultadosActividades(true);
+                } else {
+                    if (maxIndex < ordenPasos.length - 1) {
+                        indiceActual = maxIndex + 1;
+                    } else {
+                        indiceActual = maxIndex;
+                    }
+                    actualizarInterfaz();
+                }
+            } else if (diagnosticosPrevios && diagnosticosPrevios.actividades) {
+                // No hay borrador, cargar de BD
+                respuestasActividades = diagnosticosPrevios.actividades.respuestas || {};
+                indiceActual = ordenPasos.length - 1;
+                actualizarInterfaz();
+                mostrarResultadosActividades(true);
+            }
+
+            let draftCompRaw = localStorage.getItem('draft_competitividad');
+            let draftComp = draftCompRaw ? JSON.parse(draftCompRaw) : null;
+            let hasDraftComp = draftComp && Object.keys(draftComp).length > 0;
+
+            if (hasDraftComp) {
+                respuestasComp = draftComp;
+                let numRespuestasComp = Object.keys(respuestasComp).length;
+                let maxIndexComp = 0;
+                
+                ordenComp.forEach((paso, idx) => {
+                    if (respuestasComp[paso]) {
+                        maxIndexComp = idx;
+                    }
+                });
+                
+                if (numRespuestasComp === ordenComp.length) {
+                    indiceComp = ordenComp.length - 1;
+                    actualizarInterfazComp();
+                    mostrarResultadosCompetitividad(true);
+                } else {
+                    if (maxIndexComp < ordenComp.length - 1) {
+                        indiceComp = maxIndexComp + 1;
+                    } else {
+                        indiceComp = maxIndexComp;
+                    }
+                    actualizarInterfazComp();
+                }
+            } else if (diagnosticosPrevios && diagnosticosPrevios.competitividad) {
+                respuestasComp = diagnosticosPrevios.competitividad.respuestas || {};
+                indiceComp = ordenComp.length - 1;
+                actualizarInterfazComp();
+                mostrarResultadosCompetitividad(true);
+            }
+
+            const radiosComp = document.getElementsByName('respuesta_comp');
+            // ... (keep existing listeners) ...
+
+            // Listeners para ACTIVIDADES
+            const radiosAct = document.getElementsByName('respuesta');
+            radiosAct.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // Guardar respuesta
+                    const idActual = ordenPasos[indiceActual];
+                    respuestasActividades[idActual] = e.target.value;
+                    localStorage.setItem('draft_actividades', JSON.stringify(respuestasActividades));
+
+                    // Estilo visual (si aplica)
+                    radiosAct.forEach(r => r.parentElement.classList.remove('border-accent', 'bg-orange-50'));
+                    if (e.target.checked) {
+                        e.target.parentElement.classList.add('border-accent', 'bg-orange-50');
+                    }
+                });
+            });
+
+            const radiosComp2 = document.getElementsByName('respuesta_comp');
+            radiosComp.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // Guardar respuesta
+                    const idActual = ordenComp[indiceComp];
+                    respuestasComp[idActual] = e.target.value;
+                    localStorage.setItem('draft_competitividad', JSON.stringify(respuestasComp));
+
+                    // Estilo visual
+                    radiosComp.forEach(r => r.parentElement.classList.remove('border-accent', 'bg-orange-50'));
+                    if (e.target.checked) {
+                        e.target.parentElement.classList.add('border-accent', 'bg-orange-50');
+                    }
+                });
+            });
+        });
+
+        // LÓGICA DE RESULTADOS - COMPETITIVIDAD
+        function mostrarResultadosCompetitividad(isRestore = false) {
+            const idActual = ordenComp[indiceComp];
+            if (!isRestore && !respuestasComp[idActual]) {
+                alert('Debe seleccionar una opción para finalizar.');
+                return;
+            }
+
+            // Actualizar Títulos Modal
+            document.getElementById('modal-title').innerText = "Resultados: Competitividad";
+            document.getElementById('global-score-label').innerText = "Nivel de Competitividad General";
+
+            const resultado = calcularResultadosComp();
+
+            // Enviar al servidor
+            if (!isRestore) {
+                enviarDiagnostico('competitividad', respuestasComp, resultado.puntosGlobales, resultado.totalGlobal);
+                localStorage.removeItem('draft_competitividad');
+                sessionStorage.removeItem('competitividadReiniciado');
+            }
+
+            // Ocultar formulario, mostrar cartel final
+            document.getElementById('qa-container-competitividad').classList.add('hidden');
+            document.getElementById('resultado-final-competitividad').classList.remove('hidden');
+
+            // Actualizar Footer con Botón de Reinicio
+            const footer = document.querySelector('#modal-resultados .modal-content .flex.justify-end');
+            footer.innerHTML = `
+                <button onclick="resetDiagnosis('competitividad')" 
+                    class="px-6 py-2 bg-gray-200 text-text-primary rounded-lg hover:bg-gray-300 text-sm font-bold mr-2">Reiniciar Prueba</button>
+                <button onclick="toggleModal('modal-resultados')"
+                    class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Cerrar</button>
+            `;
+        }
+
+        function calcularResultadosComp() {
+            const puntajes = {};
+            const totales = {};
+
+            // Inicializar contadores por categoría
+            for (const cat in categoriasNombresMap) {
+                puntajes[cat] = 0;
+                totales[cat] = 0;
+            }
+
+            let puntosGlobales = 0;
+            let totalGlobal = 0;
+
+            ordenComp.forEach(id => {
+                const cat = preguntasCompDB[id].cat;
+                const respuesta = respuestasComp[id];
+
+                totales[cat]++;
+                totalGlobal++;
+
+                if (respuesta === 'si') {
+                    puntajes[cat]++;
+                    puntosGlobales++;
+                }
+            });
+
+
+
+            // 1. Mostrar Global
+            const porcentajeGlobal = Math.round((puntosGlobales / totalGlobal) * 100) || 0;
+            document.getElementById('resultado-global').innerText = `${porcentajeGlobal}%`;
+
+            // Color Global
+            const globalElem = document.getElementById('resultado-global');
+            globalElem.className = `text-5xl font-bold mb-2 ${porcentajeGlobal >= 80 ? 'text-success' : porcentajeGlobal >= 50 ? 'text-accent' : 'text-danger'}`;
+
+            // 2. Mostrar Categorías Agrupadas
+            const contenedor = document.getElementById('resultados-categorias');
+            contenedor.innerHTML = '';
+
+            const groups = {
+                'TECNOLOGÍA': ['maquinaria', 'propiedad', 'investigacion', 'innovacion', 'asistencia'],
+                'ANÁLISIS COMERCIAL': ['oferta', 'canales', 'valoracion', 'verdes', 'inteligencia'],
+                'FORTALECIMIENTO EMPRESARIAL': ['formacion', 'alianzas', 'gremios', 'estimulo'],
+                'INFRAESTRUCTURA Y LOGÍSTICA': ['infra_maq', 'vial', 'plataforma', 'servicios_pub', 'transporte', 'calefaccion']
+            };
+
+            for (const [groupName, cats] of Object.entries(groups)) {
+                // Header de Grupo
+                contenedor.innerHTML += `<h5 class="text-md font-bold text-accent mt-4 mb-2 uppercase border-b border-gray-100 pb-1">${groupName}</h5>`;
+
+                cats.forEach(key => {
+                    const nombre = categoriasNombresMap[key];
+                    if (totales[key] === 0) return;
+
+                    const porcentaje = Math.round((puntajes[key] / totales[key]) * 100) || 0;
+
+                    // Color de la barra
+                    let barColor = 'bg-danger';
+                    if (porcentaje >= 50) barColor = 'bg-accent';
+                    if (porcentaje >= 80) barColor = 'bg-success';
+
+                    const html = `
+                        <div class="mb-3 pl-2">
+                            <div class="flex justify-between items-end mb-1">
+                                <span class="text-sm font-medium text-text-primary text-gray-600">${nombre}</span>
+                                <span class="text-xs font-bold text-text-secondary">${porcentaje}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="${barColor} h-2 rounded-full" style="width: ${porcentaje}%"></div>
+                            </div>
+                        </div>
+                    `;
+                    contenedor.innerHTML += html;
+                });
+            }
+            return { puntosGlobales, totalGlobal };
+        }
+
+        // LÓGICA DE RESULTADOS - ACTIVIDADES
+        function mostrarResultadosActividades(isRestore = false) {
+            const idActual = ordenPasos[indiceActual];
+            if (!isRestore && !respuestasActividades[idActual]) {
+                alert('Debe seleccionar una opción para finalizar.');
+                return;
+            }
+
+            // Actualizar Títulos Modal
+            document.getElementById('modal-title').innerText = "Resultados: Cadena de Valor";
+            document.getElementById('global-score-label').innerText = "formalización de la Cadena";
+
+            const resultado = calcularResultadosAct();
+
+            // Enviar al servidor
+            if (!isRestore) {
+                enviarDiagnostico('actividades', respuestasActividades, resultado.puntosGlobales, resultado.totalGlobal);
+                localStorage.removeItem('draft_actividades');
+                sessionStorage.removeItem('actividadesReiniciado');
+            }
+
+            // Ocultar formulario, mostrar cartel final
+            document.getElementById('qa-container-actividades').classList.add('hidden');
+            document.getElementById('resultado-final-actividades').classList.remove('hidden');
+
+            // Actualizar Footer con Botón de Reinicio
+            const footer = document.querySelector('#modal-resultados .modal-content .flex.justify-end');
+            footer.innerHTML = `
+                <button onclick="resetDiagnosis('actividades')" 
+                    class="px-6 py-2 bg-gray-200 text-text-primary rounded-lg hover:bg-gray-300 text-sm font-bold mr-2">Reiniciar Prueba</button>
+                <button onclick="toggleModal('modal-resultados')"
+                    class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Cerrar</button>
+            `;
+        }
+
+        function calcularResultadosAct() {
+            const groups = {
+                'Producción': ['licencias', 'exploracion', 'perforacion', 'voladura', 'remocion', 'proveedores', 'extractivas', 'maquinaria', 'servicios', 'instrumentos', 'seguridad'],
+                'Transformación': ['extraccion_trans', 'triturado', 'lavado', 'secado', 'clasificacion', 'acopio', 'cargue', 'puertos', 'industrializacion', 'recuperacion', 'desechos'],
+                'Comercialización': ['mercadeo', 'laboratorio', 'minoristas', 'mayoristas', 'exportadores', 'usos']
+            };
+
+            const puntajes = {};
+            const totales = {};
+            let puntosGlobales = 0;
+            let totalGlobal = 0;
+
+            for (const groupName in groups) {
+                puntajes[groupName] = 0;
+                totales[groupName] = 0;
+
+                groups[groupName].forEach(id => {
+                    totales[groupName]++;
+                    totalGlobal++;
+                    if (respuestasActividades[id] === 'si') {
+                        puntajes[groupName]++;
+                        puntosGlobales++;
+                    }
+                });
+            }
+
+
+
+            // 1. Mostrar Global
+            const porcentajeGlobal = Math.round((puntosGlobales / totalGlobal) * 100) || 0;
+            document.getElementById('resultado-global').innerText = `${porcentajeGlobal}%`;
+            const globalElem = document.getElementById('resultado-global');
+            globalElem.className = `text-5xl font-bold mb-2 ${porcentajeGlobal >= 80 ? 'text-success' : porcentajeGlobal >= 50 ? 'text-accent' : 'text-danger'}`;
+
+
+            // 2. Mostrar Categorías (Etapas)
+            const contenedor = document.getElementById('resultados-categorias');
+            contenedor.innerHTML = '';
+
+            for (const groupName in groups) {
+                const porcentaje = Math.round((puntajes[groupName] / totales[groupName]) * 100) || 0;
+
+                // Color de la barra
+                let barColor = 'bg-danger';
+                if (porcentaje >= 50) barColor = 'bg-accent';
+                if (porcentaje >= 80) barColor = 'bg-success';
+
+                const html = `
+                    <div class="mb-4">
+                        <div class="flex justify-between items-end mb-1">
+                            <span class="text-sm font-medium text-text-primary capitalize">${groupName}</span>
+                            <span class="text-sm font-bold text-text-secondary">${porcentaje}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="${barColor} h-2.5 rounded-full" style="width: ${porcentaje}%"></div>
+                        </div>
+                    </div>
+                `;
+                contenedor.innerHTML += html;
+            }
+            return { puntosGlobales, totalGlobal };
+        }
+
+        // FUNCIÓN DE REINICIO
+        function resetDiagnosis(type) {
+            toggleModal('modal-resultados'); // Cerrar modal
+
+            if (type === 'actividades') {
+                sessionStorage.setItem('actividadesReiniciado', 'true');
+                localStorage.removeItem('draft_actividades');
+                // Volver a mostrar formulario
+                document.getElementById('resultado-final-actividades').classList.add('hidden');
+                document.getElementById('qa-container-actividades').classList.remove('hidden');
+
+                // Reiniciar Datos
+                indiceActual = 0;
+                respuestasActividades = {};
+
+                // Reiniciar UI de Selectores
+                const radios = document.getElementsByName('respuesta');
+                radios.forEach(r => {
+                    r.checked = false;
+                    r.parentElement.classList.remove('border-accent', 'bg-orange-50');
+                });
+
+                // Reiniciar Sidebar (Visual)
+                ordenPasos.forEach(id => {
+                    setEstiloPendiente(id);
+                });
+
+                // Ir al inicio
+                actualizarInterfaz();
+
+                // Resetear botones de navegación visualmente si es necesario
+                document.getElementById('btn-prev').disabled = true;
+                document.getElementById('btn-prev').className = "px-6 py-2 border border-gray-300 text-gray-400 font-bold rounded-lg cursor-not-allowed";
+                document.getElementById('btn-next').innerText = "Siguiente";
+                document.getElementById('btn-next').classList.add('bg-accent');
+                document.getElementById('btn-next').classList.remove('bg-success');
+
+            } else if (type === 'competitividad') {
+                sessionStorage.setItem('competitividadReiniciado', 'true');
+                localStorage.removeItem('draft_competitividad');
+                // Volver a mostrar formulario
+                document.getElementById('resultado-final-competitividad').classList.add('hidden');
+                document.getElementById('qa-container-competitividad').classList.remove('hidden');
+
+                // Reiniciar Datos
+                indiceComp = 0;
+                respuestasComp = {};
+
+                // IMPORTANTE: Asegurarnos que isRestore no nos regrese al final después de reiniciar.
+                // Reset a los valores en el diagnostico de DB no se hara para no perder hist, pero en la sesión actual sí
+                // Reset select de categoria a la primer categoria
+                const selectCat = document.getElementById('select-categoria');
+                if (selectCat) {
+                    selectCat.value = "Maquinaria y Equipos";
+                    // trigger change indirectly to update ui if needed
+                }
+
+                // Resetear la variable de categoría en la que estamos (muy importante para UI lateral)
+                // Como el primer elemento en ordenComp es de "maquinaria" se actualiza solo en actualizarInterfazComp()
+
+                // Reiniciar UI de Selectores
+                const radios = document.getElementsByName('respuesta_comp');
+                radios.forEach(r => {
+                    r.checked = false;
+                    r.parentElement.classList.remove('border-accent', 'bg-orange-50');
+                });
+
+                // Reiniciar Sidebar (Visual)
+                const listAllIdsComp = ['maquinaria', 'propiedad', 'investigacion', 'innovacion', 'asistencia',
+                    'oferta', 'canales', 'valoracion', 'verdes', 'inteligencia',
+                    'formacion', 'alianzas', 'gremios', 'estimulo',
+                    'infra_maq', 'vial', 'plataforma', 'servicios_pub', 'transporte', 'calefaccion'];
+                listAllIdsComp.forEach(id => {
+                    setEstiloPendienteComp(id);
+                });
+
+                // Ir al inicio
+                actualizarInterfazComp();
+
+                // Resetear botones
+                const btnPrev = document.getElementById('comp-btn-prev');
+                const btnNext = document.getElementById('comp-btn-next');
+
+                btnPrev.disabled = true;
+                btnPrev.className = "px-6 py-2 border border-gray-300 text-gray-400 font-bold rounded-lg cursor-not-allowed";
+
+                btnNext.innerText = "Siguiente";
+                btnNext.onclick = function () { cambiarPreguntaCompetitividad('siguiente'); };
+                btnNext.classList.add('bg-accent');
+                btnNext.classList.remove('bg-success');
+            }
+        }
+
+        // FUNCIÓN PARA ENVIAR DATOS AL SERVIDOR (POST)
+        function enviarDiagnostico(tipo, respuestas, puntos, total) {
+            const porcentaje = Math.round((puntos / total) * 100) || 0;
+
+            const payload = {
+                tipo_diagnostico: tipo,
+                respuestas: respuestas,
+                puntaje_global: porcentaje
+            };
+
+            fetch('/Empresario-diagnostico', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Diagnóstico guardado correctamente:', data);
+                    } else {
+                        console.error('Error al guardar:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error de red:', error);
+                });
+        }
+    </script>
+    <!-- Modal Configuración -->
+    <div id="modal-configuracion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Configuración del Perfil</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Empresa</label>
+                        <input type="text"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('nombre_empresa', 'Minera S.A.S') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
+                        <input type="email"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            value="{{ session.get('user_email', '') }}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
+                        <div class="flex gap-4 justify-start">
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-accent transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/icono-empresario.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-2.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-3.png");'></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-configuracion')"
+                        class="px-4 py-2 bg-transparent rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium">Cancelar</button>
+                    <button
+                        onclick="toggleModal('modal-configuracion'); alert('Cambios guardados correctamente (Simulación)')"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Resultados -->
+    <div id="modal-resultados"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div
+            class="modal-container bg-white w-11/12 md:max-w-2xl mx-auto rounded shadow-lg z-50 overflow-y-auto max-h-[90vh]">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p id="modal-title" class="text-2xl font-bold text-primary">Resultados del Diagnóstico</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-resultados')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-6 space-y-6">
+                    <!-- Global Score -->
+                    <div
+                        class="flex flex-col items-center justify-center p-6 bg-orange-50 rounded-xl border border-orange-100">
+                        <span id="global-score-label"
+                            class="text-sm font-bold text-text-secondary uppercase tracking-widest mb-2">Puntaje
+                            Global</span>
+                        <div class="text-5xl font-bold text-accent mb-2" id="resultado-global">0%</div>
+                        <p class="text-center text-text-secondary text-sm">Nivel de Competitividad General</p>
+                    </div>
+
+                    <!-- Category Breakdown -->
+                    <div>
+                        <h4 class="text-lg font-bold text-text-primary mb-4 border-l-4 border-accent pl-2">Desglose por
+                            Categoría</h4>
+                        <div id="resultados-categorias" class="space-y-4">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-resultados')"
+                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+
+    <script>
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            document.body.classList.toggle('modal-active');
+        }
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (!dropdown) return;
+            const button = event.target.closest('button');
+            const isNotificationBtn = button && button.onclick && button.onclick.toString().includes('toggleNotifications');
+
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && !isNotificationBtn) {
+                dropdown.classList.add('hidden');
+            }
+        });
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function (event) {
+                const modal = event.target.closest('.modal');
+                toggleModal(modal.id);
+            });
+        });
+
+        // Sidebar responsive logic
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                if (!overlay) createOverlay();
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                removeOverlay();
+            }
+        }
+
+        function createOverlay() {
+            const overlay = document.createElement('div');
+            overlay.id = 'sidebar-overlay';
+            overlay.className = 'fixed inset-0 bg-black/50 z-40 md:hidden';
+            overlay.onclick = toggleSidebar;
+            document.body.appendChild(overlay);
+        }
+
+        function removeOverlay() {
+            const overlay = document.getElementById('sidebar-overlay');
+            if (overlay) overlay.remove();
+        }
+
+        function selectProfileImage(btn) {
+            // Remover borde de selección de todas las opciones
+            const container = btn.closest('.flex');
+            container.querySelectorAll('.profile-option').forEach(b => {
+                b.classList.remove('border-accent');
+                b.classList.add('border-transparent');
+            });
+            // Agregar borde al seleccionado
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-accent');
+        }
+    </script>
+</body>
+
+</html>

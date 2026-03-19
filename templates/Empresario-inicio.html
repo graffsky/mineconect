@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cluster Platform - Home Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="/static/Css/Empresario-inicio.css" rel="stylesheet" />
+    <link href="/static/Css/Empresario-dashboard.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2D572C",
+                        "accent": "#F39C12",
+                        "success": "#76B947",
+                        "danger": "#E74C3C",
+                        "background": "#F4F6F8",
+                        "card-bg": "#FFFFFF",
+                        "text-primary": "#212529",
+                        "text-secondary": "#6C757D",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-display bg-background text-text-primary h-screen overflow-hidden">
+    <div class="flex h-screen w-full">
+
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex h-full w-64 -translate-x-full flex-col bg-primary text-white transition-transform duration-300 md:static md:translate-x-0">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="sidebar-brand"
+                        style="display: flex; flex-direction: column; align-items: center; padding: 20px 1rem;">
+                        <img src="/static/Img/Min.png" alt="Logo Mineconect" style="height: 40px; margin-bottom: 10px;">
+                        <span
+                            style="color: white; font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;">MINECONECT</span>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a href="/Empresario-inicio"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 text-accent transition-colors">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-bold leading-normal">Inicio</p>
+                        </a>
+
+                        <a href="/Empresario-mercado"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">storefront</span>
+                            <p class="text-sm font-medium leading-normal">Mercado Minero</p>
+                        </a>
+
+                        <a href="/Empresario-proyectos"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">business_center</span>
+                            <p class="text-sm font-medium leading-normal">Banco de Proyectos</p>
+                        </a>
+
+                        <a href="/Empresario-diagnostico"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-medium leading-normal">Mi Diagnóstico</p>
+                        </a>
+
+                        <a href="/Empresario-alianzas"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium leading-normal">Alianzas</p>
+                        </a>
+
+                        <a href="/Empresario-convocatorias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">campaign</span>
+                            <p class="text-sm font-medium leading-normal">Convocatorias</p>
+                        </a>
+
+                        <a href="/Empresario-discusiones"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">forum</span>
+                            <p class="text-sm font-medium leading-normal">Discusiones</p>
+                        </a>
+
+                        <a href="/Empresario-mensajes"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">chat</span>
+                            <p class="text-sm font-medium leading-normal">Mensajes</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-white/20 pt-4">
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="#" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium leading-normal">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <header class="flex shrink-0 items-center justify-between bg-card-bg px-6 py-3 shadow-sm">
+                <div class="flex items-center gap-4 md:gap-8">
+                    <button class="block md:hidden text-text-primary hover:text-accent" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary">Home Dashboard
+                    </h2>
+                </div>
+                <div class="flex flex-1 items-center justify-end gap-6">
+                    <label class="relative hidden w-full max-w-sm md:block">
+                        <span
+                            class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
+                        <input
+                            class="form-input h-10 w-full rounded-lg border-gray-300 bg-background pl-10 text-text-primary placeholder:text-text-secondary focus:border-accent focus:ring-accent"
+                            placeholder="Buscar..." type="search" />
+                    </label>
+                    <div class="relative hidden md:block">
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-background text-text-secondary hover:bg-gray-200">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger"></span>
+                        </button>
+                        <!-- Dropdown Notificaciones -->
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                            <div class="p-3 border-b border-gray-50 bg-gray-50/50">
+                                <h4 class="text-sm font-bold text-text-primary">Notificaciones</h4>
+                            </div>
+                            <div class="p-8 text-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-gray-300 mb-2">notifications_off</span>
+                                <p class="text-sm text-text-secondary">No tienes notificaciones nuevas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="header-avatar"
+                            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            data-alt="User avatar image"
+                            style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-empresario.png") }}");'>
+                        </div>
+                        <div class="hidden text-right lg:block">
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_empresa', 'Minera
+                                S.A.S') }}</p>
+                            <p class="text-xs text-text-secondary">Empresario</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="mx-auto max-w-none">
+                    <!-- Quick Actions Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <!-- Card 1: Mercado -->
+                        <a href="/Empresario-mercado"
+                            class="group flex flex-col items-center justify-center gap-2 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-success/10 text-success group-hover:bg-success group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-2xl">storefront</span>
+                            </div>
+                            <span class="font-semibold text-text-primary text-center">Publicar Oferta</span>
+                        </a>
+
+                        <!-- Card 2: Alianza -->
+                        <a href="/Empresario-alianzas"
+                            class="group flex flex-col items-center justify-center gap-2 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-2xl">groups</span>
+                            </div>
+                            <span class="font-semibold text-text-primary text-center">Crear Alianza</span>
+                        </a>
+
+                        <!-- Card 3: Discusión -->
+                        <a href="/Empresario-discusiones"
+                            class="group flex flex-col items-center justify-center gap-2 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-2xl">forum</span>
+                            </div>
+                            <span class="font-semibold text-text-primary text-center">Nueva Discusión</span>
+                        </a>
+
+                        <!-- Card 4: Proyectos -->
+                        <a href="/Empresario-proyectos"
+                            class="group flex flex-col items-center justify-center gap-2 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-2xl">business_center</span>
+                            </div>
+                            <span class="font-semibold text-text-primary text-center">Ver Proyectos</span>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Left Column: My Publications (8 cols) -->
+                        <div class="lg:col-span-8 flex flex-col gap-6">
+                            <!-- Oferta Educativa (Programas) -->
+                            <section class="flex flex-col gap-4">
+                                <h3
+                                    class="text-base font-bold text-text-primary uppercase tracking-wider text-xs text-secondary">
+                                    Oferta Educativa</h3>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {% if programas %}
+                                    {% for prog in programas %}
+                                    <div class="block h-full group">
+                                        <div
+                                            class="rounded-lg bg-card-bg p-4 shadow-sm border border-transparent group-hover:border-success/30 transition-all flex flex-col justify-between h-full relative group-hover:shadow-md">
+                                            <div>
+                                                <div class="flex justify-between items-start mb-2">
+                                                    <span
+                                                        class="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-bold text-success uppercase">Programa</span>
+                                                    <span class="text-[10px] text-text-secondary font-semibold">{{
+                                                        prog.modalidad }}</span>
+                                                </div>
+                                                <h4
+                                                    class="text-sm font-bold text-text-primary mb-1 group-hover:text-success transition-colors">
+                                                    {{ prog.nombre }}</h4>
+                                                {% if prog.descripcion %}
+                                                <p class="text-xs text-text-secondary mb-2 line-clamp-2">{{
+                                                    prog.descripcion
+                                                    }}</p>
+                                                {% endif %}
+                                                <p class="text-xs text-text-secondary font-medium mb-3">
+                                                    <span
+                                                        class="material-symbols-outlined text-[10px] align-middle">schedule</span>
+                                                    {{ prog.duracion }} Horas •
+                                                    <span
+                                                        class="material-symbols-outlined text-[10px] align-middle">domain</span>
+                                                    {{ prog.institucion.nombre_institucion if prog.institucion else
+                                                    'Institución' }}
+                                                </p>
+                                            </div>
+
+                                            <div class="flex items-center justify-between mt-auto">
+                                                <span
+                                                    class="text-[10px] bg-gray-100 px-2 py-1 rounded text-text-secondary font-medium">
+                                                    Cupos: {{ prog.cupos_ocupados }}/{{ prog.cupos_totales }}
+                                                </span>
+                                                <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button onclick="postularPrograma(event, '{{ prog.id }}')"
+                                                        class="text-xs bg-success text-white px-3 py-1.5 rounded hover:bg-opacity-90 font-bold flex items-center shadow-sm">
+                                                        Inscribirse
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div
+                                        class="col-span-1 md:col-span-2 rounded-lg bg-card-bg p-6 text-center shadow-sm">
+                                        <p class="text-sm text-text-secondary">No hay programas disponibles.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </section>
+                            </section>
+
+                            <!-- Noticias (Movido) -->
+                            <section class="flex flex-col gap-4">
+                                <h3
+                                    class="text-base font-bold text-text-primary uppercase tracking-wider text-xs text-secondary">
+                                    Noticias Recientes</h3>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {% if noticias %}
+                                    {% for n in noticias %}
+                                    <div
+                                        class="rounded-lg bg-card-bg overflow-hidden shadow-sm border border-transparent hover:border-accent/30 transition-all group flex flex-col h-full">
+                                        {% if n.imagen_url %}
+                                        <div class="h-32 w-full bg-cover bg-center"
+                                            style="background-image: url('{{ n.imagen_url }}');"></div>
+                                        {% else %}
+                                        <div
+                                            class="h-24 w-full bg-gray-100 flex items-center justify-center text-text-secondary">
+                                            <span class="material-symbols-outlined text-3xl">newspaper</span>
+                                        </div>
+                                        {% endif %}
+                                        <div class="p-4 flex flex-col flex-1">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <span
+                                                    class="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600 uppercase">{{
+                                                    n.categoria or 'General' }}</span>
+                                                <span class="text-[10px] text-text-secondary">{{ n.fecha }}</span>
+                                            </div>
+                                            <h4
+                                                class="text-sm font-bold text-text-primary mb-1 line-clamp-2 group-hover:text-accent transition-colors">
+                                                {{ n.titulo }}</h4>
+                                            <p class="text-xs text-text-secondary mb-2 line-clamp-3">{{ n.contenido }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div
+                                        class="col-span-1 md:col-span-2 rounded-lg bg-card-bg p-6 text-center shadow-sm">
+                                        <p class="text-sm text-text-secondary">No hay noticias recientes.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </section>
+
+                            <section class="flex-1 rounded-lg bg-card-bg p-6 shadow-sm">
+                                <div class="mb-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                                    <h3
+                                        class="text-base font-bold text-text-primary uppercase tracking-wider text-xs text-secondary">
+                                        Mis Publicaciones</h3>
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="Buscar..."
+                                            class="h-9 rounded-lg border-gray-200 bg-background pl-4 text-sm focus:border-accent focus:ring-accent w-full sm:w-auto">
+                                    </div>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-sm text-text-secondary">
+                                        <thead
+                                            class="border-b border-gray-100 bg-gray-50/50 text-xs uppercase text-text-secondary">
+                                            <tr>
+                                                <th class="px-4 py-3 font-semibold">Título</th>
+                                                <th class="px-4 py-3 font-semibold">Tipo</th>
+                                                <th class="px-4 py-3 font-semibold">Fecha</th>
+                                                <th class="px-4 py-3 font-semibold">Estado</th>
+                                                <th class="px-4 py-3 font-semibold text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-100">
+                                            {% if publicaciones %}
+                                            {% for p in publicaciones %}
+                                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                                <td class="px-4 py-3 font-medium text-text-primary">{{ p.titulo }}</td>
+                                                <td class="px-4 py-3">
+                                                    <span
+                                                        class="inline-flex items-center gap-1.5 rounded-full bg-{{ p.tipo_class }}/10 px-2.5 py-0.5 text-xs font-medium text-{{ p.tipo_class }}">
+                                                        <span class="material-symbols-outlined text-[14px]">{{ p.icon
+                                                            }}</span>
+                                                        {{ p.tipo }}
+                                                    </span>
+                                                </td>
+                                                <td class="px-4 py-3">{{ p.fecha }}</td>
+                                                <td class="px-4 py-3">
+                                                    <span
+                                                        class="inline-flex items-center rounded-full bg-{{ p.estado_class }}/10 px-2.5 py-0.5 text-xs font-medium text-{{ p.estado_class }}">{{
+                                                        p.estado }}</span>
+                                                </td>
+                                                <td class="px-4 py-3 text-right">
+                                                    <div class="flex justify-end gap-2">
+                                                        <form action="{{ p.delete_url }}" method="POST"
+                                                            onsubmit="return confirm('¿Eliminar esta publicación?');">
+                                                            <button type="submit"
+                                                                class="text-text-secondary hover:text-danger p-1 rounded hover:bg-red-50 transition-colors"
+                                                                title="Eliminar">
+                                                                <span
+                                                                    class="material-symbols-outlined text-lg">delete</span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="5" class="px-4 py-8 text-center text-text-secondary">
+                                                    No has realizado ninguna publicación aún.
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Right Column: Opportunities (4 cols) -->
+                        <div class="lg:col-span-4 flex flex-col gap-6">
+                            <section class="flex flex-col gap-4">
+                                <h3
+                                    class="text-base font-bold text-text-primary uppercase tracking-wider text-xs text-secondary">
+                                    Oportunidades Vigentes</h3>
+
+                                <div class="space-y-4">
+                                    {% if convocatorias %}
+                                    {% for c in convocatorias %}
+                                    <div
+                                        class="rounded-lg bg-card-bg p-4 shadow-sm border border-transparent hover:border-accent/30 transition-all">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary uppercase">Convocatoria</span>
+                                            <span class="text-[10px] text-danger font-semibold">Cierra: {{
+                                                c.fecha_cierre_str }}</span>
+                                        </div>
+                                        <h4 class="text-sm font-bold text-text-primary mb-1">{{ c.titulo }}</h4>
+                                        <p class="text-xs text-text-secondary line-clamp-2">{{ c.descripcion }}</p>
+                                        <a href="/Empresario-convocatorias"
+                                            class="mt-3 block text-center w-full rounded-lg bg-gray-50 py-2 text-xs font-bold text-accent hover:bg-accent hover:text-white transition-colors border border-accent/20">
+                                            Ir a Aplicar
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="rounded-lg bg-card-bg p-6 text-center shadow-sm">
+                                        <p class="text-sm text-text-secondary">No hay convocatorias abiertas en este
+                                            momento.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Modal Configuración -->
+    <div id="modal-configuracion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Configuración del Perfil</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Empresa</label>
+                        <input type="text"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('nombre_empresa', 'Minera S.A.S') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
+                        <input type="email"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            value="{{ session.get('user_email', '') }}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
+                        <div class="flex gap-4 justify-start">
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-accent transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/icono-empresario.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-2.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-3.png");'></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-configuracion')"
+                        class="px-4 py-2 bg-transparent rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium">Cancelar</button>
+                    <button onclick="saveChanges()"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+
+    <script>
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            document.body.classList.toggle('modal-active');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function (event) {
+                const modal = event.target.closest('.modal');
+                toggleModal(modal.id);
+            });
+        });
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (!dropdown) return;
+            const button = event.target.closest('button');
+            const isNotificationBtn = button && button.onclick && button.onclick.toString().includes('toggleNotifications');
+
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && !isNotificationBtn) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function selectProfileImage(btn) {
+            const container = btn.closest('.flex');
+            container.querySelectorAll('.profile-option').forEach(b => {
+                b.classList.remove('border-accent');
+                b.classList.add('border-transparent');
+            });
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-accent');
+        }
+
+        function saveChanges() {
+            // Encontrar la imagen seleccionada
+            const selectedBtn = document.querySelector('.profile-option.border-accent');
+            let newPhotoUrl = "/static/Img/icono-empresario.png"; // Default
+
+            if (selectedBtn) {
+                // Extraer URL del style
+                const style = selectedBtn.querySelector('div').style.backgroundImage;
+                // Limpiar url("...")
+                newPhotoUrl = style.slice(5, -2);
+            }
+
+            // Enviar al backend
+            fetch('/Empresario/config/update_photo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ photo_url: newPhotoUrl })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Actualizar DOM
+                        document.getElementById('header-avatar').style.backgroundImage = `url("${newPhotoUrl}")`;
+                        // Actualizar otros avatares si existen (ej. widget de publicar)
+                        const postingAvatar = document.querySelector('[data-alt="User avatar for posting"]');
+                        if (postingAvatar) postingAvatar.style.backgroundImage = `url("${newPhotoUrl}")`;
+
+                        toggleModal('modal-configuracion');
+                        alert('Cambios guardados correctamente.');
+                    } else {
+                        alert('Error al guardar cambios.');
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('diagnosisChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Completado', 'Pendiente'],
+                        datasets: [{
+                            label: 'Diagnóstico',
+                            data: [65, 35],
+                            backgroundColor: [
+                                '#F39C12', // Orange (Accent)
+                                '#E9ECEF' // Light Gray
+                            ],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 2,
+                            cutout: '80%',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        
+        function postularPrograma(event, programaId) {
+            event.preventDefault(); // Evitar comportamientos por defecto si estuviese dentro de una etiqueta 'a' o 'form'
+            
+            if(!confirm('¿Estás seguro que deseas inscribirte a este programa de formación?')) {
+                return;
+            }
+            
+            fetch('/Empresario-programas/postular', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ programa_id: programaId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('¡Inscripción exitosa! ' + data.message);
+                } else {
+                    alert('Atención: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error al intentar inscribirse:', error);
+                alert('No se pudo procesar la inscripción. Intentalo más tarde.');
+            });
+        }
+    </script>
+    <script src="/static/Js/sidebar.js"></script>
+</body>
+
+</html>

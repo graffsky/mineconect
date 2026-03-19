@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cluster Platform - Gestión de Programas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="/static/Css/Institucion-inicio.css" rel="stylesheet" />
+    <link href="/static/Css/Institucion-dashboard.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2D572C", "accent": "#F39C12", "success": "#76B947", "danger": "#E74C3C", "background": "#F4F6F8", "card-bg": "#FFFFFF", "text-primary": "#212529", "text-secondary": "#6C757D", },
+                    fontFamily: { "display": ["Montserrat", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-display bg-background text-text-primary">
+    <div class="flex h-screen w-full">
+
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex h-full w-64 -translate-x-full flex-col bg-primary text-white transition-transform duration-300 md:static md:translate-x-0 shrink-0">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="sidebar-brand"
+                        style="display: flex; flex-direction: column; align-items: center; padding: 20px 1rem;">
+                        <img src="/static/Img/Min.png" alt="Logo Mineconect" style="height: 40px; margin-bottom: 10px;">
+                        <span
+                            style="color: white; font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;">MINECONECT</span>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a href="/Institucion-inicio"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-medium">Inicio</p>
+                        </a>
+                        <a href="/Institucion-programas"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 text-accent transition-colors">
+                            <span class="material-symbols-outlined">school</span>
+                            <p class="text-sm font-bold">Programas</p>
+                        </a>
+                        <a href="/Institucion-convocatorias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">campaign</span>
+                            <p class="text-sm font-medium">Convocatorias</p>
+                        </a>
+                        <a href="/Institucion-noticias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">newspaper</span>
+                            <p class="text-sm font-medium">Noticias</p>
+                        </a>
+                        <a href="/Institucion-mensajes"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">chat</span>
+                            <p class="text-sm font-medium">Mensajes</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-white/20 pt-4">
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="#" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <header class="flex shrink-0 items-center justify-between bg-card-bg px-6 py-3 shadow-sm">
+                <div class="flex items-center gap-4 md:gap-8">
+                    <button class="block md:hidden text-text-primary hover:text-accent" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold leading-tight text-text-primary">Gestión de Programas de Formación</h2>
+                </div>
+                <div class="flex flex-1 items-center justify-end gap-6">
+                    <div class="relative hidden md:block">
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-background text-text-secondary hover:bg-gray-200">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger"></span>
+                        </button>
+                        <!-- Dropdown Notificaciones -->
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                            <div class="p-3 border-b border-gray-50 bg-gray-50/50">
+                                <h4 class="text-sm font-bold text-text-primary">Notificaciones</h4>
+                            </div>
+                            <div class="p-8 text-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-gray-300 mb-2">notifications_off</span>
+                                <p class="text-sm text-text-secondary">No tienes notificaciones nuevas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-institucion.png") }}");'>
+                        </div>
+                        <div class="hidden text-right lg:block">
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_usuario',
+                                'Institución') }}</p>
+                            <p class="text-xs text-text-secondary">Institución Educativa</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="mx-auto max-w-7xl">
+
+                    <div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                        <div>
+                            <h1 class="text-2xl font-bold text-text-primary">Oferta Educativa</h1>
+                            <p class="text-sm text-text-secondary">Administra tus cursos y programas de formación
+                                minera.</p>
+                        </div>
+                        <button onclick="prepareCreateModal()"
+                            class="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-bold text-white hover:bg-opacity-90 shadow-sm transition-all hover:-translate-y-0.5">
+                            <span class="material-symbols-outlined">add_circle</span>
+                            Crear Nuevo Programa
+                        </button>
+                    </div>
+
+                    <div class="rounded-xl bg-card-bg shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-gray-50 text-xs uppercase text-text-secondary">
+                                    <tr>
+                                        <th class="px-6 py-4 font-semibold">Nombre del Curso</th>
+                                        <th class="px-6 py-4 font-semibold">Modalidad</th>
+                                        <th class="px-6 py-4 font-semibold">Estado</th>
+                                        <th class="px-6 py-4 font-semibold">Cupos (Disp. / Total)</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    {% if programas %}
+                                    {% for p in programas %}
+                                    <tr class="hover:bg-gray-50/50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-{{ p.icono_bg }}/10 text-{{ p.icono_bg }}">
+                                                    <span class="material-symbols-outlined">{{ p.icono }}</span>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold text-text-primary">{{ p.nombre }}</p>
+                                                    <p class="text-xs text-text-secondary flex items-center gap-1">
+                                                        <span
+                                                            class="material-symbols-outlined text-[10px]">schedule</span>
+                                                        {{ p.duracion }} horas
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full bg-{{ p.modalidad_color }}-50 px-2.5 py-0.5 text-xs font-medium text-{{ p.modalidad_color }}-700">
+                                                <span class="material-symbols-outlined text-[14px]">{{ p.modalidad_icon
+                                                    }}</span>
+                                                {{ p.modalidad }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center rounded-full {{ p.estado_class }} px-2.5 py-0.5 text-xs font-medium">
+                                                {{ p.estado }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="w-full max-w-[140px]">
+                                                <div class="mb-1 flex justify-between text-xs">
+                                                    <span class="font-medium text-text-primary">{{ p.cupos_ocupados }} /
+                                                        {{
+                                                        p.cupos_totales }}</span>
+                                                    <span class="text-text-secondary">{{ p.porcentaje }}%</span>
+                                                </div>
+                                                <div class="h-2 w-full rounded-full bg-gray-100">
+                                                    <div class="h-2 rounded-full bg-{{ p.bar_color }}"
+                                                        style="width: {{ p.porcentaje }}%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button
+                                                    onclick="editPrograma('{{ p.id }}', '{{ p.nombre }}', '{{ p.modalidad }}', '{{ p.duracion }}', '{{ p.cupos_totales }}', `{{ p.descripcion or '' }}`)"
+                                                    class="text-text-secondary hover:text-accent p-1" title="Editar">
+                                                    <span class="material-symbols-outlined">edit</span>
+                                                </button>
+                                                <form method="POST" action="/Institucion-programas/eliminar/{{ p.id }}"
+                                                    class="inline"
+                                                    onsubmit="return confirm('¿Estás seguro de eliminar este programa?');">
+                                                    <button type="submit"
+                                                        class="text-text-secondary hover:text-danger p-1"
+                                                        title="Eliminar">
+                                                        <span class="material-symbols-outlined">delete</span>
+                                                    </button>
+                                                </form>
+                                                <button onclick="verPostulantes('{{ p.id }}', '{{ p.nombre }}')" class="text-text-secondary hover:text-primary p-1" title="Ver Inscritos">
+                                                    <span class="material-symbols-outlined">group</span>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Datos ocultos de postulantes para este programa -->
+                                            <div id="postulantes-data-{{ p.id }}" class="hidden">
+                                                {% if p.postulaciones %}
+                                                    {% for ins in p.postulaciones %}
+                                                        <div class="border-b border-gray-100 py-3 last:border-0 text-left flex justify-between items-start gap-4">
+                                                            <div>
+                                                                <p class="font-bold text-sm text-text-primary">{{ ins.empresario.nombre_empresa }} <span class="text-xs font-normal text-text-secondary">({{ ins.empresario.nombre_completo }})</span></p>
+                                                                <p class="text-xs text-accent font-semibold flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-xs">business</span> {% if ins.empresario.sector_produccion %}{{ ins.empresario.sector_produccion|replace('_', ' ')|title }}{% endif %}{% if ins.empresario.nit and ins.empresario.nit != 'None' %} - {{ ins.empresario.nit }}{% endif %}</p>
+                                                                <p class="text-xs text-gray-400 mt-2">Inscrito el: {{ ins.fecha_postulacion.strftime('%d %b %Y, %H:%M') if ins.fecha_postulacion else '' }}</p>
+                                                            </div>
+                                                            <a href="/Institucion-mensajes?chat_with={{ ins.empresario.usuario_id }}" class="shrink-0 flex items-center gap-1 px-3 py-1.5 bg-green-50 text-green-700 hover:bg-green-100 rounded-lg text-xs font-bold transition-colors border border-green-200" title="Enviar Mensaje a {{ ins.empresario.nombre_empresa }}">
+                                                                <span class="material-symbols-outlined text-sm">chat</span> Mensaje
+                                                            </a>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <p class="text-sm text-text-secondary py-4 text-center">No hay empresarios inscritos aún.</p>
+                                                {% endif %}
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-8 text-center text-text-secondary">
+                                            No hay programas registrados actualmente.
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Configuración -->
+    <div id="modal-configuracion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Configuración del Perfil</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Institución</label>
+                        <input type="text"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('nombre_usuario', 'Institución') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
+                        <input type="email"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            value="{{ session.get('user_email', '') }}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
+                        <div class="flex gap-4 justify-start">
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-accent transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/icono-institucion.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-institucion-2.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-institucion-3.png");'></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-configuracion')"
+                        class="px-4 py-2 bg-transparent rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium">Cancelar</button>
+                    <button
+                        onclick="toggleModal('modal-configuracion'); alert('Cambios guardados correctamente (Simulación)')"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+
+    <script>
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            if (modal) {
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+                document.body.classList.toggle('modal-active');
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                const modal = event.target.closest('.modal');
+                if (modal) {
+                    toggleModal(modal.id);
+                }
+                if (modal) {
+                    toggleModal(modal.id);
+                }
+            }
+        });
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (!dropdown) return;
+            const button = event.target.closest('button');
+            // Check if click is on the bell button
+            const isNotificationBtn = button && button.onclick && button.onclick.toString().includes('toggleNotifications');
+
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && !isNotificationBtn) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function selectProfileImage(btn) {
+            // Remover borde de selección de todas las opciones
+            const container = btn.closest('.flex');
+            container.querySelectorAll('.profile-option').forEach(b => {
+                b.classList.remove('border-accent');
+                b.classList.add('border-transparent');
+            });
+            // Agregar borde al seleccionado
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-accent');
+        }
+    </script>
+
+    <div id="programModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+            <div class="mb-6 flex items-center justify-between border-b border-gray-100 pb-4">
+                <h3 id="modalTitle" class="text-xl font-bold text-text-primary">Crear Nuevo Programa</h3>
+                <button onclick="closeModal()" class="text-text-secondary hover:text-danger">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <form id="programForm" method="POST" action="/Institucion-programas" class="space-y-6">
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div class="col-span-2">
+                        <label class="mb-1 block text-sm font-bold text-text-primary">Nombre del Curso</label>
+                        <input name="nombre" type="text"
+                            class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent"
+                            placeholder="Ej: Seguridad Industrial Avanzada" required>
+                    </div>
+
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-text-primary">Modalidad</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">school</span>
+                            <select name="modalidad"
+                                class="w-full rounded-lg border-gray-300 pl-10 focus:border-accent focus:ring-accent">
+                                <option value="Presencial">Presencial</option>
+                                <option value="Virtual">Virtual</option>
+                                <option value="Híbrido">Híbrido</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-text-primary">Duración (Horas)</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">schedule</span>
+                            <input name="duracion" type="number"
+                                class="w-full rounded-lg border-gray-300 pl-10 focus:border-accent focus:ring-accent"
+                                placeholder="Ej: 40" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-text-primary">Descripción Corta</label>
+                    <textarea name="descripcion" rows="3"
+                        class="w-full rounded-lg border-gray-300 focus:border-accent focus:ring-accent"
+                        placeholder="Describe brevemente el objetivo y contenido del programa..."></textarea>
+                </div>
+
+                <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="cert"
+                            class="h-5 w-5 rounded border-gray-300 text-accent focus:ring-accent" checked>
+                        <label for="cert" class="text-sm font-medium text-text-primary">Otorga Certificación al
+                            finalizar</label>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1 block text-sm font-medium text-text-primary">Cupos Disponibles</label>
+                        <input name="cupos" type="number"
+                            class="w-32 rounded-lg border-gray-300 focus:border-accent focus:ring-accent" value="30">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="closeModal()"
+                        class="rounded-lg px-6 py-2.5 text-sm font-medium text-text-secondary hover:bg-gray-100">Cancelar</button>
+                    <button type="submit" id="modalSubmitBtn"
+                        class="rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white hover:bg-opacity-90 shadow-sm">Guardar
+                        Programa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Postulantes -->
+    <div id="postulantesModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl max-h-[90vh] flex flex-col">
+            <div class="mb-4 flex items-center justify-between border-b border-gray-100 pb-4 shrink-0">
+                <h3 id="modalPostulantesTitle" class="text-xl font-bold text-text-primary">Inscritos</h3>
+                <button onclick="closePostulantesModal()" class="text-text-secondary hover:text-danger">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div id="modalPostulantesContent" class="overflow-y-auto flex-1 pr-2">
+                <!-- Contenido dinámico -->
+            </div>
+            
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-100 mt-4 shrink-0">
+                <button type="button" onclick="closePostulantesModal()"
+                    class="rounded-lg bg-gray-100 px-6 py-2.5 text-sm font-medium text-text-secondary hover:bg-gray-200 text-black">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('programModal');
+        const form = document.getElementById('programForm');
+        const title = document.getElementById('modalTitle');
+        const submitBtn = document.getElementById('modalSubmitBtn');
+
+        function openModal() { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+        function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+
+        function prepareCreateModal() {
+            form.action = "/Institucion-programas";
+            form.reset();
+            title.textContent = "Crear Nuevo Programa";
+            submitBtn.textContent = "Guardar Programa";
+            openModal();
+        }
+
+        function editPrograma(id, nombre, modalidad, duracion, cupos, descripcion) {
+            form.action = `/Institucion-programas/editar/${id}`;
+
+            // Llenar campos
+            form.querySelector('[name="nombre"]').value = nombre;
+            form.querySelector('[name="modalidad"]').value = modalidad;
+            form.querySelector('[name="duracion"]').value = duracion;
+            form.querySelector('[name="cupos"]').value = cupos;
+            form.querySelector('[name="descripcion"]').value = descripcion || '';
+
+            title.textContent = "Editar Programa";
+            submitBtn.textContent = "Actualizar Programa";
+
+            openModal();
+        }
+        
+        const modalPostulantes = document.getElementById('postulantesModal');
+        function verPostulantes(id, titulo) {
+            document.getElementById('modalPostulantesTitle').textContent = "Inscritos a: " + titulo;
+            document.getElementById('modalPostulantesContent').innerHTML = document.getElementById('postulantes-data-' + id).innerHTML;
+            modalPostulantes.classList.remove('hidden');
+            modalPostulantes.classList.add('flex');
+        }
+        function closePostulantesModal() {
+            modalPostulantes.classList.add('hidden');
+            modalPostulantes.classList.remove('flex');
+        }
+
+        // Cerrar al hacer clic fuera del modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        modalPostulantes.addEventListener('click', (e) => {
+            if (e.target === modalPostulantes) closePostulantesModal();
+        });
+    </script>
+    <script src="/static/Js/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Cluster Platform - Convocatorias</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="/static/Css/Empresario-convocatorias.css" rel="stylesheet" />
+    <link href="/static/Css/Empresario-dashboard.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2D572C", "accent": "#F39C12", "success": "#76B947", "danger": "#E74C3C", "background": "#F4F6F8", "card-bg": "#FFFFFF", "text-primary": "#212529", "text-secondary": "#6C757D", },
+                    fontFamily: { "display": ["Montserrat", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background text-text-primary h-screen overflow-hidden">
+    <div class="flex h-screen w-full">
+
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex h-full w-64 -translate-x-full flex-col bg-primary text-white transition-transform duration-300 md:static md:translate-x-0 shrink-0">
+            <div class="flex h-full flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="sidebar-brand"
+                        style="display: flex; flex-direction: column; align-items: center; padding: 20px 1rem;">
+                        <img src="/static/Img/Min.png" alt="Logo Mineconect" style="height: 40px; margin-bottom: 10px;">
+                        <span
+                            style="color: white; font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;">MINECONECT</span>
+                    </div>
+                    <nav class="flex flex-col gap-2">
+                        <a href="/Empresario-inicio"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-medium">Inicio</p>
+                        </a>
+                        <a href="/Empresario-mercado"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">storefront</span>
+                            <p class="text-sm font-medium">Mercado Minero</p>
+                        </a>
+                        <a href="/Empresario-proyectos"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">business_center</span>
+                            <p class="text-sm font-medium">Banco de Proyectos</p>
+                        </a>
+                        <a href="/Empresario-diagnostico"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">assessment</span>
+                            <p class="text-sm font-medium">Mi Diagnóstico</p>
+                        </a>
+                        <a href="/Empresario-alianzas"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">groups</span>
+                            <p class="text-sm font-medium">Alianzas</p>
+                        </a>
+                        <a href="/Empresario-convocatorias"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 text-accent transition-colors">
+                            <span class="material-symbols-outlined">campaign</span>
+                            <p class="text-sm font-bold">Convocatorias</p>
+                        </a>
+                        <a href="/Empresario-discusiones"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">forum</span>
+                            <p class="text-sm font-medium">Discusiones</p>
+                        </a>
+                        <a href="/Empresario-mensajes"
+                            class="nav-btn flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-white/10 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">chat</span>
+                            <p class="text-sm font-medium">Mensajes</p>
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 border-t border-white/20 pt-4">
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="#" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined">settings</span>
+                        <p class="text-sm font-medium">Configuración</p>
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-white/10 text-white/80 hover:text-white"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Cerrar Sesión</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden">
+            <header class="flex shrink-0 items-center justify-between bg-card-bg px-6 py-3 shadow-sm">
+                <div class="flex items-center gap-4 md:gap-8">
+                    <button class="block md:hidden text-text-primary hover:text-accent" onclick="toggleSidebar()">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary">Convocatorias</h2>
+                </div>
+                <div class="flex flex-1 items-center justify-end gap-6">
+
+                    <form method="POST" action="/Empresario-convocatorias"
+                        class="relative hidden w-full max-w-sm md:block">
+                        <label>
+                            <span
+                                class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
+                            <input name="search_query" value="{{ last_search }}"
+                                class="form-input h-10 w-full rounded-lg border-gray-300 bg-background pl-10 text-text-primary placeholder:text-text-secondary focus:border-accent focus:ring-accent"
+                                placeholder="Buscar convocatoria..." type="search" />
+                        </label>
+                    </form>
+
+                    <div class="relative hidden md:block">
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-background text-text-secondary hover:bg-gray-200">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger"></span>
+                        </button>
+                        <!-- Dropdown Notificaciones -->
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                            <div class="p-3 border-b border-gray-50 bg-gray-50/50">
+                                <h4 class="text-sm font-bold text-text-primary">Notificaciones</h4>
+                            </div>
+                            <div class="p-8 text-center">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-gray-300 mb-2">notifications_off</span>
+                                <p class="text-sm text-text-secondary">No tienes notificaciones nuevas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                            style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-empresario.png") }}");'>
+                        </div>
+                        <div class="hidden text-right lg:block">
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_empresa', 'Minera
+                                S.A.S') }}</p>
+                            <p class="text-xs text-text-secondary">Empresario</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6 bg-background">
+                <div class="mx-auto max-w-none space-y-6">
+                    <div class="flex justify-between items-end">
+                        <h3 class="text-xl font-bold text-text-primary">Convocatorias Vigentes</h3>
+                        <div class="text-sm text-text-secondary">Mostrando oportunidades para Boyacá</div>
+                    </div>
+
+
+
+                    <div class="grid gap-4">
+                        {% if convocatorias %}
+                        {% for c in convocatorias %}
+                        <div
+                            class="rounded-lg bg-card-bg p-5 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-accent/50 transition-colors">
+                            <div>
+                                <h5 class="font-bold text-text-primary text-lg">{{ c.titulo }}</h5>
+                                <p class="text-sm text-text-secondary">{{ c.descripcion }}</p>
+                            </div>
+                            <div class="text-right flex flex-col items-end gap-2">
+                                <span class="text-xs font-bold {{ c.badge_color }} px-2 py-1 rounded">{{ c.badge_texto
+                                    }}</span>
+
+                                <button
+                                    onclick='verRequisitos({{ c.id }}, {{ c.titulo|tojson }}, {{ c.descripcion|tojson }}, {{ c.requisitos|tojson }}, {{ c.fecha_cierre|default("")|tojson }})'
+                                    class="text-sm text-accent font-bold hover:underline cursor-pointer bg-transparent border-none p-0">
+                                    Ver requisitos
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center py-10 text-text-secondary">
+                            <p>No se encontraron convocatorias con ese criterio.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="modal-requisitos"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary" id="req-title">Título</p>
+                    <input type="hidden" id="req-id">
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-requisitos')"><span
+                            class="material-symbols-outlined text-text-secondary">close</span></div>
+                </div>
+                <div class="py-4">
+                    <p class="text-sm text-text-secondary mb-4" id="req-desc">...</p>
+                    <h4 class="font-bold text-text-primary text-sm mb-2">Documentación Requerida:</h4>
+                    <ul class="list-disc list-inside text-sm text-text-secondary space-y-1 mb-4" id="req-list"></ul>
+                    <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                        <p class="text-xs text-accent font-bold">Fecha Límite:</p>
+                        <p class="text-sm text-text-primary" id="req-date">Fecha</p>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-4 border-t border-gray-200">
+                    <button onclick="toggleModal('modal-requisitos')"
+                        class="px-4 py-2 bg-transparent p-3 rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium mr-2">Cerrar</button>
+                    <button
+                        onclick="toggleModal('modal-requisitos'); abrirFormularioAplicacion(document.getElementById('req-id').value, document.getElementById('req-title').innerText)"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Ir a
+                        Aplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-aplicacion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div
+            class="modal-container bg-white w-11/12 md:max-w-lg mx-auto rounded-lg shadow-xl z-50 overflow-y-auto max-h-[90vh]">
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Postulación de Proyecto</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-aplicacion')"><span
+                            class="material-symbols-outlined text-text-secondary">close</span></div>
+                </div>
+                <div class="py-4 space-y-4">
+                    <div class="bg-blue-50 p-3 rounded text-sm text-blue-800 mb-2">Estás aplicando a: <span
+                            class="font-bold" id="app-convocatoria-name">...</span></div>
+                    <input type="hidden" id="app-convocatoria-id">
+                    <div><label class="block text-sm font-bold text-text-primary mb-1">Nombre del Proyecto</label><input
+                            type="text" id="app-proyecto-nombre"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            placeholder="Ej: Modernización Planta Lavado"></div>
+                    <div><label class="block text-sm font-bold text-text-primary mb-1">Descripción
+                            Breve</label><textarea id="app-proyecto-desc"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            rows="3"></textarea></div>
+                </div>
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-aplicacion')"
+                        class="px-4 py-2 rounded-lg text-text-secondary hover:bg-gray-100 font-medium text-sm">Cancelar</button>
+                    <button onclick="enviarAplicacion()"
+                        class="px-4 py-2 bg-accent text-white rounded-lg hover:bg-yellow-600 font-bold text-sm shadow-md flex items-center gap-2"><span
+                            class="material-symbols-outlined text-sm">send</span> Enviar Postulación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Configuración -->
+    <div id="modal-configuracion"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                    <p class="text-xl font-bold text-primary">Configuración del Perfil</p>
+                    <div class="cursor-pointer z-50" onclick="toggleModal('modal-configuracion')">
+                        <span class="material-symbols-outlined text-text-secondary">close</span>
+                    </div>
+                </div>
+
+                <!--Body-->
+                <div class="py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Empresa</label>
+                        <input type="text"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('nombre_empresa', 'Minera S.A.S') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
+                        <input type="email"
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
+                            value="{{ session.get('user_email', '') }}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
+                        <div class="flex gap-4 justify-start">
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-accent transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/icono-empresario.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-2.png");'></div>
+                            </button>
+                            <button onclick="selectProfileImage(this)"
+                                class="profile-option relative rounded-full p-1 border-2 border-transparent hover:border-accent/50 transition-all">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                    style='background-image: url("/static/Img/Icono-empresario-3.png");'></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
+                    <button onclick="toggleModal('modal-configuracion')"
+                        class="px-4 py-2 bg-transparent rounded-lg text-text-secondary hover:bg-gray-100 text-sm font-medium">Cancelar</button>
+                    <button
+                        onclick="toggleModal('modal-configuracion'); alert('Cambios guardados correctamente (Simulación)')"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 text-sm font-bold">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            document.body.classList.toggle('modal-active');
+        }
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (!dropdown) return;
+            const button = event.target.closest('button');
+            const isNotificationBtn = button && button.onclick && button.onclick.toString().includes('toggleNotifications');
+
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && !isNotificationBtn) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Actualizamos esta función para recibir datos dinámicos
+        function verRequisitos(id, titulo, desc, listaReq, fecha) {
+            document.getElementById('req-id').value = id;
+            document.getElementById('req-title').innerText = titulo;
+            document.getElementById('req-desc').innerText = desc;
+
+            // 1. Formatear Fecha
+            if (fecha) {
+                const dateObj = new Date(fecha);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('req-date').innerText = dateObj.toLocaleDateString('es-CO', options);
+            } else {
+                document.getElementById('req-date').innerText = "Fecha pendiente";
+            }
+
+            const listaElement = document.getElementById('req-list');
+            listaElement.innerHTML = '';
+
+            // 2. Parsear Requisitos (Soporta Array o String con saltos de línea)
+            let items = [];
+            if (Array.isArray(listaReq)) {
+                items = listaReq;
+            } else if (typeof listaReq === 'string' && listaReq.trim().length > 0) {
+                // Si es string, intentamos dividir por saltos de línea o comas
+                if (listaReq.includes('\n')) {
+                    items = listaReq.split('\n');
+                } else if (listaReq.includes(',')) {
+                    items = listaReq.split(',');
+                } else {
+                    items = [listaReq];
+                }
+            } else {
+                items = ["Ver detalles en la descripción."];
+            }
+
+            items.forEach(item => {
+                const cleanItem = item.trim();
+                if (cleanItem) {
+                    const li = document.createElement('li');
+                    li.innerText = cleanItem;
+                    listaElement.appendChild(li);
+                }
+            });
+
+            toggleModal('modal-requisitos');
+        }
+
+        function abrirFormularioAplicacion(idConvocatoria, nombreConvocatoria) {
+            document.getElementById('app-convocatoria-id').value = idConvocatoria;
+            document.getElementById('app-convocatoria-name').innerText = nombreConvocatoria;
+            toggleModal('modal-aplicacion');
+        }
+        function enviarAplicacion() {
+            const idConv = document.getElementById('app-convocatoria-id').value;
+            const nombre = document.getElementById('app-proyecto-nombre').value;
+            const desc = document.getElementById('app-proyecto-desc').value;
+
+            if (!nombre || !desc) {
+                alert("Completa todos los campos");
+                return;
+            }
+
+            fetch('/Empresario-convocatorias/postular', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    convocatoria_id: idConv,
+                    nombre_proyecto: nombre,
+                    descripcion: desc
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert("¡Postulación enviada con éxito!");
+                    toggleModal('modal-aplicacion');
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(e => alert("Error en la solicitud: " + e));
+        }
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function (event) {
+                const modal = event.target.closest('.modal');
+                toggleModal(modal.id);
+            });
+        });
+
+        function selectProfileImage(btn) {
+            // Remover borde de selección de todas las opciones
+            const container = btn.closest('.flex');
+            container.querySelectorAll('.profile-option').forEach(b => {
+                b.classList.remove('border-accent');
+                b.classList.add('border-transparent');
+            });
+            // Agregar borde al seleccionado
+            btn.classList.remove('border-transparent');
+            btn.classList.add('border-accent');
+        }
+    </script>
+    <script src="/static/Js/sidebar.js"></script>
+</body>
+
+</html>
