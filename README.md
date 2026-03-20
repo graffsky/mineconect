@@ -1,6 +1,6 @@
 # MINECONECT
 
-**MINECONECT** es la plataforma digital líder que conecta, potencia y dinamiza a los actores estratégicos del sector minero bajo una visión de sostenibilidad ambiental.
+**MINECONECT** es la plataforma digital líder que conecta, potencia y dinamiza a los actores estratégicos del sector minero bajo una visión de sostenibilidad ambiental..
 
 ### 🚀 Conectamos el ecosistema minero
 Nuestra plataforma facilita la interacción entre cuatro pilares fundamentales:
