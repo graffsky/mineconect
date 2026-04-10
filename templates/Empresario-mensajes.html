@@ -386,7 +386,7 @@
             const messageInput = document.getElementById('message-input');
             const sendBtn = document.getElementById('send-btn');
 
-            // Renderizar un mendaje
+            // Renderizar un mensaje
             function renderMessage(msg) {
                 const isMine = msg.type === 'outgoing';
                 const senderClass = isMine ? 'bg-message-outgoing text-white' : 'bg-message-incoming text-user-message-dark'; // adjusted color logic
@@ -493,35 +493,36 @@
             // Init
             document.addEventListener('DOMContentLoaded', () => {
                 loadMessages();
-                
+
                 // Socket.IO para tiempo real
                 const socket = io();
-                socket.on('mensaje_recibido', function(data) {
-                    const myUserId = {{ session.get('user_id', 'null') }};
-                    
-                    if ((data.remitente_id == currentChatUser && data.destinatario_id == myUserId) || 
-                        (data.remitente_id == myUserId && data.destinatario_id == currentChatUser)) {
-                        
-                        // Check for duplicates
-                        const elements = messagesContainer.getElementsByTagName('div');
-                        // Quick way to prevent duplicates: rely on the backend sending the message back directly
-                        // Or check state if we maintained an array, but here we don't have `mensajesIniciales` array actively used to re-render, 
-                        // Empresario-mensajes loads HTML manually in `loadMessages()`
-                        
-                        // Re-render
-                        data.type = (data.remitente_id == myUserId) ? 'outgoing' : 'incoming';
-                        const msgHtml = renderMessage(data);
-                        if (messagesContainer.innerHTML.includes('No hay mensajes')) {
-                            messagesContainer.innerHTML = '';
-                        }
-                        messagesContainer.insertAdjacentHTML('beforeend', msgHtml);
-                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                        
-                    } else if (data.destinatario_id == myUserId) {
-                        // Es para nosotros pero no estamos en el chat correcto
-                        // Recargar la visualización de conversaciones recientes o la página
-                        window.location.reload();
-                    }
+                socket.on('mensaje_recibido', function (data) {
+                    const myUserId = {{ session.get('user_id', 'null')
+                }};
+
+            if ((data.remitente_id == currentChatUser && data.destinatario_id == myUserId) ||
+                (data.remitente_id == myUserId && data.destinatario_id == currentChatUser)) {
+
+                // Check for duplicates
+                const elements = messagesContainer.getElementsByTagName('div');
+                // Quick way to prevent duplicates: rely on the backend sending the message back directly
+                // Or check state if we maintained an array, but here we don't have `mensajesIniciales` array actively used to re-render, 
+                // Empresario-mensajes loads HTML manually in `loadMessages()`
+
+                // Re-render
+                data.type = (data.remitente_id == myUserId) ? 'outgoing' : 'incoming';
+                const msgHtml = renderMessage(data);
+                if (messagesContainer.innerHTML.includes('No hay mensajes')) {
+                    messagesContainer.innerHTML = '';
+                }
+                messagesContainer.insertAdjacentHTML('beforeend', msgHtml);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            } else if (data.destinatario_id == myUserId) {
+                // Es para nosotros pero no estamos en el chat correcto
+                // Recargar la visualización de conversaciones recientes o la página
+                window.location.reload();
+            }
                 });
             });
 
