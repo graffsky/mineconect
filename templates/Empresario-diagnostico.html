@@ -192,8 +192,8 @@
                     </div>
 
                     <div id="tab-actividades" class="tab-content">
-                        <div class="flex flex-col lg:flex-row gap-6">
-                            <div class="hidden lg:block w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-sm h-fit">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            <div class="hidden lg:block w-full lg:col-span-3 bg-white p-6 rounded-lg shadow-sm h-fit">
                                 <h3 class="text-lg font-bold text-text-primary mb-4">Mapa de Progreso</h3>
 
                                 <div class="mb-4">
@@ -204,16 +204,16 @@
                                     </button>
                                     <ul class="space-y-1 pl-0">
                                         <li id="step-licencias"
-                                            class="flex items-center justify-between bg-orange-100 p-2 rounded-md -ml-2 my-2 transition-all duration-300">
-                                            <div class="flex items-center gap-2">
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
                                                 <span id="icon-licencias"
-                                                    class="material-symbols-outlined text-accent text-lg leading-none">radio_button_checked</span>
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
                                                 <span id="text-licencias"
-                                                    class="text-sm font-medium text-accent leading-tight">Licencias de
+                                                    class="text-sm text-text-secondary leading-tight">Licencias de
                                                     Exploración</span>
                                             </div>
                                             <span id="dot-licencias"
-                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0"></span>
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
                                         </li>
 
                                         <li id="step-exploracion"
@@ -582,8 +582,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-full lg:w-3/4 bg-white p-8 rounded-lg shadow-sm">
-                                <div id="qa-container-actividades">
+                            <div class="w-full lg:col-span-9 bg-white p-8 rounded-lg shadow-sm">
+                                <div id="qa-container-actividades" class="{% if diagnosticos_previos and diagnosticos_previos.get('actividades') %}hidden{% endif %}">
                                     <div class="mb-8">
                                         <div class="mb-4">
                                             <label for="select-actividad"
@@ -636,7 +636,7 @@
                                 </div>
 
                                 <div id="resultado-final-actividades"
-                                    class="hidden text-center py-16 flex flex-col items-center justify-center">
+                                    class="text-center py-16 flex flex-col items-center justify-center {% if not diagnosticos_previos or not diagnosticos_previos.get('actividades') %}hidden{% endif %}">
                                     <span class="material-symbols-outlined text-success mb-4"
                                         style="font-size: 80px;">task_alt</span>
                                     <h2 class="text-3xl font-bold text-text-primary mb-3">¡Prueba Finalizada!</h2>
@@ -654,9 +654,9 @@
                     </div>
 
                     <div id="tab-competitividad" class="tab-content hidden">
-                        <div class="flex flex-col lg:flex-row gap-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-                            <div class="hidden lg:block w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-sm h-fit">
+                            <div class="hidden lg:block w-full lg:col-span-3 bg-white p-6 rounded-lg shadow-sm h-fit">
                                 <div class="mb-4">
                                     <button
                                         class="flex items-center justify-between w-full text-sm font-bold text-text-primary mb-2">
@@ -666,16 +666,16 @@
 
                                     <ul class="space-y-1 pl-0">
                                         <li id="comp-step-maquinaria"
-                                            class="flex items-center justify-between bg-orange-100 p-2 rounded-md -ml-2 my-2 transition-all duration-300">
-                                            <div class="flex items-center gap-2">
+                                            class="flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300">
+                                            <div class="flex items-start gap-2">
                                                 <span id="comp-icon-maquinaria"
-                                                    class="material-symbols-outlined text-accent text-lg leading-none">radio_button_checked</span>
+                                                    class="material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5">radio_button_unchecked</span>
                                                 <span id="comp-text-maquinaria"
-                                                    class="text-sm font-medium text-accent leading-tight">Maquinaria y
+                                                    class="text-sm text-text-secondary leading-tight">Maquinaria y
                                                     Equipos</span>
                                             </div>
                                             <span id="comp-dot-maquinaria"
-                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0"></span>
+                                                class="h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5"></span>
                                         </li>
 
                                         <li id="comp-step-propiedad"
@@ -952,8 +952,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-full lg:w-3/4 bg-white p-8 rounded-lg shadow-sm">
-                                <div id="qa-container-competitividad">
+                            <div class="w-full lg:col-span-9 bg-white p-8 rounded-lg shadow-sm">
+                                <div id="qa-container-competitividad" class="{% if diagnosticos_previos and diagnosticos_previos.get('competitividad') %}hidden{% endif %}">
                                     <div class="mb-8">
                                         <div class="mb-4">
                                             <label for="select-categoria"
@@ -1001,7 +1001,7 @@
                                 </div>
 
                                 <div id="resultado-final-competitividad"
-                                    class="hidden text-center py-16 flex flex-col items-center justify-center">
+                                    class="text-center py-16 flex flex-col items-center justify-center {% if not diagnosticos_previos or not diagnosticos_previos.get('competitividad') %}hidden{% endif %}">
                                     <span class="material-symbols-outlined text-success mb-4"
                                         style="font-size: 80px;">task_alt</span>
                                     <h2 class="text-3xl font-bold text-text-primary mb-3">¡Prueba Finalizada!</h2>
@@ -1184,6 +1184,14 @@
         const respuestas = {}; // Guardar aquí las respuestas del primer diagnóstico
 
         function cambiarPregunta(direccion) {
+            // Sincronizar desde DOM como plan de respaldo por bugs del navegador antes de evaluar
+            const rActiva = document.querySelector('input[name="respuesta"]:checked');
+            if (rActiva) {
+                const idActual = ordenPasos[indiceActual];
+                respuestasActividades[idActual] = rActiva.value;
+                localStorage.setItem('draft_actividades', JSON.stringify(respuestasActividades));
+            }
+
             // Lógica de guardar respuesta si se necesita
             if (direccion === 'siguiente') {
                 const idActual = ordenPasos[indiceActual];
@@ -1295,11 +1303,11 @@
         }
 
         function setEstiloActivo(id) {
-            document.getElementById('step-' + id).className = "flex items-center justify-between bg-orange-100 p-2 rounded-md -ml-2 my-2 transition-all duration-300";
+            document.getElementById('step-' + id).className = "flex items-center justify-between p-2 rounded-md transition-all duration-300";
             const icon = document.getElementById('icon-' + id);
             icon.className = "material-symbols-outlined text-accent text-lg leading-none";
-            icon.innerText = "radio_button_checked";
-            document.getElementById('text-' + id).className = "text-sm font-medium text-accent leading-tight";
+            icon.innerText = "radio_button_unchecked";
+            document.getElementById('text-' + id).className = "text-sm font-bold text-text-primary leading-tight";
             document.getElementById('dot-' + id).className = "h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0";
         }
 
@@ -1317,6 +1325,8 @@
             const icon = document.getElementById('icon-' + id);
             icon.className = "material-symbols-outlined text-text-secondary text-lg leading-none mt-0.5";
             icon.innerText = "radio_button_unchecked";
+            document.getElementById('text-' + id).className = "text-sm text-text-secondary leading-tight";
+            document.getElementById('dot-' + id).className = "h-2.5 w-2.5 rounded-full bg-text-secondary shrink-0 mt-1.5";
         }
 
         // =================================================================================
@@ -1485,6 +1495,14 @@
         let respuestasComp = {};
 
         function cambiarPreguntaCompetitividad(direccion) {
+            // Sincronizar desde DOM como plan de respaldo
+            const rActivaComp = document.querySelector('input[name="respuesta_comp"]:checked');
+            if (rActivaComp) {
+                const idActual = ordenComp[indiceComp];
+                respuestasComp[idActual] = rActivaComp.value;
+                localStorage.setItem('draft_competitividad', JSON.stringify(respuestasComp));
+            }
+
             if (direccion === 'siguiente') {
                 const idActual = ordenComp[indiceComp];
                 if (!respuestasComp[idActual]) {
@@ -1667,11 +1685,11 @@
         }
 
         function setEstiloActivoComp(id) {
-            document.getElementById('comp-step-' + id).className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300 bg-orange-100 -ml-2 my-2";
+            document.getElementById('comp-step-' + id).className = "flex items-start justify-between p-2 rounded-md hover:bg-gray-50 transition-colors duration-300";
             const icon = document.getElementById('comp-icon-' + id);
             icon.className = "material-symbols-outlined text-accent text-lg leading-none mt-0.5";
-            icon.innerText = "radio_button_checked";
-            document.getElementById('comp-text-' + id).className = "text-sm font-medium text-accent leading-tight";
+            icon.innerText = "radio_button_unchecked";
+            document.getElementById('comp-text-' + id).className = "text-sm font-bold text-text-primary leading-tight";
         }
 
         function setEstiloCompletadoComp(id) {
@@ -1700,8 +1718,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             populateActivitySelect();
             populateCategorySelect();
-            actualizarInterfaz();
-            actualizarInterfazComp();
+
 
             const diagnosticosPreviosRaw = `{{ diagnosticos_previos | tojson | safe }}`;
             let diagnosticosPrevios = null;
@@ -1745,6 +1762,8 @@
                 indiceActual = ordenPasos.length - 1;
                 actualizarInterfaz();
                 mostrarResultadosActividades(true);
+            } else {
+                actualizarInterfaz();
             }
 
             let draftCompRaw = localStorage.getItem('draft_competitividad');
@@ -1779,6 +1798,8 @@
                 indiceComp = ordenComp.length - 1;
                 actualizarInterfazComp();
                 mostrarResultadosCompetitividad(true);
+            } else {
+                actualizarInterfazComp();
             }
 
             const radiosComp = document.getElementsByName('respuesta_comp');
@@ -1787,7 +1808,7 @@
             // Listeners para ACTIVIDADES
             const radiosAct = document.getElementsByName('respuesta');
             radiosAct.forEach(radio => {
-                radio.addEventListener('change', (e) => {
+                radio.addEventListener('click', (e) => {
                     // Guardar respuesta
                     const idActual = ordenPasos[indiceActual];
                     respuestasActividades[idActual] = e.target.value;
@@ -1795,25 +1816,21 @@
 
                     // Estilo visual (si aplica)
                     radiosAct.forEach(r => r.parentElement.classList.remove('border-accent', 'bg-orange-50'));
-                    if (e.target.checked) {
-                        e.target.parentElement.classList.add('border-accent', 'bg-orange-50');
-                    }
+                    e.target.parentElement.classList.add('border-accent', 'bg-orange-50');
                 });
             });
 
             const radiosComp2 = document.getElementsByName('respuesta_comp');
-            radiosComp.forEach(radio => {
-                radio.addEventListener('change', (e) => {
+            radiosComp2.forEach(radio => {
+                radio.addEventListener('click', (e) => {
                     // Guardar respuesta
                     const idActual = ordenComp[indiceComp];
                     respuestasComp[idActual] = e.target.value;
                     localStorage.setItem('draft_competitividad', JSON.stringify(respuestasComp));
 
                     // Estilo visual
-                    radiosComp.forEach(r => r.parentElement.classList.remove('border-accent', 'bg-orange-50'));
-                    if (e.target.checked) {
-                        e.target.parentElement.classList.add('border-accent', 'bg-orange-50');
-                    }
+                    radiosComp2.forEach(r => r.parentElement.classList.remove('border-accent', 'bg-orange-50'));
+                    e.target.parentElement.classList.add('border-accent', 'bg-orange-50');
                 });
             });
         });
@@ -1843,6 +1860,15 @@
             document.getElementById('qa-container-competitividad').classList.add('hidden');
             document.getElementById('resultado-final-competitividad').classList.remove('hidden');
 
+            // Asegurar que todos los elementos de la barra lateral se marquen como completados visualmente
+            const listAllIdsComp = [
+                'maquinaria', 'propiedad', 'investigacion', 'innovacion', 'asistencia',
+                'oferta', 'canales', 'valoracion', 'verdes', 'inteligencia',
+                'formacion', 'alianzas', 'gremios', 'estimulo',
+                'infra_maq', 'vial', 'plataforma', 'servicios_pub', 'transporte', 'calefaccion'
+            ];
+            listAllIdsComp.forEach(p => setEstiloCompletadoComp(p));
+
             // Actualizar Footer con Botón de Reinicio
             const footer = document.querySelector('#modal-resultados .modal-content .flex.justify-end');
             footer.innerHTML = `
@@ -1856,6 +1882,29 @@
         function calcularResultadosComp() {
             const puntajes = {};
             const totales = {};
+
+            const categoriasNombresMap = {
+                'maquinaria': 'Maquinaria y Equipos',
+                'propiedad': 'Propiedad Intelectual',
+                'investigacion': 'Investigación',
+                'innovacion': 'Innovación',
+                'asistencia': 'Asistencia Técnica',
+                'oferta': 'Análisis Oferta/Demanda',
+                'canales': 'Canales de Comercialización',
+                'valoracion': 'Valoración Económica',
+                'verdes': 'Mercados Verdes',
+                'inteligencia': 'Inteligencia de Mercados',
+                'formacion': 'Formación y Talento',
+                'alianzas': 'Alianzas Estratégicas',
+                'gremios': 'Relacionamiento Gremial',
+                'estimulo': 'Estímulo y Consolidación',
+                'infra_maq': 'Maquinaria y Equipos Logísticos',
+                'vial': 'Infraestructura Vial',
+                'plataforma': 'Plataforma de Distribución',
+                'servicios_pub': 'Servicios Públicos',
+                'transporte': 'Transporte',
+                'calefaccion': 'Sistemas de Calefacción'
+            };
 
             // Inicializar contadores por categoría
             for (const cat in categoriasNombresMap) {
@@ -1956,6 +2005,9 @@
             // Ocultar formulario, mostrar cartel final
             document.getElementById('qa-container-actividades').classList.add('hidden');
             document.getElementById('resultado-final-actividades').classList.remove('hidden');
+
+            // Asegurar que el último elemento se marque como completado visualmente
+            ordenPasos.forEach(p => setEstiloCompletado(p));
 
             // Actualizar Footer con Botón de Reinicio
             const footer = document.querySelector('#modal-resultados .modal-content .flex.justify-end');
