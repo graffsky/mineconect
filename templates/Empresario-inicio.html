@@ -204,14 +204,14 @@
                             <span class="font-semibold text-text-primary text-center">Nueva Discusión</span>
                         </a>
 
-                        <!-- Card 4: Proyectos -->
-                        <a href="/Empresario-proyectos"
+                        <!-- Card 4: Mi Diagnóstico -->
+                        <a href="/Empresario-diagnostico"
                             class="group flex flex-col items-center justify-center gap-2 rounded-xl bg-card-bg p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-transparent hover:border-accent/20">
                             <div
                                 class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white transition-colors">
-                                <span class="material-symbols-outlined text-2xl">business_center</span>
+                                <span class="material-symbols-outlined text-2xl">assessment</span>
                             </div>
-                            <span class="font-semibold text-text-primary text-center">Ver Proyectos</span>
+                            <span class="font-semibold text-text-primary text-center">Mi Diagnóstico</span>
                         </a>
                     </div>
 
@@ -246,13 +246,10 @@
                                                     }}</p>
                                                 {% endif %}
                                                 <p class="text-xs text-text-secondary font-medium mb-3">
-                                                    <span
-                                                        class="material-symbols-outlined text-[10px] align-middle">schedule</span>
+                                                    <span class="material-symbols-outlined text-[10px] align-middle">schedule</span>
                                                     {{ prog.duracion }} Horas •
-                                                    <span
-                                                        class="material-symbols-outlined text-[10px] align-middle">domain</span>
-                                                    {{ prog.institucion.nombre_institucion if prog.institucion else
-                                                    'Institución' }}
+                                                    <span class="material-symbols-outlined text-[10px] align-middle">domain</span>
+                                                    {{ prog.institucion.nombre_completo if prog.institucion else 'Institución' }}
                                                 </p>
                                             </div>
 

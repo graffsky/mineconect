@@ -143,7 +143,7 @@
                             <button onclick="prepareCreateModal()"
                                 class="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-bold text-white hover:bg-opacity-90 shadow-sm transition-all hover:-translate-y-0.5">
                                 <span class="material-symbols-outlined">add_circle</span>
-                                Crear
+                                Crear Convocatoria
                             </button>
                         </div>
                     </div>
@@ -156,6 +156,7 @@
                                         <th class="px-6 py-4 font-semibold">Título de la Convocatoria</th>
                                         <th class="px-6 py-4 font-semibold">Estado (Semáforo)</th>
                                         <th class="px-6 py-4 font-semibold">Fecha Límite</th>
+                                        <th class="px-6 py-4 font-semibold text-center">Postulantes</th>
                                         <th class="px-6 py-4 font-semibold">Público Objetivo</th>
                                         <th class="px-6 py-4 font-semibold text-right">Acciones</th>
                                     </tr>
@@ -190,6 +191,11 @@
                                                 {{ c.fecha_cierre.strftime('%d %b %Y') }}
                                             </div>
                                         </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="inline-flex items-center justify-center rounded-full bg-accent/10 px-2.5 py-0.5 text-sm font-bold text-accent">
+                                                {{ c.postulaciones|length if c.postulaciones else 0 }}
+                                            </span>
+                                        </td>
                                         <td class="px-6 py-4">
                                             <div class="flex flex-wrap gap-2">
                                                 {% for p in c.publico %}
@@ -219,7 +225,7 @@
                                                         <span class="material-symbols-outlined">delete</span>
                                                     </button>
                                                 </form>
-                                                <button onclick="verPostulantes('{{ c.id }}', '{{ c.titulo }}')" class="text-text-secondary hover:text-primary p-1" title="Ver Postulantes">
+                                                <button onclick="verPostulantes('{{ c.id }}', '{{ c.titulo }}', {{ c.postulaciones|length if c.postulaciones else 0 }})" class="text-text-secondary hover:text-primary p-1" title="Ver Postulantes">
                                                     <span class="material-symbols-outlined">group</span>
                                                 </button>
                                             </div>
@@ -506,8 +512,8 @@
         }
         
         const modalPostulantes = document.getElementById('postulantesModal');
-        function verPostulantes(id, titulo) {
-            document.getElementById('modalPostulantesTitle').textContent = "Postulantes: " + titulo;
+        function verPostulantes(id, titulo, count) {
+            document.getElementById('modalPostulantesTitle').textContent = count + " postulantes en: " + titulo;
             document.getElementById('modalPostulantesContent').innerHTML = document.getElementById('postulantes-data-' + id).innerHTML;
             modalPostulantes.classList.remove('hidden');
             modalPostulantes.classList.add('flex');

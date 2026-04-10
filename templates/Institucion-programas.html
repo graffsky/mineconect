@@ -135,7 +135,7 @@
                         <button onclick="prepareCreateModal()"
                             class="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-bold text-white hover:bg-opacity-90 shadow-sm transition-all hover:-translate-y-0.5">
                             <span class="material-symbols-outlined">add_circle</span>
-                            Crear Nuevo Programa
+                            Crear Programa
                         </button>
                     </div>
 
@@ -147,7 +147,7 @@
                                         <th class="px-6 py-4 font-semibold">Nombre del Curso</th>
                                         <th class="px-6 py-4 font-semibold">Modalidad</th>
                                         <th class="px-6 py-4 font-semibold">Estado</th>
-                                        <th class="px-6 py-4 font-semibold">Cupos (Disp. / Total)</th>
+                                        <th class="px-6 py-4 font-semibold">Inscritos / Total</th>
                                         <th class="px-6 py-4 font-semibold text-right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -188,7 +188,7 @@
                                         <td class="px-6 py-4">
                                             <div class="w-full max-w-[140px]">
                                                 <div class="mb-1 flex justify-between text-xs">
-                                                    <span class="font-medium text-text-primary">{{ p.cupos_ocupados }} /
+                                                    <span class="font-medium text-text-primary">{{ p.inscritos_count }} /
                                                         {{
                                                         p.cupos_totales }}</span>
                                                     <span class="text-text-secondary">{{ p.porcentaje }}%</span>
@@ -215,7 +215,7 @@
                                                         <span class="material-symbols-outlined">delete</span>
                                                     </button>
                                                 </form>
-                                                <button onclick="verPostulantes('{{ p.id }}', '{{ p.nombre }}')" class="text-text-secondary hover:text-primary p-1" title="Ver Inscritos">
+                                                <button onclick="verPostulantes('{{ p.id }}', '{{ p.nombre }}', {{ p.inscritos_count }})" class="text-text-secondary hover:text-primary p-1" title="Ver Inscritos">
                                                     <span class="material-symbols-outlined">group</span>
                                                 </button>
                                             </div>
@@ -522,8 +522,8 @@
         }
         
         const modalPostulantes = document.getElementById('postulantesModal');
-        function verPostulantes(id, titulo) {
-            document.getElementById('modalPostulantesTitle').textContent = "Inscritos a: " + titulo;
+        function verPostulantes(id, titulo, count) {
+            document.getElementById('modalPostulantesTitle').textContent = count + " inscritos en el programa";
             document.getElementById('modalPostulantesContent').innerHTML = document.getElementById('postulantes-data-' + id).innerHTML;
             modalPostulantes.classList.remove('hidden');
             modalPostulantes.classList.add('flex');
