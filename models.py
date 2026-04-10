@@ -315,6 +315,49 @@ class InstitucionPrograma(db.Model):
 
     institucion = db.relationship('Institucion', backref=db.backref('programas_items', lazy=True))
 
+    @property
+    def inscritos_count(self):
+        return len(self.postulaciones)
+
+    @property
+    def porcentaje(self):
+        if self.cupos_totales == 0:
+            return 0
+        return int((self.inscritos_count / self.cupos_totales) * 100)
+
+    @property
+    def bar_color(self):
+        p = self.porcentaje
+        if p >= 100: return 'danger'
+        elif p >= 80: return 'accent'
+        return 'primary'
+
+    @property
+    def estado_class(self):
+        if self.estado == 'Inscripciones Abiertas': return 'bg-success/10 text-success'
+        if self.estado == 'Cerrado': return 'bg-gray-100 text-gray-500'
+        return 'bg-primary/10 text-primary'
+
+    @property
+    def modalidad_color(self):
+        if self.modalidad == 'Presencial': return 'blue'
+        if self.modalidad == 'Virtual': return 'purple'
+        return 'green'
+
+    @property
+    def modalidad_icon(self):
+        if self.modalidad == 'Presencial': return 'groups'
+        if self.modalidad == 'Virtual': return 'computer'
+        return 'cast_for_education'
+
+    @property
+    def icono(self):
+        return 'school'
+
+    @property
+    def icono_bg(self):
+        return 'primary'
+
 class ProgramaPostulacion(db.Model):
     """Inscripciones de empresarios a programas"""
     __tablename__ = 'programa_postulaciones'
@@ -426,6 +469,8 @@ class EmpresarioDiscusion(db.Model):
 
     @property
     def to_dict(self):
+        # We only return top-level comments; they will recursively include their children.
+        top_level_comments = [c for c in self.comentarios if c.parent_id is None]
         return {
             "id": self.id,
             "titulo": self.titulo,
@@ -436,7 +481,7 @@ class EmpresarioDiscusion(db.Model):
             "iniciales": self.iniciales,
             "color_bg": self.color_bg,
             "color_txt": self.color_txt,
-            "comentarios": [c.to_dict for c in self.comentarios],
+            "comentarios": [c.to_dict for c in top_level_comments],
             "respuestas": len(self.comentarios)
         }
 
@@ -449,6 +494,10 @@ class Comentario(db.Model):
     contenido = db.Column(db.Text, nullable=False)
     fecha_comentario = db.Column(db.DateTime, default=datetime.utcnow)
     autor = db.relationship('Usuario', backref=db.backref('comentarios_items', lazy=True))
+    
+    # Nested replies capability (Reddit style)
+    parent_id = db.Column(db.Integer, db.ForeignKey('comentarios.id', ondelete='CASCADE'), nullable=True)
+    respuestas = db.relationship('Comentario', backref=db.backref('padre', remote_side=[id]), lazy=True, cascade='all, delete-orphan')
 
     @property
     def to_dict(self):
@@ -463,7 +512,9 @@ class Comentario(db.Model):
             "id": self.id,
             "text": self.contenido,
             "user": nombre,
-            "date": self.fecha_comentario.strftime('%d %b, %Y')
+            "date": self.fecha_comentario.strftime('%d %b, %Y'),
+            "parent_id": self.parent_id,
+            "respuestas": [r.to_dict for r in self.respuestas]
         }
 
 class EmpresarioDiagnostico(db.Model):

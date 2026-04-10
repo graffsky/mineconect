@@ -925,6 +925,7 @@ def responder_discusion():
         data = request.get_json()
         discusion_id = data.get('discusion_id')
         contenido = data.get('contenido')
+        parent_id = data.get('parent_id') # Can be None
         user_id = session.get('user_id')
 
         if not user_id:
@@ -936,7 +937,8 @@ def responder_discusion():
         nuevo_comentario = Comentario(
             discusion_id=discusion_id,
             usuario_id=user_id,
-            contenido=contenido
+            contenido=contenido,
+            parent_id=parent_id
         )
         db.session.add(nuevo_comentario)
         db.session.commit()
@@ -1460,6 +1462,13 @@ def postular_programa():
              return jsonify({'success': False, 'message': 'Ya estás inscrito en este programa.'}), 400
              
         # Guardar en BD
+        programa = db.session.get(InstitucionPrograma, programa_id)
+        if not programa:
+            return jsonify({'success': False, 'message': 'Programa no encontrado.'}), 404
+            
+        if programa.inscritos_count >= programa.cupos_totales:
+            return jsonify({'success': False, 'message': 'Ya no hay cupos disponibles.'}), 400
+
         nueva_postulacion = ProgramaPostulacion(
             programa_id=programa_id,
             empresario_id=usuario.empresario.id

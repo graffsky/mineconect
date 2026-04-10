@@ -216,15 +216,15 @@
                                             d.categoria }}</span>
                                     </div>
                                     <p class="text-sm text-text-secondary mt-2 line-clamp-2">{{ d.contenido }}</p>
-                                    <div class="flex gap-6 mt-4 text-xs font-medium text-text-secondary">
-                                        <span class="flex items-center gap-1"><span
-                                                class="material-symbols-outlined text-sm">person</span> {{
+                                    <div class="flex flex-wrap items-center gap-4 mt-4 text-xs font-medium text-text-secondary border-t border-gray-100 pt-3">
+                                        <span class="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md"><span
+                                                class="material-symbols-outlined text-[16px] text-gray-400">person</span> {{
                                             d.autor_nombre }} - {{ d.autor.tipo_perfil.value | capitalize }}</span>
-                                        <span class="flex items-center gap-1"><span
-                                                class="material-symbols-outlined text-sm">schedule</span> {{ d.fecha
+                                        <span class="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-md"><span
+                                                class="material-symbols-outlined text-[16px] text-gray-400">schedule</span> {{ d.fecha_fmt
                                             }}</span>
-                                        <span class="flex items-center gap-1 text-accent"><span
-                                                class="material-symbols-outlined text-sm">forum</span> {{ d.respuestas
+                                        <span class="flex items-center gap-1.5 text-accent px-2 py-1 bg-orange-50 rounded-md font-bold"><span
+                                                class="material-symbols-outlined text-[16px]">forum</span> {{ d.comentarios|length
                                             }} respuestas</span>
                                     </div>
                                 </div>
@@ -305,8 +305,15 @@
                 </div>
             </div>
             <div class="flex-1 overflow-y-auto p-6 bg-background comments-scroll">
-                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
-                    <p id="disc-content" class="text-sm text-text-primary leading-relaxed">...</p>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-50">
+                        <div id="disc-author-avatar" class="h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 tracking-wide bg-primary text-white">NN</div>
+                        <div class="flex flex-col justify-center">
+                            <p id="disc-author-name" class="text-sm font-bold text-text-primary leading-tight">Cargando autor...</p>
+                            <p id="disc-date" class="text-[11px] text-text-secondary flex items-center mt-0.5 font-medium">...</p>
+                        </div>
+                    </div>
+                    <p id="disc-content" class="text-[15px] text-text-primary leading-relaxed whitespace-pre-line">...</p>
                 </div>
                 <h4 class="text-sm font-bold text-text-primary mb-4 flex items-center gap-2"><span
                         class="material-symbols-outlined text-base">forum</span> Comentarios</h4>
@@ -407,6 +414,9 @@
                 date: item.fecha,
                 content: item.contenido,
                 comments: item.comentarios || [],
+                color_bg: item.color_bg,
+                color_txt: item.color_txt,
+                iniciales: item.iniciales,
                 // Guardamos los datos originales para edición
                 original_title: item.titulo,
                 original_category: item.categoria,
@@ -464,34 +474,102 @@
             }
         });
         let currentDiscussionId = null;
+        let currentParentId = null; // Track reply
+
+        function renderComment(c, level = 0) {
+            let html = `
+                <div class="flex gap-3" style="margin-left: ${level * 2}rem; margin-top: ${level === 0 ? '1rem' : '0.5rem'}; border-left: ${level > 0 ? '2px solid #e5e7eb' : 'none'}; padding-left: ${level > 0 ? '0.5rem' : '0'};">
+                    <div class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold shrink-0">${c.user.substring(0, 2)}</div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex-1">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-primary">${c.user}</span>
+                            <span class="text-[10px] text-gray-400">${c.date}</span>
+                        </div>
+                        <p class="text-sm text-text-secondary">${c.text}</p>
+                        <button onclick="responderA('${c.id}', '${c.user}')" class="text-xs text-accent mt-2 font-bold hover:underline flex items-center gap-1 transition-colors">
+                            <span class="material-symbols-outlined text-[14px]">reply</span> Responder
+                        </button>
+                    </div>
+                </div>
+            `;
+            if (c.respuestas && c.respuestas.length > 0) {
+                c.respuestas.forEach(r => {
+                    html += renderComment(r, level + 1);
+                });
+            }
+            return html;
+        }
+
+        function responderA(commentId, userName) {
+            currentParentId = parseInt(commentId, 10);
+            const input = document.getElementById('new-comment-input');
+            input.placeholder = `Escribe tu respuesta a ${userName}...`;
+            input.focus();
+            
+            // Mostrar indicador
+            let indicador = document.getElementById('reply-indicator');
+            const parentDiv = input.parentElement.parentElement;
+            if(!indicador) {
+                indicador = document.createElement('div');
+                indicador.id = 'reply-indicator';
+                indicador.className = 'text-sm text-accent bg-orange-50 px-4 py-2 rounded-lg flex justify-between items-center mb-3 border border-orange-200 shadow-sm transition-all duration-300 ease-in-out';
+                parentDiv.insertBefore(indicador, input.parentElement);
+            }
+            indicador.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px] transform -scale-x-100">reply</span>
+                    <span>Respondiendo a <strong class="font-bold text-orange-600">${userName}</strong></span>
+                </div>
+                <button onclick="cancelarRespuesta()" class="text-orange-400 hover:text-danger hover:bg-orange-100 p-1 rounded-full transition-colors flex items-center justify-center cursor-pointer" title="Cancelar respuesta">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            `;
+        }
+
+        function cancelarRespuesta() {
+            currentParentId = null;
+            const input = document.getElementById('new-comment-input');
+            input.placeholder = "Escribe una respuesta...";
+            const indicador = document.getElementById('reply-indicator');
+            if (indicador) indicador.remove();
+        }
 
         function cargarDiscusion(id) {
             currentDiscussionId = id;
+            cancelarRespuesta();
             const d = discusionesData[id];
             if (!d) return;
             document.getElementById('disc-title').innerText = d.title;
             document.getElementById('disc-tag').innerText = d.tag;
+            
+            // Renderizar Información del Autor
+            document.getElementById('disc-author-name').innerText = d.author || "Anónimo";
+            document.getElementById('disc-date').innerHTML = `<span class="material-symbols-outlined text-[13px] mr-1">schedule</span> ${d.date}`;
+            
+            const avatar = document.getElementById('disc-author-avatar');
+            avatar.innerText = d.iniciales || "NN";
+            if(d.color_bg && d.color_txt) {
+                avatar.className = `h-10 w-10 rounded-full flex items-center justify-center font-bold text-[15px] shrink-0 bg-${d.color_bg} text-${d.color_txt}`;
+            } else {
+                avatar.className = `h-10 w-10 rounded-full flex items-center justify-center font-bold text-[15px] shrink-0 bg-primary text-white`;
+            }
+
             document.getElementById('disc-content').innerText = d.content;
 
             const cl = document.getElementById('comments-list');
             cl.innerHTML = '';
 
-            if (d.comments.length > 0) {
+            if (d.comments && d.comments.length > 0) {
                 d.comments.forEach(c => {
-                    cl.insertAdjacentHTML('beforeend', `
-                        <div class="flex gap-3">
-                            <div class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold">${c.user.substring(0, 2)}</div>
-                            <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex-1">
-                                <span class="text-xs font-bold text-primary">${c.user}</span>
-                                <p class="text-sm text-text-secondary">${c.text}</p>
-                            </div>
-                        </div>
-                    `);
+                    cl.insertAdjacentHTML('beforeend', renderComment(c, 0));
                 });
             } else {
-                cl.innerHTML = '<p class="text-sm text-gray-400 italic">No hay comentarios aún. ¡Sé el primero!</p>';
+                cl.innerHTML = '<p class="text-sm text-gray-400 italic mt-2">No hay comentarios aún. ¡Sé el primero!</p>';
             }
-            toggleModal('modal-ver-discusion');
+            const modal = document.getElementById('modal-ver-discusion');
+            if (modal.classList.contains('opacity-0')) {
+                toggleModal('modal-ver-discusion');
+            }
         }
 
         async function agregarComentario() {
@@ -499,28 +577,49 @@
             const texto = inp.value.trim();
             if (texto === "" || !currentDiscussionId) return;
 
+            const bodyData = { 
+                discusion_id: currentDiscussionId, 
+                contenido: texto,
+                parent_id: currentParentId
+            };
+
             try {
                 const response = await fetch('/Empresario-discusiones/comentar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ discusion_id: currentDiscussionId, contenido: texto })
+                    body: JSON.stringify(bodyData)
                 });
 
                 const result = await response.json();
                 if (result.success) {
-                    const cl = document.getElementById('comments-list');
-                    if (cl.innerHTML.includes('No hay comentarios')) cl.innerHTML = '';
-
                     const c = result.data;
-                    cl.insertAdjacentHTML('beforeend', `
-                        <div class="flex gap-3">
-                            <div class="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">${c.user.substring(0, 2)}</div>
-                            <div class="bg-green-50 p-3 rounded-lg border border-green-100 shadow-sm flex-1">
-                                <span class="text-xs font-bold text-primary">${c.user}</span>
-                                <p class="text-sm text-text-secondary">${c.text}</p>
-                            </div>
-                        </div>
-                    `);
+                    
+                    // Optimistic update of the local state
+                    if(currentParentId) {
+                        // Find the parent comment and add to respuestas
+                        function addReplyToData(commentsList) {
+                            for(let item of commentsList) {
+                                if(item.id === currentParentId) {
+                                    if(!item.respuestas) item.respuestas = [];
+                                    item.respuestas.push(c);
+                                    return true;
+                                }
+                                if(item.respuestas && item.respuestas.length > 0) {
+                                    if(addReplyToData(item.respuestas)) return true;
+                                }
+                            }
+                            return false;
+                        }
+                        if(discusionesData[currentDiscussionId].comments) {
+                            addReplyToData(discusionesData[currentDiscussionId].comments);
+                        }
+                    } else {
+                        if(!discusionesData[currentDiscussionId].comments) discusionesData[currentDiscussionId].comments = [];
+                        discusionesData[currentDiscussionId].comments.push(c);
+                    }
+                    
+                    // Refresh view
+                    cargarDiscusion(currentDiscussionId);
                     inp.value = "";
                 } else {
                     alert('Error al enviar comentario: ' + result.message);
