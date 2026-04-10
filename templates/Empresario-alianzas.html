@@ -208,13 +208,13 @@
                                 Publicar mi Perfil
                             </button>
 
-                            <select
+                            <select id="filtro-sector" onchange="filtrarAlianzas()"
                                 class="form-select rounded-lg border-gray-300 text-sm w-full md:w-40 focus:border-accent focus:ring-accent">
-                                <option>Filtrar por Sector</option>
-                                <option>Minería</option>
-                                <option>Logística</option>
-                                <option>Tecnología</option>
-                                <option>Ambiental</option>
+                                <option value="todos">Filtrar por Sector</option>
+                                <option value="Venta de Mineral">Venta de Mineral</option>
+                                <option value="Alquiler de Maquinaria">Alquiler de Maquinaria</option>
+                                <option value="Logística">Logística</option>
+                                <option value="Consultoría">Consultoría</option>
                             </select>
                         </div>
                     </div>
@@ -222,8 +222,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                         {% for alianza in alianzas %}
-                        <div
-                            class="group rounded-lg bg-card-bg p-6 shadow-sm border border-transparent hover:border-accent transition-all hover:shadow-md flex flex-col h-full">
+                        <div data-tipo="{{ alianza.tipo }}"
+                            class="alianza-card group rounded-lg bg-card-bg p-6 shadow-sm border border-transparent hover:border-accent transition-all hover:shadow-md flex flex-col h-full">
                             <div class="flex items-center gap-4 mb-4 relative">
                                 <div
                                     class="h-14 w-14 rounded-full bg-{{ alianza.color_bg }} flex items-center justify-center text-{{ alianza.color_text }} font-bold text-xl shrink-0">
@@ -312,10 +312,7 @@
                         <p class="text-xs font-bold text-accent uppercase mb-1">Servicios Principales</p>
                         <p class="text-sm text-text-secondary" id="modal-services">...</p>
                     </div>
-                    <div>
-                        <p class="text-xs font-bold text-accent uppercase mb-1">Certificaciones</p>
-                        <div class="flex flex-wrap gap-2 mt-1" id="modal-certs"></div>
-                    </div>
+
                 </div>
                 <div class="flex justify-end pt-4 border-t border-gray-200 gap-2">
                     <button onclick="toggleModal('modal-ver-perfil')"
@@ -507,16 +504,6 @@
             document.getElementById('modal-location').innerText = ubicacion;
             document.getElementById('modal-services').innerText = servicios;
             document.getElementById('modal-initials').innerText = nombre.substring(0, 2).toUpperCase();
-            const certContainer = document.getElementById('modal-certs');
-            certContainer.innerHTML = '';
-
-            if (certs) {
-                certs.split(',').forEach(c => {
-                    certContainer.innerHTML += `<span class="bg-green-100 text-primary text-xs font-bold px-2 py-1 rounded border border-green-200">${c.trim()}</span>`;
-                });
-            } else {
-                certContainer.innerHTML = '<span class="text-xs text-gray-500">Sin certificaciones registradas</span>';
-            }
 
             const btnContactar = document.getElementById('btn-contactar');
             const currentUserId = "{{ session.get('user_id') }}";
@@ -546,6 +533,20 @@
             // Agregar borde al seleccionado
             btn.classList.remove('border-transparent');
             btn.classList.add('border-accent');
+        }
+        
+        function filtrarAlianzas() {
+            const filtro = document.getElementById('filtro-sector').value;
+            const alianzas = document.querySelectorAll('.alianza-card');
+            
+            alianzas.forEach(alianza => {
+                const tipo = alianza.getAttribute('data-tipo');
+                if (filtro === 'todos' || filtro === tipo) {
+                    alianza.style.display = 'flex';
+                } else {
+                    alianza.style.display = 'none';
+                }
+            });
         }
     </script>
     <script src="/static/Js/sidebar.js"></script>
