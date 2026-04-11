@@ -552,13 +552,17 @@
         function saveChanges() {
             // Encontrar la imagen seleccionada
             const selectedBtn = document.querySelector('.profile-option.border-accent');
-            let newPhotoUrl = "/static/Img/icono-empresario.png"; // Default
+            let newPhotoUrl = '/static/Img/icono-empresario.png'; // Default
 
             if (selectedBtn) {
                 // Extraer URL del style
                 const style = selectedBtn.querySelector('div').style.backgroundImage;
-                // Limpiar url("...")
-                newPhotoUrl = style.slice(5, -2);
+                const urlMatch = style.match(/url\(["']?(.*?)["']?\)/);
+                if (urlMatch) {
+                    newPhotoUrl = urlMatch[1];
+                } else {
+                    newPhotoUrl = style.slice(5, -2);
+                }
             }
 
             // Enviar al backend
@@ -573,13 +577,20 @@
                 .then(data => {
                     if (data.success) {
                         // Actualizar DOM
-                        document.getElementById('header-avatar').style.backgroundImage = `url("${newPhotoUrl}")`;
-                        // Actualizar otros avatares si existen (ej. widget de publicar)
+                        const headerAvatar = document.getElementById('header-avatar');
+                        if (headerAvatar) {
+                            headerAvatar.style.backgroundImage = `url("${newPhotoUrl}")`;
+                        }
                         const postingAvatar = document.querySelector('[data-alt="User avatar for posting"]');
-                        if (postingAvatar) postingAvatar.style.backgroundImage = `url("${newPhotoUrl}")`;
+                        if (postingAvatar) {
+                            postingAvatar.style.backgroundImage = `url("${newPhotoUrl}")`;
+                        }
 
+                        // Cerrar modal
                         toggleModal('modal-configuracion');
-                        alert('Cambios guardados correctamente.');
+                        
+                        // Refrescar página para obligar actualización en todos los lados independientemente de Jinja y el caché
+                        window.location.reload();
                     } else {
                         alert('Error al guardar cambios.');
                     }
