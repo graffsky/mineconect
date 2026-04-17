@@ -175,6 +175,10 @@
                             class="rounded-lg bg-card-bg p-5 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-accent/50 transition-colors">
                             <div>
                                 <h5 class="font-bold text-text-primary text-lg">{{ c.titulo }}</h5>
+                                <div class="flex items-center gap-1 text-xs text-text-secondary mb-2 mt-1">
+                                    <span class="material-symbols-outlined text-[14px]">account_balance</span>
+                                    <span class="font-medium">{{ c.institucion.nombre_completo if c.institucion else 'Institución' }}</span>
+                                </div>
                                 <p class="text-sm text-text-secondary">{{ c.descripcion }}</p>
                             </div>
                             <div class="text-right flex flex-col items-end gap-2">
