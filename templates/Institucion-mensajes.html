@@ -169,8 +169,8 @@
                             style='background-image: url("{{ session.get("profile_image", "/static/Img/icono-institucion.png") }}");'>
                         </div>
                         <div class="hidden text-right lg:block">
-                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_institucion',
-                                'SENA') }}</p>
+                            <p class="text-sm font-semibold text-text-primary">{{ session.get('nombre_usuario',
+                                'Institución') }}</p>
                             <p class="text-xs text-text-secondary">Institución Educativa</p>
                         </div>
                     </div>
@@ -265,7 +265,7 @@
                         <label class="block text-sm font-bold text-text-primary mb-1">Nombre de la Institución</label>
                         <input type="text"
                             class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
-                            value="{{ session.get('nombre_institucion', 'SENA') }}" readonly>
+                            value="{{ session.get('nombre_usuario', 'Institución') }}" readonly>
                         <p class="text-xs text-text-secondary mt-1">Para cambiar el nombre legal, contacte a soporte.
                         </p>
                     </div>
