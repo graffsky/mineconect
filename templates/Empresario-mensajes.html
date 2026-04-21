@@ -218,12 +218,12 @@
                                                 {{ chat.nombre[:2].upper() }}
                                             </div>
                                             <div class="overflow-hidden flex-1">
-                                                <div class="flex justify-between items-center">
-                                                    <p class="text-sm font-bold text-text-primary truncate">{{
-                                                        chat.nombre }}</p>
-                                                    <!-- <span class="text-[10px] text-gray-400">Hace 1h</span> -->
+                                                <div class="flex justify-between items-center mb-1">
+                                                    <p class="text-sm font-bold text-text-primary truncate {{ 'text-accent' if target_user and target_user.id == chat.id else '' }}">{{ chat.nombre }}</p>
+                                                    <span class="text-[10px] text-text-secondary">{{ chat.time }}</span>
                                                 </div>
-                                                <p class="text-xs text-text-secondary truncate">{{ chat.last_msg }}</p>
+                                                <p class="text-[11px] font-semibold text-text-primary truncate">{{ chat.status }}</p>
+                                                <p class="text-xs text-text-secondary truncate mt-1">{{ chat.last_msg }}</p>
                                             </div>
                                         </a>
                                         {% endfor %}
@@ -327,8 +327,9 @@
                         <div>
                             <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
                             <input type="email"
-                                class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
-                                value="{{ session.get('user_email', '') }}">
+                                class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                                value="{{ session.get('user_email', '') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para actualizar el correo, contacte a soporte.</p>
                         </div>
                         <div class="mt-4">
                             <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
@@ -490,6 +491,8 @@
                 if (e.key === 'Enter') sendMessage();
             });
 
+
+
             // Init
             document.addEventListener('DOMContentLoaded', () => {
                 loadMessages();
@@ -517,6 +520,21 @@
                 }
                 messagesContainer.insertAdjacentHTML('beforeend', msgHtml);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // Actualizar info en el sidebar izquierdo
+                const otherUserId = (data.remitente_id == myUserId) ? data.destinatario_id : data.remitente_id;
+                const sidebarItem = document.querySelector(`a[href="?chat_with=${otherUserId}"]`);
+                if (sidebarItem) {
+                    const lastMsgEl = sidebarItem.querySelector('p.text-xs.truncate.mt-1');
+                    if (lastMsgEl) lastMsgEl.textContent = data.text || data.contenido;
+                    
+                    const timeEl = sidebarItem.querySelector('span.text-\\[10px\\]');
+                    if (timeEl) timeEl.textContent = data.time || 'Ahora';
+                    
+                    // Mover al inicio de la lista
+                    const listContainer = sidebarItem.parentElement;
+                    listContainer.prepend(sidebarItem);
+                }
 
             } else if (data.destinatario_id == myUserId) {
                 // Es para nosotros pero no estamos en el chat correcto
