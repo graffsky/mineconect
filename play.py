@@ -72,6 +72,21 @@ def formato_fecha_es(fecha):
     }
     return f"{fecha.day} {meses[fecha.month]}, {fecha.year}"
 
+from datetime import timedelta
+
+@app.template_filter('formato_es')
+def formato_es_filter(fecha):
+    if not fecha:
+        return ""
+    # Ajustar a GMT-5 (hora de Colombia/Ecuador/Perú)
+    fecha_local = fecha - timedelta(hours=5)
+    meses = {
+        1: "Ene", 2: "Feb", 3: "Mar", 4: "Abr", 5: "May", 6: "Jun",
+        7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"
+    }
+    hora = fecha_local.strftime("%I:%M %p").lower()
+    return f"{fecha_local.day} {meses[fecha_local.month]} {fecha_local.year}, {hora}"
+
 # --- RUTAS PRINCIPALES ---
 @app.route('/')
 def Principal():
