@@ -570,7 +570,7 @@ def empresario_inicio():
             'fecha': formato_fecha_es(n.fecha_publicacion)
         })
 
-    return render_template('Empresario-inicio.html', publicaciones=mis_publicaciones, convocatorias=convocatorias, programas=programas, noticias=noticias)
+    return render_template('Empresario-inicio.html', publicaciones=mis_publicaciones, convocatorias=convocatorias, programas=programas, noticias=noticias, usuario=usuario)
 
 
 
@@ -1029,6 +1029,7 @@ def empresario_mensajes():
                     'id': other_id,
                     'nombre': nombre,
                     'last_msg': msg.contenido,
+                    'time': msg.fecha_fmt if msg.fecha_envio else '',
                     'status': status
                 }
 
@@ -1229,7 +1230,7 @@ def institucion_mensajes():
                     'id': other_id,
                     'nombre': nombre,
                     'last_msg': msg.contenido,
-                    'time': msg.fecha_envio.strftime('%H:%M') if msg.fecha_envio else '',
+                    'time': msg.fecha_fmt if msg.fecha_envio else '',
                     'status': status,
                     'initials': nombre[:2].upper()
                 }

@@ -2,7 +2,7 @@
 # 1. IMPORTACIONES Y CONFIGURACIÓN (NO TOCAR)
 # ==========================================
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from extensions import db # Importa la instancia 'db' desde extensions.py
 from flask import session
@@ -390,7 +390,13 @@ class InstitucionNoticia(db.Model):
 
     @property
     def fecha(self):
-        return self.fecha_publicacion.strftime('%d %b, %Y')
+        if not self.fecha_publicacion:
+            return ""
+        meses = {
+            1: "Ene", 2: "Feb", 3: "Mar", 4: "Abr", 5: "May", 6: "Jun",
+            7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"
+        }
+        return f"{self.fecha_publicacion.day} {meses[self.fecha_publicacion.month]}, {self.fecha_publicacion.year}"
 
     @property
     def categoria_bg(self):
@@ -565,8 +571,9 @@ class EmpresarioMensaje(db.Model):
 
     @property
     def fecha_fmt(self):
-        # Formato de hora legible (ej: 10:30 AM)
-        return self.fecha_envio.strftime('%I:%M %p')
+        if not self.fecha_envio: return ""
+        local_time = self.fecha_envio - timedelta(hours=5)
+        return local_time.strftime('%I:%M %p')
     
     @property
     def to_dict(self):
@@ -605,7 +612,9 @@ class InstitucionMensaje(db.Model):
 
     @property
     def fecha_fmt(self):
-        return self.fecha_envio.strftime('%I:%M %p')
+        if not self.fecha_envio: return ""
+        local_time = self.fecha_envio - timedelta(hours=5)
+        return local_time.strftime('%I:%M %p')
     
     @property
     def to_dict(self):
