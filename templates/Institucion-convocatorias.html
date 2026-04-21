@@ -211,7 +211,12 @@
                                             {% set fecha_iso = c.fecha_cierre.strftime('%Y-%m-%d') %}
                                             <div class="flex items-center justify-end gap-2">
                                                 <button
-                                                    onclick="editConvocatoria('{{ c.id }}', '{{ c.titulo }}', '{{ fecha_iso }}', '{{ c.descripcion }}', '{{ c.publico_objetivo }}')"
+                                                    onclick="editConvocatoria(this)"
+                                                    data-id="{{ c.id }}"
+                                                    data-titulo="{{ c.titulo }}"
+                                                    data-fecha="{{ fecha_iso }}"
+                                                    data-descripcion="{{ c.descripcion }}"
+                                                    data-publico="{{ c.publico_objetivo }}"
                                                     class="text-text-secondary hover:text-accent p-1" title="Editar">
                                                     <span class="material-symbols-outlined">edit</span>
                                                 </button>
@@ -487,7 +492,13 @@
             openModal();
         }
 
-        function editConvocatoria(id, titulo, fecha, descripcion, publicoStr) {
+        function editConvocatoria(btn) {
+            const id = btn.getAttribute('data-id');
+            const titulo = btn.getAttribute('data-titulo');
+            const fecha = btn.getAttribute('data-fecha');
+            const descripcion = btn.getAttribute('data-descripcion');
+            const publicoStr = btn.getAttribute('data-publico');
+
             form.action = `/Institucion-convocatorias/editar/${id}`;
 
             form.querySelector('[name="titulo"]').value = titulo;
