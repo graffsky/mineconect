@@ -340,31 +340,48 @@ def verify_code():
       Si coinciden, consolida el inicio de sesión oficial en Flask guardando el ID del usuario en `session`.
     - Retorna: Objeto JSON. Si es correcto, el frontend redirigirá al dashboard correspondiente.
     """
-    data = request.get_json()
-    user_code = data.get('code')
-    stored_code = session.get('verification_code')
-    user_id = session.get('user_to_verify')
+    try:
+        data = request.get_json()
+        user_code = data.get('code')
+        stored_code = session.get('verification_code')
+        user_id = session.get('user_to_verify')
 
-    # Validación exitosa del código
-    if user_code == stored_code and user_id:
-        usuario = db.session.get(Usuario, user_id)
-        
-        # Consolidación real de la sesión (el usuario ya está logueado formalmente)
-        session['user_id'] = usuario.id
-        session['user_email'] = usuario.email
-        session['user_profile'] = usuario.tipo_perfil.value
-        
-        # Guardar el nombre en sesión para mostrarlo globalmente en la barra superior
-        perfil = usuario.get_perfil()
-        if hasattr(perfil, 'nombre_empresa'):
-            session['nombre_usuario'] = perfil.nombre_empresa
-            session['nombre_empresa'] = perfil.nombre_empresa
-        elif hasattr(perfil, 'nombre_completo'):
-             session['nombre_usuario'] = perfil.nombre_completo
-        
-        return jsonify({'success': True, 'message': 'Bienvenido', 'role': usuario.tipo_perfil.value})
-        
-    return jsonify({'success': False, 'message': 'Código incorrecto.'}), 400
+        # Validación exitosa del código
+        if user_code == stored_code and user_id:
+            usuario = db.session.get(Usuario, user_id)
+            
+            # Consolidación real de la sesión (el usuario ya está logueado formalmente)
+            session['user_id'] = usuario.id
+            session['user_email'] = usuario.email
+            
+            # Asegurarse de que el enum se lea correctamente
+            if isinstance(usuario.tipo_perfil, TipoPerfil):
+                perfil_str = usuario.tipo_perfil.value
+            else:
+                perfil_str = str(usuario.tipo_perfil)
+                
+            session['user_profile'] = perfil_str
+            
+            # Guardar el nombre en sesión para mostrarlo globalmente en la barra superior
+            perfil = usuario.get_perfil()
+            if hasattr(perfil, 'nombre_empresa'):
+                session['nombre_usuario'] = perfil.nombre_empresa
+                session['nombre_empresa'] = perfil.nombre_empresa
+            elif hasattr(perfil, 'nombre_completo'):
+                 session['nombre_usuario'] = perfil.nombre_completo
+            elif hasattr(perfil, 'nombre_institucion'):
+                 session['nombre_usuario'] = perfil.nombre_institucion
+            else:
+                 session['nombre_usuario'] = "Usuario"
+            
+            return jsonify({'success': True, 'message': 'Bienvenido', 'role': perfil_str})
+            
+        return jsonify({'success': False, 'message': 'Código incorrecto.'}), 400
+    except Exception as e:
+        app.logger.error(f"Error en verify_code: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/forgot_password', methods=['POST'])
 def forgot_password():
@@ -508,10 +525,7 @@ def empresario_inicio():
             'tipo': p.tipo, # Venta / Alquiler
             'tipo_class': 'success' if p.tipo == 'Venta' else 'accent',
             'icon': 'storefront',
-            'tipo_class': 'success' if p.tipo == 'Venta' else 'accent',
-            'icon': 'storefront',
             'fecha': formato_fecha_es(p.fecha_publicacion),
-            'estado': 'Publicado',
             'estado': 'Publicado',
             'estado_class': 'success',
             'edit_url': '#', # Pendiente implementar edit mercado modal
@@ -526,14 +540,11 @@ def empresario_inicio():
             'tipo': 'Alianza',
             'tipo_class': 'primary',
             'icon': 'groups',
-            'tipo_class': 'primary',
-            'icon': 'groups',
             'fecha': formato_fecha_es(a.fecha_publicacion),
-            'estado': 'Activa',
             'estado': 'Activa',
             'estado_class': 'success',
             'edit_url': '#', # Pendiente
-            'delete_url': '#' # Pendiente
+            'delete_url': f'/Empresario-alianzas/eliminar/{a.id}'
         })
 
     # 3. Discusiones
@@ -544,10 +555,7 @@ def empresario_inicio():
             'tipo': 'Discusión',
             'tipo_class': 'purple-600',
             'icon': 'forum',
-            'tipo_class': 'purple-600',
-            'icon': 'forum',
             'fecha': formato_fecha_es(d.fecha_creacion),
-            'estado': 'Abierta',
             'estado': 'Abierta',
             'estado_class': 'success',
             'edit_url': '#', 

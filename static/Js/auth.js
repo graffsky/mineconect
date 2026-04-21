@@ -303,6 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 showAuthNotification('Error de conexión al verificar el código.', 'error');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Verificar e Iniciar Sesión';
             }
         });
     }
