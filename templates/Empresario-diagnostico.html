@@ -2232,8 +2232,9 @@
                     <div>
                         <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
                         <input type="email"
-                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
-                            value="{{ session.get('user_email', '') }}">
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('user_email', '') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para actualizar el correo, contacte a soporte.</p>
                     </div>
                     <div class="mt-4">
                         <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
