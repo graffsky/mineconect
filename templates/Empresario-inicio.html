@@ -254,18 +254,35 @@
                                             </div>
 
                                             <div class="flex items-center justify-between mt-auto">
+                                                {% set ns = namespace(esta_inscrito=false) %}
+                                                {% if usuario and usuario.empresario %}
+                                                    {% for postulacion in prog.postulaciones %}
+                                                        {% if postulacion.empresario_id == usuario.empresario.id %}
+                                                            {% set ns.esta_inscrito = true %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+
                                                 <span
                                                     class="text-[10px] bg-gray-100 px-2 py-1 rounded text-text-secondary font-medium">
-                                                    Cupos: {{ prog.cupos_ocupados }}/{{ prog.cupos_totales }}
+                                                    Cupos: {{ prog.inscritos_count }}/{{ prog.cupos_totales }}
                                                 </span>
                                                 <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <button onclick="postularPrograma(event, '{{ prog.id }}')"
-                                                        class="text-xs bg-success text-white px-3 py-1.5 rounded hover:bg-opacity-90 font-bold flex items-center shadow-sm">
-                                                        Inscribirse
-                                                    </button>
+                                                    {% if ns.esta_inscrito %}
+                                                        <button disabled
+                                                            class="text-xs bg-gray-300 text-gray-600 px-3 py-1.5 rounded font-bold flex items-center shadow-sm cursor-not-allowed">
+                                                            Inscrito
+                                                        </button>
+                                                    {% else %}
+                                                        <button onclick="postularPrograma(event, '{{ prog.id }}')"
+                                                            class="text-xs bg-success text-white px-3 py-1.5 rounded hover:bg-opacity-90 font-bold flex items-center shadow-sm">
+                                                            Inscribirse
+                                                        </button>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     {% endfor %}
                                     {% else %}
                                     <div
@@ -274,7 +291,6 @@
                                     </div>
                                     {% endif %}
                                 </div>
-                            </section>
                             </section>
 
                             <!-- Noticias (Movido) -->
@@ -458,8 +474,9 @@
                     <div>
                         <label class="block text-sm font-bold text-text-primary mb-1">Correo Electrónico</label>
                         <input type="email"
-                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent"
-                            value="{{ session.get('user_email', '') }}">
+                            class="w-full rounded-lg border-gray-300 text-sm focus:ring-accent focus:border-accent bg-gray-100"
+                            value="{{ session.get('user_email', '') }}" readonly>
+                        <p class="text-xs text-text-secondary mt-1">Para actualizar el correo, contacte a soporte.</p>
                     </div>
                     <div class="mt-4">
                         <label class="block text-sm font-bold text-text-primary mb-2">Cambiar foto de perfil</label>
@@ -651,6 +668,7 @@
             .then(data => {
                 if(data.success) {
                     alert('¡Inscripción exitosa! ' + data.message);
+                    window.location.reload();
                 } else {
                     alert('Atención: ' + data.message);
                 }
